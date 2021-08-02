@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: restaurant
+  datasource:
+    url: ${RESTAURANT_DB_URL:jdbc:postgresql://localhost:5432}/${RESTAURANT_DB_NAME:postgres}
+    username: ${RESTAURANT_DB_USER:postgres}
+    password: ${RESTAURANT_DB_PASS:1234}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db.changelog/changelog-master.xml
+keycloak:
+  realm: ${KEYCLOAK_REALM:peprestaurant}
+  auth-server-url: ${KEYCLOAK_SERVER_URL:http://localhost:8081/auth}
+  ssl-required: external
+  resource: ${KEYCLOAK_CLIENT_ID:peprestaurant}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:b8b6be48-e714-47ef-b6b4-126c74f9fd6c}
+  use-resource-role-mappings: true
+
+application:
+  keycloak:
+    serverUrl: ${KEYCLOAK_SERVER_URL:http://localhost:8081/auth}
+    realm: ${KEYCLOAK_REALM:peprestaurant}
+    username: ${KEYCLOAK_USERNAME:pepuser}
+    password: ${KEYCLOAK_PASSWORD:1234}
+    clientId: ${KEYCLOAK_CLIENT_ID:peprestaurant}
+    clientSecret: ${KEYCLOAK_CLIENT_SECRET:b8b6be48-e714-47ef-b6b4-126c74f9fd6c}
