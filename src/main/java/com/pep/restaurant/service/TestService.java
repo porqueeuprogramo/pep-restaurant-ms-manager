@@ -21,7 +21,7 @@ public class TestService {
     @Autowired
     public void testService(){
 
-        /*Menu menu = new Menu();
+        Menu menu = new Menu();
         menu.setLanguage("Portuguese");
         menuRepository.save(menu);
 
@@ -32,9 +32,9 @@ public class TestService {
 
         restaurant.setMenu(menu);
 
-        restaurantService.createRestaurant(restaurant);*/
+        restaurantService.createRestaurant(restaurant);
 
-        restaurantService.deleteRestaurant(1L);
+        //restaurantService.deleteRestaurant(1L);
 
     }
 
