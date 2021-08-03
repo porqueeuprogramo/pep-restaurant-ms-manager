@@ -8,6 +8,8 @@ This is a porqueeuprogramo learn tool (java spring maven) application.
 * Version 0.0.1
 * [Repository](https://bitbucket.org/porqueeuprogramo/pep-restaurant/)
 
+Learning how to develop a web Java application
+
 ### How do I get set up? ###
 
 * Install Java 8 or later version
