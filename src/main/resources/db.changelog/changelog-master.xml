@@ -5,4 +5,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <include  file="/db.changelog/create-restaurant-table.xml"/>
+    <include  file="/db.changelog/create-menu-table.xml"/>
+    <include  file="/db.changelog/add-column-and-constraints-to-restaurant-menu.xml"/>
 </databaseChangeLog>

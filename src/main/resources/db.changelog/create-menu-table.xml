@@ -4,18 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet  author="pep"  id="create-restaurant-table">
-        <createTable  tableName="restaurant">
+    <changeSet  author="pep"  id="create-menu-table">
+        <createTable  tableName="menu">
             <column  name="id"  type="INT">
                 <constraints  nullable="false"  primaryKey="true"  unique="true"/>
             </column>
-            <column  name="name"  type="TEXT">
-                <constraints  nullable="true"/>
-            </column>
-            <column  name="location"  type="TEXT">
-                <constraints  nullable="true"/>
-            </column>
-            <column  name="capacity"  type="INT">
+            <column  name="language"  type="TEXT">
                 <constraints  nullable="true"/>
             </column>
         </createTable>

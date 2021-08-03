@@ -2,11 +2,7 @@ package com.pep.restaurant.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 
 @Entity
@@ -25,6 +21,10 @@ public class Restaurant {
 
     @Column(name = "capacity")
     private int capacity;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(unique = true)
+    private Menu menu;
 
     /**
      * Get Restaurant id.
@@ -118,6 +118,22 @@ public class Restaurant {
     public Restaurant capacity(final int capacity){
         this.capacity = capacity;
         return this;
+    }
+
+    /**
+     * Get restaurant menu.
+     * @return menu.
+     */
+    public Menu getMenu() {
+        return menu;
+    }
+
+    /**
+     * Set restaurant menu
+     * @param menu restaurant menu.
+     */
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
 }
