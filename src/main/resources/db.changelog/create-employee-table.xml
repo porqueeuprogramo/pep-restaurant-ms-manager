@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet  author="pep"  id="create-employee-table">
+        <createTable  tableName="employee">
+            <column  name="id"  type="INT">
+                <constraints  nullable="false"  primaryKey="true"  unique="true"/>
+            </column>
+            <column  name="role"  type="TEXT">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="restaurant_id"  type="INT">
+                <constraints  nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="restaurant_id"
+                                 baseTableName="employee"
+                                 constraintName="fk_employee_restaurant_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="restaurant"/>
+    </changeSet>
+</databaseChangeLog>

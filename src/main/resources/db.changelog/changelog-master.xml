@@ -7,4 +7,5 @@
     <include  file="/db.changelog/create-restaurant-table.xml"/>
     <include  file="/db.changelog/create-menu-table.xml"/>
     <include  file="/db.changelog/add-column-and-constraints-to-restaurant-menu.xml"/>
+    <include  file="/db.changelog/create-employee-table.xml"/>
 </databaseChangeLog>
