@@ -10,6 +10,8 @@ This is a porqueeuprogramo learn tool (java spring maven) application.
 
 Learning how to develop a web Java application
 
+TESTE
+
 ### How do I get set up? ###
 
 * Install Java 8 or later version
