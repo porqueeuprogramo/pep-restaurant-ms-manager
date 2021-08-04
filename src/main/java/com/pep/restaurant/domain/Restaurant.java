@@ -3,6 +3,8 @@ package com.pep.restaurant.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -25,6 +27,30 @@ public class Restaurant {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(unique = true)
     private Menu menu;
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = {CascadeType.MERGE, CascadeType.REMOVE}
+    )
+    private final List<Employee> employeeList = new ArrayList<>();
+
+    /**
+     * Method to add an employee on restaurant.
+     * @param employee employee to add.
+     */
+    public void addEmployee(Employee employee){
+        employeeList.add(employee);
+        employee.setRestaurant(this);
+    }
+
+    /**
+     * Method to remove employee from restaurant.
+     * @param employee employee to remove.
+     */
+    public void removeEmployee(Employee employee){
+        employeeList.remove(employee);
+        employee.setRestaurant(this);
+    }
 
     /**
      * Get Restaurant id.

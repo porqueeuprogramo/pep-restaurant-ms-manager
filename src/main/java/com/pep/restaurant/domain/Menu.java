@@ -15,10 +15,18 @@ public class Menu {
     @Column(name = "language")
     private String language;
 
+    /**
+     * Get Menu language.
+     * @return menu language.
+     */
     public String getLanguage() {
         return language;
     }
 
+    /**
+     * Set menu language.
+     * @param language language.
+     */
     public void setLanguage(String language) {
         this.language = language;
     }
