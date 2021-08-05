@@ -2,6 +2,8 @@ package com.pep.restaurant.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -16,6 +18,13 @@ public class Employee {
 
     @ManyToOne
     private Restaurant restaurant;
+
+    @ManyToMany
+    @JoinTable(
+            name = "employee_schedule",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "schedule_id"))
+    private List<Schedule> scheduleList = new ArrayList<>();
 
     /**
      * Get id employee.
@@ -63,5 +72,21 @@ public class Employee {
      */
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    /**
+     * Get employee schedule.
+     * @return employee schedule.
+     */
+    public List<Schedule> getScheduleList() {
+        return scheduleList;
+    }
+
+    /**
+     * Set employee schedule.
+     * @param scheduleList employee schedule list.
+     */
+    public void setScheduleList(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
     }
 }

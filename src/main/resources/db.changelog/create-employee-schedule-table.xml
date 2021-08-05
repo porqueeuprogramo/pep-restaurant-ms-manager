@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet  author="pep"  id="create-employee-schedule-table">
+        <createTable  tableName="employee_schedule">
+            <column  name="employee_id"  type="INT">
+                <constraints  nullable="false"/>
+            </column>
+            <column  name="schedule_id"  type="INT">
+                <constraints  nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="employee_schedule" columnNames="employee_id,schedule_id"/>
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="employee_schedule"
+                                 constraintName="fk_employee_employee_schedule_employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+        <addForeignKeyConstraint baseColumnNames="schedule_id"
+                                 baseTableName="employee_schedule"
+                                 constraintName="fk_schedule_employee_schedule_schedule_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="schedule"/>
+    </changeSet>
+</databaseChangeLog>
