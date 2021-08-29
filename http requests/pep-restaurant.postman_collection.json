@@ -67,14 +67,14 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8080/restaurant/1",
+									"raw": "localhost:8080/restaurant/19",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"restaurant",
-										"1"
+										"19"
 									]
 								}
 							},
@@ -247,14 +247,14 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8080/user/80db5fe4-b9bd-4346-b845-69c43c6615b2",
+									"raw": "localhost:8080/user/0c3bbe1c-deb6-4456-a75e-43f68d6b17bb",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"user",
-										"80db5fe4-b9bd-4346-b845-69c43c6615b2"
+										"0c3bbe1c-deb6-4456-a75e-43f68d6b17bb"
 									]
 								}
 							},
@@ -277,7 +277,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"user_name\": \"alvim\",\r\n    \"first_name\": \"alvim\",\r\n    \"last_name\": \"andre\",\r\n    \"email\": \"andrealvim@gmail.com\",\r\n    \"password\": \"teste\"\r\n}\r\n\r\n",
+									"raw": "{\r\n    \"first_name\": \"hat\",\r\n    \"last_name\": \"rat\",\r\n    \"email\": \"rathat@porqueeuprogramo.com\",\r\n    \"password\": \"1234\"\r\n}\r\n\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -285,14 +285,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/user/a0641653-0b05-4ad9-9e9c-d87079a1b748",
+									"raw": "localhost:8080/user/d93807ce-c6ee-4ef1-b1a1-8ac6d8666201",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"user",
-										"a0641653-0b05-4ad9-9e9c-d87079a1b748"
+										"d93807ce-c6ee-4ef1-b1a1-8ac6d8666201"
 									]
 								}
 							},
@@ -320,14 +320,14 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8080/user/a0641653-0b05-4ad9-9e9c-d87079a1b748",
+									"raw": "localhost:8080/user/0c3bbe1c-deb6-4456-a75e-43f68d6b17bb",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"user",
-										"a0641653-0b05-4ad9-9e9c-d87079a1b748"
+										"0c3bbe1c-deb6-4456-a75e-43f68d6b17bb"
 									]
 								}
 							},
@@ -378,7 +378,7 @@
 								},
 								{
 									"key": "client_secret",
-									"value": "b8b6be48-e714-47ef-b6b4-126c74f9fd6c",
+									"value": "afb48af0-a6b9-44b7-ba43-328f3e5a6555",
 									"type": "text"
 								},
 								{
