@@ -15,6 +15,10 @@ This is a porqueeuprogramo learn tool (java spring maven) application.
 * Configure database (docker compose config)
 * Clean, install and run app
 
+### How do I check code quality
+* Run the following cmd on sonar:
+* mvn sonar:sonar -Dsonar.projectKey=PROJECT_KEY -Dsonar.host.url=http://localhost:9000 -Dsonar.login=TOKEN
+  
 ### Who do I talk to? ###
 
 * discord https://discord.gg/v2MgpUT4QC

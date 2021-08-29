@@ -3,7 +3,12 @@ package com.pep.restaurant.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +38,7 @@ public class Schedule {
      * Set schedule id.
      * @param id schedule id.
      */
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -49,8 +54,18 @@ public class Schedule {
      * Set schedule type.
      * @param type schedule type.
      */
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
+    }
+
+    /**
+     * Builder Schedule for type.
+     * @param type type to build.
+     * @return schedule with type.
+     */
+    public Schedule type(final String type){
+        this.type = type;
+        return this;
     }
 
     /**
@@ -65,7 +80,7 @@ public class Schedule {
      * Set schedule employee list.
      * @param employeeList employee list.
      */
-    public void setEmployeeList(List<Employee> employeeList) {
+    public void setEmployeeList(final List<Employee> employeeList) {
         this.employeeList = employeeList;
     }
 }

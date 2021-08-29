@@ -21,6 +21,9 @@ public class RestaurantDTO implements Serializable {
     @JsonProperty("capacity")
     private int capacity;
 
+    @JsonProperty("menu")
+    private MenuDTO menu;
+
     /**
      * Method to get a RestauranDTO id.
      * @return id.
@@ -83,5 +86,21 @@ public class RestaurantDTO implements Serializable {
      */
     public void setCapacity(final int capacity) {
         this.capacity = capacity;
+    }
+
+    /**
+     * Method to get RestaurantDTO menu.
+     * @return menu.
+     */
+    public MenuDTO getMenu() {
+        return menu;
+    }
+
+    /**
+     * Method to set RestaurantDTO menu.
+     * @param menu to be set.
+     */
+    public void setMenu(final MenuDTO menu) {
+        this.menu = menu;
     }
 }

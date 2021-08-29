@@ -14,7 +14,31 @@
 	<name>restaurant</name>
 	<description>Restaurant app</description>
 	<properties>
+
 		<java.version>11</java.version>
+
+		<!--dependencies version-->
+		<spring-boot-starter-jdbc.version>2.5.3</spring-boot-starter-jdbc.version>
+		<spring-boot-starter-data-jpa.version>2.4.2</spring-boot-starter-data-jpa.version>
+		<spring-boot-starter-security.version>2.3.2.RELEASE</spring-boot-starter-security.version>
+		<spring-security-test.version>5.4.1</spring-security-test.version>
+		<liquibase-core.version>4.2.2</liquibase-core.version>
+		<postgresql.version.version>42.2.20</postgresql.version.version>
+		<javax.persistence-api.version>2.2</javax.persistence-api.version>
+		<hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
+		<h2.version>1.4.200</h2.version>
+		<mapstruct.version>1.4.1.Final</mapstruct.version>
+		<checkstyle.version>8.40</checkstyle.version>
+		<junit.version>4.13.2</junit.version>
+		<testng.version>7.4.0</testng.version>
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<keycloak-spring-security-adapter.version>14.0.0</keycloak-spring-security-adapter.version>
+		<keycloak-admin-client.version>12.0.3</keycloak-admin-client.version>
+		<keycloak-adapter-bom.version>14.0.0</keycloak-adapter-bom.version>
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
+		<maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -31,43 +55,43 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
-			<version>2.4.2</version>
+			<version>${spring-boot-starter-jdbc.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>2.4.2</version>
+			<version>${spring-boot-starter-data-jpa.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>4.2.2</version>
+			<version>${liquibase-core.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.20</version>
+			<version>${postgresql.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
-			<version>2.2</version>
+			<version>${javax.persistence-api.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
-			<version>3.5.6-Final</version>
+			<version>${hibernate-annotations.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -79,14 +103,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.4.1.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>7.4.0</version>
-			<scope>test</scope>
+			<version>${mapstruct.version}</version>
 		</dependency>
 
 		<dependency>
@@ -97,32 +114,32 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-spring-security-adapter</artifactId>
-			<version>14.0.0</version>
+			<version>${keycloak-spring-security-adapter.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-admin-client</artifactId>
-			<version>12.0.3</version>
+			<version>${keycloak-admin-client.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>2.3.2.RELEASE</version>
+			<version>${spring-boot-starter-security.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
-			<version>1.4.200</version>
+			<version>${h2.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
-			<version>5.4.1</version>
+			<version>${spring-security-test.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -133,7 +150,7 @@
 			<dependency>
 				<groupId>org.keycloak.bom</groupId>
 				<artifactId>keycloak-adapter-bom</artifactId>
-				<version>14.0.0</version>
+				<version>${keycloak-adapter-bom.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -149,7 +166,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>11</source>
 					<target>11</target>
@@ -157,7 +174,7 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.4.1.Final</version>
+							<version>${mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -165,12 +182,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.1.2</version>
+				<version>${maven-checkstyle-plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.puppycrawl.tools</groupId>
 						<artifactId>checkstyle</artifactId>
-						<version>8.40</version>
+						<version>${checkstyle.version}</version>
 					</dependency>
 				</dependencies>
 				<executions>
@@ -191,7 +208,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>${jacoco-maven-plugin.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -206,6 +223,11 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>
