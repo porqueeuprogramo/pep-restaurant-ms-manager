@@ -2,10 +2,17 @@ package com.pep.restaurant.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Table(name = "restaurant")
@@ -38,7 +45,7 @@ public class Restaurant {
      * Method to add an employee on restaurant.
      * @param employee employee to add.
      */
-    public void addEmployee(Employee employee){
+    public void addEmployee(final Employee employee){
         employeeList.add(employee);
         employee.setRestaurant(this);
     }
@@ -47,7 +54,7 @@ public class Restaurant {
      * Method to remove employee from restaurant.
      * @param employee employee to remove.
      */
-    public void removeEmployee(Employee employee){
+    public void removeEmployee(final Employee employee){
         employeeList.remove(employee);
         employee.setRestaurant(this);
     }
@@ -158,8 +165,18 @@ public class Restaurant {
      * Set restaurant menu
      * @param menu restaurant menu.
      */
-    public void setMenu(Menu menu) {
+    public void setMenu(final Menu menu) {
         this.menu = menu;
+    }
+
+    /**
+     * Builder Restaurant for menu.
+     * @param menu menu to build.
+     * @return restaurant with menu.
+     */
+    public Restaurant menu(final Menu menu){
+        this.menu = menu;
+        return this;
     }
 
 }

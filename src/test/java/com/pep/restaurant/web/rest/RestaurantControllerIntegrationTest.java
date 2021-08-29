@@ -2,10 +2,14 @@ package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.RestaurantApplication;
+import com.pep.restaurant.domain.Menu;
 import com.pep.restaurant.domain.Restaurant;
+import com.pep.restaurant.repository.MenuRepository;
 import com.pep.restaurant.repository.RestaurantRepository;
 import com.pep.restaurant.service.mapper.RestaurantMapper;
+import com.pep.restaurant.service.model.MenuDTO;
 import com.pep.restaurant.service.model.RestaurantDTO;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testng.Assert;
 
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class RestaurantControllerIntegrationTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private MenuRepository menuRepository;
+
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
     @Before
@@ -41,9 +47,22 @@ public class RestaurantControllerIntegrationTest {
     @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantDTO_checkRestaurantSaved(){
+
         //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.setMenu(menu);
+
         RestaurantDTO restaurantDTO = restaurantMapper.mapRestaurantToRestaurantDTO(restaurant);
+
+        //Menu DTO created by menu
+        MenuDTO menuDTOSaved = new MenuDTO();
+        menuDTOSaved.setId(menu.getId());
+        menuDTOSaved.setLanguage(menu.getLanguage());
+        restaurantDTO.setMenu(menuDTOSaved);
 
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity = restaurantController.createRestaurant(restaurantDTO);
@@ -52,13 +71,20 @@ public class RestaurantControllerIntegrationTest {
         Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
         Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
     }
 
     @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantId_getRestaurantById(){
+
         //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.setMenu(menu);
 
         //save restaurant
         restaurantRepository.save(restaurant);
@@ -70,13 +96,19 @@ public class RestaurantControllerIntegrationTest {
         Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
         Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
     }
 
     @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantToEdit_getRestaurantEdited(){
         //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.setMenu(menu);
 
         //save restaurant
         restaurantRepository.save(restaurant);
@@ -97,6 +129,7 @@ public class RestaurantControllerIntegrationTest {
         Assert.assertEquals(restaurantEdited.getName(), restaurantDTOResponseEntity.getBody().getName());
         Assert.assertEquals(restaurantEdited.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurantEdited.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
 
     }
 
@@ -105,7 +138,12 @@ public class RestaurantControllerIntegrationTest {
     public void requestingARestaurantIdToDelete_checkRestaurantDeleted(){
 
         //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.setMenu(menu);
 
         //save restaurant
         restaurantRepository.save(restaurant);
@@ -126,10 +164,16 @@ public class RestaurantControllerIntegrationTest {
     public void callingGetAllRestaurants_checkRestaurantsList(){
 
         //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.setMenu(menu);
 
         Restaurant restaurant2 = applicationDataProvider
                 .getRestaurant().name("youtube restaurant");
+        restaurant2.setMenu(menu);
 
         //save restaurant
         restaurantRepository.save(restaurant);

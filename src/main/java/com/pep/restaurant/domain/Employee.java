@@ -1,7 +1,15 @@
 package com.pep.restaurant.domain;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +46,7 @@ public class Employee {
      * Set id employee.
      * @param id employee id.
      */
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -54,8 +62,18 @@ public class Employee {
      * Set employee role.
      * @param role employee role.
      */
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
+    }
+
+    /**
+     * Builder Employee for role.
+     * @param role role to build.
+     * @return employee with role.
+     */
+    public Employee role(final String role){
+        this.role = role;
+        return this;
     }
 
     /**
@@ -70,8 +88,18 @@ public class Employee {
      * Set employee restaurant.
      * @param restaurant employee restaurant.
      */
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(final Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    /**
+     * Builder Employee for restaurant.
+     * @param restaurant restaurant to build.
+     * @return employee with restaurant.
+     */
+    public Employee restaurant(final Restaurant restaurant){
+        this.restaurant = restaurant;
+        return this;
     }
 
     /**
@@ -86,7 +114,7 @@ public class Employee {
      * Set employee schedule.
      * @param scheduleList employee schedule list.
      */
-    public void setScheduleList(List<Schedule> scheduleList) {
+    public void setScheduleList(final List<Schedule> scheduleList) {
         this.scheduleList = scheduleList;
     }
 }
