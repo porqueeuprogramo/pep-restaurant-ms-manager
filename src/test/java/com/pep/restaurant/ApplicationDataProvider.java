@@ -5,6 +5,7 @@ import com.pep.restaurant.domain.Restaurant;
 import com.pep.restaurant.domain.Menu;
 import com.pep.restaurant.domain.User;
 import com.pep.restaurant.domain.Schedule;
+import com.pep.restaurant.domain.enumeration.ScheduleType;
 
 public class ApplicationDataProvider {
 
@@ -28,7 +29,7 @@ public class ApplicationDataProvider {
 
     public Schedule getSchedule(){
         return new Schedule()
-                .type("FULL-TIME");
+                .type(ScheduleType.FULLTIME);
     }
 
     public User getUser(){

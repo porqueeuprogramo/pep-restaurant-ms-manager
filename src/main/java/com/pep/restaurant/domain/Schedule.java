@@ -1,6 +1,7 @@
 package com.pep.restaurant.domain;
 
 
+import com.pep.restaurant.domain.enumeration.ScheduleType;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,8 @@ public class Schedule {
     private long id;
 
     @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ScheduleType type;
 
     @ManyToMany(mappedBy = "scheduleList")
     private List<Employee> employeeList = new ArrayList<>();
@@ -44,17 +48,17 @@ public class Schedule {
 
     /**
      * Get schedule type.
-     * @return schedule type.
+     * @return schedule typy enum.
      */
-    public String getType() {
+    public ScheduleType getType() {
         return type;
     }
 
     /**
-     * Set schedule type.
-     * @param type schedule type.
+     * Set schedule type
+     * @param type schedule type enum.
      */
-    public void setType(final String type) {
+    public void setType(final ScheduleType type) {
         this.type = type;
     }
 
@@ -63,7 +67,7 @@ public class Schedule {
      * @param type type to build.
      * @return schedule with type.
      */
-    public Schedule type(final String type){
+    public Schedule type(final ScheduleType type){
         this.type = type;
         return this;
     }
