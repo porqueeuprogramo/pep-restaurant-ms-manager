@@ -38,6 +38,7 @@
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
 		<maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
+		<springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
 
 	</properties>
 	<dependencies>
@@ -141,6 +142,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<version>${spring-security-test.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>${springfox-boot-starter.version}</version>
 		</dependency>
 
 	</dependencies>
