@@ -3,6 +3,9 @@ package com.pep.restaurant.web.rest;
 import com.pep.restaurant.service.RestaurantService;
 import com.pep.restaurant.service.mapper.RestaurantMapper;
 import com.pep.restaurant.service.model.RestaurantDTO;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +42,13 @@ public class RestaurantController {
      * @param restaurantId id of restaurant to get.
      * @return RestaurantDTO with the provided id.
      */
+    @ApiOperation(
+            value = "Get Restaurant by id",
+            notes = "This method allows us to get restaurant by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return restaurant got", response = RestaurantDTO.class, responseContainer = "Restaurant"),
+            @ApiResponse(code = 500, message = "Restaurant not exists", response = RestaurantDTO.class, responseContainer = "Restaurant")
+    })
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = RESTAURANT_RESTAURANT_ID,
             produces = {"application/json"},
