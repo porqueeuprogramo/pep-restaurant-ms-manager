@@ -11,7 +11,7 @@
 	<groupId>com.pep.restaurant</groupId>
 	<artifactId>restaurant</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>restaurant</name>
+	<name>pep-restaurant-backend</name>
 	<description>Restaurant app</description>
 	<properties>
 
@@ -165,6 +165,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>pep-restaurant-backend</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

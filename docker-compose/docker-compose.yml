@@ -28,3 +28,17 @@ services:
       - DB_DATABASE=postgres
       - DB_USER=postgres
       - DB_PASSWORD=1234
+  pep-restaurant-backend:
+    container_name: pep-restaurant-backend
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    env_file:
+      - ./docker-compose.env
+    depends_on:
+      - postgres
+      - postgreskeycloak
+      - keycloak
+    ports:
+      - "8080:8080"
+    restart: always
