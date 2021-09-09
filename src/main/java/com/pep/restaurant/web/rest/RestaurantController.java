@@ -46,8 +46,10 @@ public class RestaurantController {
             value = "Get Restaurant by id",
             notes = "This method allows us to get restaurant by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return restaurant got", response = RestaurantDTO.class, responseContainer = "Restaurant"),
-            @ApiResponse(code = 500, message = "Restaurant not exists", response = RestaurantDTO.class, responseContainer = "Restaurant")
+            @ApiResponse(code = 200, message = "Return restaurant got",
+                    response = RestaurantDTO.class, responseContainer = "Restaurant"),
+            @ApiResponse(code = 500, message = "Restaurant not exists",
+                    response = RestaurantDTO.class, responseContainer = "Restaurant")
     })
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = RESTAURANT_RESTAURANT_ID,
