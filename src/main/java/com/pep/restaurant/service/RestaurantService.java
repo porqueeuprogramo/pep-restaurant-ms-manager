@@ -1,10 +1,13 @@
 package com.pep.restaurant.service;
 
 import com.pep.restaurant.domain.Restaurant;
+import com.pep.restaurant.logging.Logger;
+import com.pep.restaurant.logging.enumeration.LogTag;
 import com.pep.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +15,7 @@ import java.util.Optional;
 @Service
 public class RestaurantService {
 
+    private static final Logger logger = new Logger(RestaurantService.class);
     private final RestaurantRepository restaurantRepository;
 
     @Autowired
@@ -88,6 +92,7 @@ public class RestaurantService {
         if(restaurantList.isEmpty()){
             throw new NullPointerException("No Restaurants persisted!!!");
         }
+        logger.info(Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED), "Get All Restaurants from db");
         return restaurantList;
     }
 }
