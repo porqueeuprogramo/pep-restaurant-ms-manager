@@ -3,6 +3,7 @@ package com.pep.restaurant.service;
 import com.pep.restaurant.repository.EmployeeRepository;
 import com.pep.restaurant.repository.MenuRepository;
 import com.pep.restaurant.repository.ScheduleRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class TestService {
     @Autowired
     public void testService() {
 
+        LoggerFactory.getLogger("TestService").error("Message Info Log");
 
 /*
         Schedule schedule = new Schedule();
