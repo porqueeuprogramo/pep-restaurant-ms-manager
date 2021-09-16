@@ -9,7 +9,7 @@ public class Logger {
 
     public static org.slf4j.Logger logger;
 
-    public Logger(Class<?> classOfLogger) {
+    public Logger(final Class<?> classOfLogger) {
         logger = LoggerFactory.getLogger(classOfLogger);
     }
 

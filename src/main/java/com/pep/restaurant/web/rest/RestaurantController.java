@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+
 import java.util.List;
 
 @RestController
 public class RestaurantController {
 
+    public static final int OK = 200;
+    public static final int INTERNAL_SERVER_ERROR = 500;
     public static final String RESTAURANT_RESTAURANT_ID = "/restaurant/{restaurantId}";
     public static final String RESTAURANT = "/restaurant";
     private final RestaurantService restaurantService;
@@ -46,9 +49,9 @@ public class RestaurantController {
             value = "Get Restaurant by id",
             notes = "This method allows us to get restaurant by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return restaurant got",
+            @ApiResponse(code = OK, message = "Return restaurant got",
                     response = RestaurantDTO.class, responseContainer = "Restaurant"),
-            @ApiResponse(code = 500, message = "Restaurant not exists",
+            @ApiResponse(code = INTERNAL_SERVER_ERROR, message = "Restaurant not exists",
                     response = RestaurantDTO.class, responseContainer = "Restaurant")
     })
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
