@@ -1,5 +1,6 @@
 package com.pep.restaurant.web.rest;
 
+import com.pep.restaurant.service.mapper.MenuMapper;
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.RestaurantApplication;
 import com.pep.restaurant.domain.Menu;
@@ -42,6 +43,7 @@ public class RestaurantControllerIntegrationTest {
     @Before
     public void clearDBRestaurant(){
         restaurantRepository.deleteAll();
+        menuRepository.deleteAll();
     }
 
     @WithMockUser(roles = "ADMIN")

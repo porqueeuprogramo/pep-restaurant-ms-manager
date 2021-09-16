@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class RestaurantService {
 
-    private static final Logger logger = new Logger(RestaurantService.class);
+    private static final Logger LOGGER = new Logger(RestaurantService.class);
     private final RestaurantRepository restaurantRepository;
 
     @Autowired
@@ -92,7 +92,7 @@ public class RestaurantService {
         if(restaurantList.isEmpty()){
             throw new NullPointerException("No Restaurants persisted!!!");
         }
-        logger.info(Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED), "Get All Restaurants from db");
+        LOGGER.info(Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED), "Get All Restaurants from db");
         return restaurantList;
     }
 }
