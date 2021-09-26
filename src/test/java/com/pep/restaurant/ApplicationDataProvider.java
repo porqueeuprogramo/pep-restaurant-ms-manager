@@ -7,6 +7,8 @@ import com.pep.restaurant.domain.User;
 import com.pep.restaurant.domain.Schedule;
 import com.pep.restaurant.domain.enumeration.ScheduleType;
 
+import java.util.Collections;
+
 public class ApplicationDataProvider {
 
     public Restaurant getRestaurant(){
@@ -22,9 +24,11 @@ public class ApplicationDataProvider {
     }
 
     public Employee getEmployee(){
-        return new Employee()
+        Employee employee = new Employee()
                 .role("CHEF")
-                .restaurant(getRestaurant());
+                .schedule(getSchedule());
+        employee.setRestaurantList(Collections.singletonList(getRestaurant()));
+        return employee;
     }
 
     public Schedule getSchedule(){

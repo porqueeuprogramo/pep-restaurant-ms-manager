@@ -1,15 +1,14 @@
 package com.pep.restaurant.service.model;
 
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pep.restaurant.domain.Employee;
 import com.pep.restaurant.domain.enumeration.ScheduleType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Schedule Dto.
+ * Schedule Dto.
  */
 public class ScheduleDTO {
 
@@ -19,11 +18,13 @@ public class ScheduleDTO {
     @JsonProperty("type")
     private ScheduleType type;
 
-    @JsonProperty("employee")
-    private List<Employee> employeeList = new ArrayList<>();
+    @JsonProperty("employeeList")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<EmployeeDTO> employeeList = new ArrayList<>();
 
     /**
      * Get Schedule id.
+     *
      * @return schedule id.
      */
     public long getId() {
@@ -32,6 +33,7 @@ public class ScheduleDTO {
 
     /**
      * Set schedule id.
+     *
      * @param id schedule id.
      */
     public void setId(final long id) {
@@ -40,6 +42,7 @@ public class ScheduleDTO {
 
     /**
      * Get schedule type.
+     *
      * @return schedule typy enum.
      */
     public ScheduleType getType() {
@@ -48,6 +51,7 @@ public class ScheduleDTO {
 
     /**
      * Set schedule type
+     *
      * @param type schedule type enum.
      */
     public void setType(final ScheduleType type) {
@@ -56,27 +60,30 @@ public class ScheduleDTO {
 
     /**
      * Builder Schedule for type.
+     *
      * @param type type to build.
      * @return schedule with type.
      */
-    public ScheduleDTO type(final ScheduleType type){
+    public ScheduleDTO type(final ScheduleType type) {
         this.type = type;
         return this;
     }
 
     /**
-     * Get schedule employee list.
-     * @return employee list.
+     * Get List of employees DTO.
+     *
+     * @return employee DTO list.
      */
-    public List<Employee> getEmployeeList() {
+    public List<EmployeeDTO> getEmployeeList() {
         return employeeList;
     }
 
     /**
-     * Set schedule employee list.
-     * @param employeeList employee list.
+     * Set employee DTO list.
+     *
+     * @param employeeList employee DTO list.
      */
-    public void setEmployeeList(final List<Employee> employeeList) {
+    public void setEmployeeList(final List<EmployeeDTO> employeeList) {
         this.employeeList = employeeList;
     }
 }

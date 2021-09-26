@@ -16,5 +16,5 @@ public interface EmployeeMapper {
     List<Employee> mapEmployeeDTOListToEmployeeList(List<EmployeeDTO> EmployeeDTOList);
 
     List<EmployeeDTO> mapEmployeeListToEmployeeDTOList(List<Employee> employeeList);
-
+    
 }

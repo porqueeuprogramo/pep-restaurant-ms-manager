@@ -64,7 +64,8 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
         //edit employee
         employeeOptional.get()
                 .role(employeeNew.getRole())
-                .restaurant(employeeNew.getRestaurant());
+                .schedule(employeeNew.getSchedule())
+        .setRestaurantList(employeeNew.getRestaurantList());
 
         return employeeRepository.save(employeeOptional.get());
     }

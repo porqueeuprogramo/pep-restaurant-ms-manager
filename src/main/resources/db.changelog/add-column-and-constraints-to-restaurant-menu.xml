@@ -7,7 +7,7 @@
     <changeSet  author="pep"  id="add-column-and-constraints-to-restaurant-menu">
         <addColumn tableName="restaurant">
             <column name="menu_id"
-                    type="INT">
+                    type="BIGINT">
                 <constraints nullable="true"/>
             </column>
         </addColumn>

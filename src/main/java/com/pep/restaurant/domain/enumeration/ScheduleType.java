@@ -5,5 +5,6 @@ package com.pep.restaurant.domain.enumeration;
  */
 public enum ScheduleType {
     PARTTIME,
-    FULLTIME
+    FULLTIME,
+    INTERNSHIP
 }

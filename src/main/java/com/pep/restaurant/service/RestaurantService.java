@@ -64,7 +64,9 @@ public class RestaurantService {
         restaurantOptional.get()
                 .name(restaurantNew.getName())
                 .location(restaurantNew.getLocation())
-                .capacity(restaurantNew.getCapacity());
+                .capacity(restaurantNew.getCapacity())
+                .menu(restaurantNew.getMenu())
+                .setEmployeeList(restaurantNew.getEmployeeList());
 
         return restaurantRepository.save(restaurantOptional.get());
     }

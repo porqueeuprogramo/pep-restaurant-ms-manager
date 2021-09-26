@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "00ec4b15-6982-4cff-bb98-f8a20dbeb5ef",
+		"_postman_id": "0c9d0e29-36e5-48da-88b8-4d70168b9d0b",
 		"name": "pep-restaurant",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -67,14 +67,14 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8080/restaurant/19",
+									"raw": "localhost:8080/restaurant/1",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"restaurant",
-										"19"
+										"1"
 									]
 								}
 							},
@@ -97,7 +97,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Restaurant gaiteiro 5\",\r\n    \"location\": \"Gafanha\",\r\n    \"capacity\": 100\r\n}",
+									"raw": "{\r\n    \"name\": \"Restaurant Teste\",\r\n    \"location\": \"Porto\",\r\n    \"capacity\": 20,\r\n    \"menu\": {\r\n        \"id\": 2,\r\n        \"language\": \"English\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -134,7 +134,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Restaurant gaiteiro 5\",\r\n    \"location\": \"Apulia\",\r\n    \"capacity\": 70\r\n}",
+									"raw": "{\r\n    \"name\": \"Restaurant Testezinho\",\r\n    \"location\": \"Lisboa\",\r\n    \"capacity\": 1,\r\n    \"menu\": {\r\n        \"language\": \"Portuguese\"\r\n    }\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -142,14 +142,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/restaurant/1",
+									"raw": "localhost:8080/restaurant/2",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"restaurant",
-										"1"
+										"2"
 									]
 								}
 							},
@@ -177,14 +177,656 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8080/restaurant/5",
+									"raw": "localhost:8080/restaurant/2",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"restaurant",
-										"5"
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user_access_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "Get All Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/employee",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/employee/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\": \"OWNER\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/employee",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\": \"COOKER\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/employee/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/employee/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"employee",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user_access_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Schedule",
+					"item": [
+						{
+							"name": "Get All Schedule",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/schedule",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schedule"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Schedule",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/schedule/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schedule",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Schedule",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"PARTTIME\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/schedule",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schedule"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put Schedule",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"INTERNSHIP\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/schedule/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schedule",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Schedule",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/schedule/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"schedule",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user_access_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "Get All Menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/menu",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/menu/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"language\": \"English\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/menu",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Put Menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Restaurant gaiteiro 5\",\r\n    \"location\": \"Gaia\",\r\n    \"capacity\": 80\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/menu/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Menu",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/menu/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"menu",
+										"4"
 									]
 								}
 							},
