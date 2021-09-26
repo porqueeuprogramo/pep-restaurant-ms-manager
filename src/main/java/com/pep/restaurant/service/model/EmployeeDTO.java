@@ -1,8 +1,7 @@
 package com.pep.restaurant.service.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pep.restaurant.domain.Restaurant;
-import com.pep.restaurant.domain.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +17,13 @@ public class EmployeeDTO {
     @JsonProperty("role")
     private String role;
 
-    @JsonProperty("restaurant")
-    private Restaurant restaurant;
+    @JsonProperty("restaurantList")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<RestaurantDTO> restaurantList = new ArrayList<>();
 
     @JsonProperty("schedule")
-    private List<Schedule> scheduleList = new ArrayList<>();
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private ScheduleDTO schedule;
 
     /**
      * Get id employee.
@@ -56,8 +57,6 @@ public class EmployeeDTO {
         this.role = role;
     }
 
-
-
     /**
      * Builder Employee for role.
      * @param role role to build.
@@ -69,44 +68,45 @@ public class EmployeeDTO {
     }
 
     /**
-     * Get employee restaurant.
-     * @return employee restaurant.
+     * Get employee restaurantDTO list.
+     * @return employee restaurantDTO List.
      */
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public List<RestaurantDTO> getRestaurantList() {
+        return restaurantList;
     }
 
     /**
-     * Set employee restaurant.
-     * @param restaurant employee restaurant.
+     * Set employee restaurantDTO list.
+     * @param restaurantList employee restaurantDTO list.
      */
-    public void setRestaurant(final Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurantList(final List<RestaurantDTO> restaurantList) {
+        this.restaurantList = restaurantList;
+    }
+
+
+    /**
+     * Get employeeDTO schedule.
+     * @return employeeDTO schedule.
+     */
+    public ScheduleDTO getSchedule() {
+        return schedule;
     }
 
     /**
-     * Builder Employee for restaurant.
-     * @param restaurant restaurant to build.
-     * @return employee with restaurant.
+     * Set employeeDTO schedule.
+     * @param schedule employeeDTO schedule.
      */
-    public EmployeeDTO restaurant(final Restaurant restaurant){
-        this.restaurant = restaurant;
+    public void setSchedule(final ScheduleDTO schedule) {
+        this.schedule = schedule;
+    }
+
+    /**
+     * Builder EmployeeDTO for schedule.
+     * @param schedule schedule to build.
+     * @return employeeDTO with schedule.
+     */
+    public EmployeeDTO schedule(final ScheduleDTO schedule){
+        this.schedule = schedule;
         return this;
-    }
-
-    /**
-     * Get employee schedule.
-     * @return employee schedule.
-     */
-    public List<Schedule> getScheduleList() {
-        return scheduleList;
-    }
-
-    /**
-     * Set employee schedule.
-     * @param scheduleList employee schedule list.
-     */
-    public void setScheduleList(final List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
     }
 }

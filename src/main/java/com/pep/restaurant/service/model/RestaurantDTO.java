@@ -1,8 +1,11 @@
 package com.pep.restaurant.service.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Restaurant Dto class
@@ -23,6 +26,10 @@ public class RestaurantDTO implements Serializable {
 
     @JsonProperty("menu")
     private MenuDTO menu;
+
+    @JsonProperty("employeeList")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<EmployeeDTO> employeeList = new ArrayList<>();
 
     /**
      * Method to get a RestauranDTO id.
@@ -102,5 +109,21 @@ public class RestaurantDTO implements Serializable {
      */
     public void setMenu(final MenuDTO menu) {
         this.menu = menu;
+    }
+
+    /**
+     * Method to get Restaurant employeeDTO list.
+     * @return employeeDTO list.
+     */
+    public List<EmployeeDTO> getEmployeeList() {
+        return employeeList;
+    }
+
+    /**
+     * Method to set Restaurant employeeDTO List
+     * @param employeeList employeeDTO list.
+     */
+    public void setEmployeeList(final List<EmployeeDTO> employeeList){
+        this.employeeList = employeeList;
     }
 }

@@ -6,20 +6,20 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet  author="pep"  id="create-employee-table">
         <createTable  tableName="employee">
-            <column  name="id"  type="INT">
+            <column  name="id"  type="BIGINT">
                 <constraints  nullable="false"  primaryKey="true"  unique="true"/>
             </column>
             <column  name="role"  type="TEXT">
                 <constraints  nullable="false"/>
             </column>
-            <column  name="restaurant_id"  type="INT">
+            <column  name="schedule_id"  type="INT">
                 <constraints  nullable="true"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseColumnNames="restaurant_id"
+        <addForeignKeyConstraint baseColumnNames="schedule_id"
                                  baseTableName="employee"
-                                 constraintName="fk_employee_restaurant_id"
+                                 constraintName="fk_employee_schedule_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="restaurant"/>
+                                 referencedTableName="schedule"/>
     </changeSet>
 </databaseChangeLog>

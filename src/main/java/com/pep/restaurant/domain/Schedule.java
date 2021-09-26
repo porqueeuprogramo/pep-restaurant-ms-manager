@@ -1,6 +1,7 @@
 package com.pep.restaurant.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pep.restaurant.domain.enumeration.ScheduleType;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,8 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Enumerated;
+import javax.persistence.CascadeType;
 import javax.persistence.EnumType;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,11 @@ public class Schedule {
     @Enumerated(EnumType.STRING)
     private ScheduleType type;
 
-    @ManyToMany(mappedBy = "scheduleList")
+    @OneToMany(
+            mappedBy = "schedule",
+            cascade = {CascadeType.MERGE, CascadeType.REMOVE}
+    )
+    @JsonManagedReference
     private List<Employee> employeeList = new ArrayList<>();
 
     /**
@@ -73,20 +79,21 @@ public class Schedule {
     }
 
     /**
-     * Get schedule employee list.
-     * @return employee list.
+     * Method to get Schedule employee list.
+     * @return Schedule employee list.
      */
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
 
     /**
-     * Set schedule employee list.
-     * @param employeeList employee list.
+     * Method to set Schedule employee List
+     * @param employeeList schedule employee list.
      */
-    public void setEmployeeList(final List<Employee> employeeList) {
+    public void setEmployeeList(final List<Employee> employeeList){
         this.employeeList = employeeList;
     }
+
 }
 
 

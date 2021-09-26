@@ -9,8 +9,10 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,29 +37,12 @@ public class Restaurant {
     @JoinColumn(unique = true)
     private Menu menu;
 
-    @OneToMany(
-            mappedBy = "restaurant",
-            cascade = {CascadeType.MERGE, CascadeType.REMOVE}
-    )
-    private final List<Employee> employeeList = new ArrayList<>();
-
-    /**
-     * Method to add an employee on restaurant.
-     * @param employee employee to add.
-     */
-    public void addEmployee(final Employee employee){
-        employeeList.add(employee);
-        employee.setRestaurant(this);
-    }
-
-    /**
-     * Method to remove employee from restaurant.
-     * @param employee employee to remove.
-     */
-    public void removeEmployee(final Employee employee){
-        employeeList.remove(employee);
-        employee.setRestaurant(this);
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "restaurant_employee",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id"))
+    private List<Employee> employeeList = new ArrayList<>();
 
     /**
      * Get Restaurant id.
@@ -177,6 +162,22 @@ public class Restaurant {
     public Restaurant menu(final Menu menu){
         this.menu = menu;
         return this;
+    }
+
+    /**
+     * Method to get Restaurant employee list.
+     * @return employee list.
+     */
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    /**
+     * Method to set Restaurant employee List
+     * @param employeeList employee list.
+     */
+    public void setEmployeeList(final List<Employee> employeeList){
+        this.employeeList = employeeList;
     }
 
 }

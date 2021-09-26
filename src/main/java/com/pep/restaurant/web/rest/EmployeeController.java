@@ -1,6 +1,7 @@
 package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.service.EmployeeService;
+import com.pep.restaurant.service.mapper.EmployeeManualMapper;
 import com.pep.restaurant.service.mapper.EmployeeMapper;
 import com.pep.restaurant.service.model.EmployeeDTO;
 import io.swagger.annotations.ApiOperation;
@@ -26,16 +27,19 @@ public class EmployeeController {
     public static final String EMPLOYEE = "/employee";
     private final EmployeeService employeeService;
     private final EmployeeMapper employeeMapper;
+    private final EmployeeManualMapper employeeManualMapper;
 
     /**
      * Constructor for Employee Controller.
-     *
      * @param employeeService Employee Service.
      * @param employeeMapper  Employee mapper.
+     * @param employeeManualMapper Employee manual mapper.
      */
-    public EmployeeController(final EmployeeService employeeService, final EmployeeMapper employeeMapper) {
+    public EmployeeController(final EmployeeService employeeService, final EmployeeMapper employeeMapper,
+                              final EmployeeManualMapper employeeManualMapper) {
         this.employeeService = employeeService;
         this.employeeMapper = employeeMapper;
+        this.employeeManualMapper = employeeManualMapper;
     }
 
     /**
@@ -58,7 +62,7 @@ public class EmployeeController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final long employeeId) {
-        return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
+        return ResponseEntity.ok(employeeManualMapper.mapEmployeeToEmployeeDTO(
                 employeeService.getEmployee(employeeId)));
     }
 
@@ -120,7 +124,7 @@ public class EmployeeController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
-        return ResponseEntity.ok(employeeMapper.mapEmployeeListToEmployeeDTOList(
+        return ResponseEntity.ok(employeeManualMapper.mapEmployeeListToEmployeeDTOList(
                 employeeService.getAllEmployees()));
     }
 

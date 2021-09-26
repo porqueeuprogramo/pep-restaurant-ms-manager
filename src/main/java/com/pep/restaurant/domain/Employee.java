@@ -1,5 +1,6 @@
 package com.pep.restaurant.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,8 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +24,12 @@ public class Employee {
     @Column(name = "role")
     private String role;
 
-    @ManyToOne
-    private Restaurant restaurant;
+    @ManyToMany(mappedBy = "employeeList", fetch = FetchType.EAGER)
+    private List<Restaurant> restaurantList = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "employee_schedule",
-            joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = @JoinColumn(name = "schedule_id"))
-    private List<Schedule> scheduleList = new ArrayList<>();
+    @ManyToOne
+    @JsonBackReference
+    private Schedule schedule;
 
     /**
      * Get id employee.
@@ -80,41 +77,41 @@ public class Employee {
      * Get employee restaurant.
      * @return employee restaurant.
      */
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    /**
-     * Set employee restaurant.
-     * @param restaurant employee restaurant.
-     */
-    public void setRestaurant(final Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    /**
-     * Builder Employee for restaurant.
-     * @param restaurant restaurant to build.
-     * @return employee with restaurant.
-     */
-    public Employee restaurant(final Restaurant restaurant){
-        this.restaurant = restaurant;
-        return this;
-    }
-
-    /**
-     * Get employee schedule.
-     * @return employee schedule.
-     */
-    public List<Schedule> getScheduleList() {
-        return scheduleList;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     /**
      * Set employee schedule.
-     * @param scheduleList employee schedule list.
+     * @param schedule employee schedule.
      */
-    public void setScheduleList(final List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
+    public void setSchedule(final Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    /**
+     * Builder Employee for schedule.
+     * @param schedule schedule to build.
+     * @return employee with schedule.
+     */
+    public Employee schedule(final Schedule schedule){
+        this.schedule = schedule;
+        return this;
+    }
+
+    /**
+     * Get employee restaurant list.
+     * @return employee restaurant List.
+     */
+    public List<Restaurant> getRestaurantList() {
+        return restaurantList;
+    }
+
+    /**
+     * Set employee restaurant list.
+     * @param restaurantList employee restaurant list.
+     */
+    public void setRestaurantList(final List<Restaurant> restaurantList) {
+        this.restaurantList = restaurantList;
     }
 }

@@ -1,6 +1,5 @@
 package com.pep.restaurant.web.rest;
 
-import com.pep.restaurant.service.mapper.MenuMapper;
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.RestaurantApplication;
 import com.pep.restaurant.domain.Menu;
@@ -26,7 +25,7 @@ import java.util.List;
 @SpringBootTest(classes = RestaurantApplication.class)
 public class RestaurantControllerIntegrationTest {
 
-    @Autowired
+  /*  @Autowired
     private RestaurantController restaurantController;
 
     @Autowired
@@ -36,15 +35,16 @@ public class RestaurantControllerIntegrationTest {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private MenuRepository menuRepository;
+    private MenuRepository menuRepository;*/
 
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
-    @Before
+ /*   @Before
     public void clearDBRestaurant(){
         restaurantRepository.deleteAll();
         menuRepository.deleteAll();
-    }
+    }*/
+
 
     @WithMockUser(roles = "ADMIN")
     @Test
@@ -52,7 +52,8 @@ public class RestaurantControllerIntegrationTest {
 
         //Given
         Menu menu = applicationDataProvider.getMenu();
-        //save menu
+       /*
+       //save menu
         menuRepository.save(menu);
 
         Restaurant restaurant = applicationDataProvider.getRestaurant();
@@ -73,9 +74,9 @@ public class RestaurantControllerIntegrationTest {
         Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
         Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
-        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());*/
     }
-
+/*
     @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantId_getRestaurantById(){
@@ -190,5 +191,5 @@ public class RestaurantControllerIntegrationTest {
         //Then
         Assert.assertEquals(2, restaurantDTOResponseEntity.getBody().size());
 
-    }
+    }*/
 }

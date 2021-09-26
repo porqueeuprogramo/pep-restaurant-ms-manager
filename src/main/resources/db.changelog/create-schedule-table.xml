@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet  author="pep"  id="create-schedule-table">
         <createTable  tableName="schedule">
-            <column  name="id"  type="INT">
+            <column  name="id"  type="BIGINT">
                 <constraints  nullable="false"  primaryKey="true"  unique="true"/>
             </column>
             <column  name="type"  type="TEXT">
