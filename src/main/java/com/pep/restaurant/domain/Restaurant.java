@@ -61,6 +61,16 @@ public class Restaurant {
     }
 
     /**
+     * Builder Restaurant for id.
+     * @param id id to build.
+     * @return restaurant with id.
+     */
+    public Restaurant id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Get Restaurant name.
      * @return restaurant name.
      */
@@ -178,6 +188,16 @@ public class Restaurant {
      */
     public void setEmployeeList(final List<Employee> employeeList){
         this.employeeList = employeeList;
+    }
+
+    /**
+     * Builder Restaurant for employeeList.
+     * @param employeeList employeeList to build.
+     * @return restaurant with employeeList.
+     */
+    public Restaurant employeeList(final List<Employee> employeeList){
+        this.employeeList = employeeList;
+        return this;
     }
 
 }

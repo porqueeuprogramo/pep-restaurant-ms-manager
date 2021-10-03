@@ -23,46 +23,56 @@ public class ScheduleDTO {
     private List<EmployeeDTO> employeeList = new ArrayList<>();
 
     /**
-     * Get Schedule id.
+     * Get ScheduleDTO id.
      *
-     * @return schedule id.
+     * @return scheduleDTO id.
      */
     public long getId() {
         return id;
     }
 
     /**
-     * Set schedule id.
+     * Set scheduleDTO id.
      *
-     * @param id schedule id.
+     * @param id scheduleDTO id.
      */
     public void setId(final long id) {
         this.id = id;
     }
 
     /**
-     * Get schedule type.
+     * Builder ScheduleDTO for id.
+     * @param id id to build.
+     * @return scheduleDTO with id.
+     */
+    public ScheduleDTO id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Get scheduleDTO type.
      *
-     * @return schedule typy enum.
+     * @return scheduleDTO type enum.
      */
     public ScheduleType getType() {
         return type;
     }
 
     /**
-     * Set schedule type
+     * Set scheduleDTO type
      *
-     * @param type schedule type enum.
+     * @param type scheduleDTO type enum.
      */
     public void setType(final ScheduleType type) {
         this.type = type;
     }
 
     /**
-     * Builder Schedule for type.
+     * Builder ScheduleDTO for type.
      *
      * @param type type to build.
-     * @return schedule with type.
+     * @return scheduleDTO with type.
      */
     public ScheduleDTO type(final ScheduleType type) {
         this.type = type;
@@ -86,6 +96,17 @@ public class ScheduleDTO {
     public void setEmployeeList(final List<EmployeeDTO> employeeList) {
         this.employeeList = employeeList;
     }
+
+    /**
+     * Builder ScheduleDTO for employeeList.
+     * @param employeeList employeeList to build.
+     * @return scheduleDTO with employeeList.
+     */
+    public ScheduleDTO employeeList(final List<EmployeeDTO> employeeList){
+        this.employeeList = employeeList;
+        return this;
+    }
+
 }
 
 

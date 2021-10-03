@@ -1,7 +1,6 @@
 package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.service.RestaurantService;
-import com.pep.restaurant.service.mapper.RestaurantManualMapper;
 import com.pep.restaurant.service.mapper.RestaurantMapper;
 import com.pep.restaurant.service.model.RestaurantDTO;
 import io.swagger.annotations.ApiOperation;
@@ -28,19 +27,16 @@ public class RestaurantController {
     public static final String RESTAURANT = "/restaurant";
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
-    private final RestaurantManualMapper restaurantManualMapper;
 
     /**
      * Constructor for Restaurant Controller.
      * @param restaurantService Restaurant Service.
      * @param restaurantMapper  Restaurant mapper.
-     * @param restaurantManualMapper Restaurant Manual mapper.
      */
-    public RestaurantController(final RestaurantService restaurantService, final RestaurantMapper restaurantMapper,
-                                final RestaurantManualMapper restaurantManualMapper) {
+    public RestaurantController(final RestaurantService restaurantService,
+                                final RestaurantMapper restaurantMapper) {
         this.restaurantService = restaurantService;
         this.restaurantMapper = restaurantMapper;
-        this.restaurantManualMapper = restaurantManualMapper;
     }
 
     /**
@@ -63,7 +59,7 @@ public class RestaurantController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable final long restaurantId) {
-        return ResponseEntity.ok(restaurantManualMapper.mapRestaurantToRestaurantDTO(
+        return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.getRestaurant(restaurantId)));
     }
 
@@ -125,7 +121,7 @@ public class RestaurantController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<List<RestaurantDTO>> getAllRestaurants() {
-        return ResponseEntity.ok(restaurantManualMapper.mapRestaurantListToRestaurantDTOList(
+        return ResponseEntity.ok(restaurantMapper.mapRestaurantListToRestaurantDTOList(
                 restaurantService.getAllRestaurants()));
     }
 

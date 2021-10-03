@@ -48,6 +48,16 @@ public class RestaurantDTO implements Serializable {
     }
 
     /**
+     * Builder RestaurantDTO for id.
+     * @param id id to build.
+     * @return restaurantDTO with id.
+     */
+    public RestaurantDTO id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Method to get a RestaurantDTO name.
      * @return name.
      */
@@ -61,6 +71,16 @@ public class RestaurantDTO implements Serializable {
      */
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /**
+     * Builder RestaurantDTO for name.
+     * @param name name to build.
+     * @return restaurantDTO with name.
+     */
+    public RestaurantDTO name(final String name){
+        this.name = name;
+        return this;
     }
 
     /**
@@ -80,6 +100,16 @@ public class RestaurantDTO implements Serializable {
     }
 
     /**
+     * Builder RestaurantDTO for location.
+     * @param location location to build.
+     * @return restaurantDTO with location.
+     */
+    public RestaurantDTO location(final String location){
+        this.location = location;
+        return this;
+    }
+
+    /**
      * Method to get RestaurantDTO capacity.
      * @return capacity.
      */
@@ -93,6 +123,16 @@ public class RestaurantDTO implements Serializable {
      */
     public void setCapacity(final int capacity) {
         this.capacity = capacity;
+    }
+
+    /**
+     * Builder RestaurantDTO for capacity.
+     * @param capacity capacity to build.
+     * @return restaurantDTO with capacity.
+     */
+    public RestaurantDTO capacity(final int capacity){
+        this.capacity = capacity;
+        return this;
     }
 
     /**
@@ -112,6 +152,16 @@ public class RestaurantDTO implements Serializable {
     }
 
     /**
+     * Builder RestaurantDTO for menu.
+     * @param menu menu to build.
+     * @return restaurantDTO with menu.
+     */
+    public RestaurantDTO menu(final MenuDTO menu){
+        this.menu = menu;
+        return this;
+    }
+
+    /**
      * Method to get Restaurant employeeDTO list.
      * @return employeeDTO list.
      */
@@ -125,5 +175,15 @@ public class RestaurantDTO implements Serializable {
      */
     public void setEmployeeList(final List<EmployeeDTO> employeeList){
         this.employeeList = employeeList;
+    }
+
+    /**
+     * Builder RestaurantDTO for employeeList.
+     * @param employeeList employeeList to build.
+     * @return restaurantDTO with employeeList.
+     */
+    public RestaurantDTO employeeList(final List<EmployeeDTO> employeeList){
+        this.employeeList = employeeList;
+        return this;
     }
 }
