@@ -36,6 +36,16 @@ public class Menu {
     }
 
     /**
+     * Builder Menu for id.
+     * @param id id to build.
+     * @return menu with id.
+     */
+    public Menu id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Get Menu language.
      * @return menu language.
      */

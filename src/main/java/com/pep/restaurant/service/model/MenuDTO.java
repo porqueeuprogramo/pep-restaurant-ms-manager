@@ -32,6 +32,16 @@ public class MenuDTO implements Serializable {
     }
 
     /**
+     * Builder MenuDTO for id.
+     * @param id id to build.
+     * @return menuDTO with id.
+     */
+    public MenuDTO id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Get Menu language.
      * @return menu language.
      */
@@ -45,6 +55,16 @@ public class MenuDTO implements Serializable {
      */
     public void setLanguage(final String language) {
         this.language = language;
+    }
+
+    /**
+     * Builder MenuDTO for language.
+     * @param language language to build.
+     * @return menuDTO with language.
+     */
+    public MenuDTO language(final String language){
+        this.language = language;
+        return this;
     }
 
 }

@@ -26,41 +26,51 @@ public class EmployeeDTO {
     private ScheduleDTO schedule;
 
     /**
-     * Get id employee.
-     * @return employee id.
+     * Get id employeeDTO.
+     * @return employeeDTO id.
      */
     public long getId() {
         return id;
     }
 
     /**
-     * Set id employee.
-     * @param id employee id.
+     * Set id employeeDTO.
+     * @param id employeeDTO id.
      */
     public void setId(final long id) {
         this.id = id;
     }
 
     /**
-     * Get employee role.
-     * @return employee role.
+     * Builder EmployeeDTO for id.
+     * @param id id to build.
+     * @return employeeDTO with id.
+     */
+    public EmployeeDTO id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Get employeeDTO role.
+     * @return employeeDTO role.
      */
     public String getRole() {
         return role;
     }
 
     /**
-     * Set employee role.
-     * @param role employee role.
+     * Set employeeDTO role.
+     * @param role employeeDTO role.
      */
     public void setRole(final String role) {
         this.role = role;
     }
 
     /**
-     * Builder Employee for role.
+     * Builder EmployeeDTO for role.
      * @param role role to build.
-     * @return employee with role.
+     * @return employeeDTO with role.
      */
     public EmployeeDTO role(final String role){
         this.role = role;
@@ -68,21 +78,30 @@ public class EmployeeDTO {
     }
 
     /**
-     * Get employee restaurantDTO list.
-     * @return employee restaurantDTO List.
+     * Get employeeDTO restaurantDTO list.
+     * @return employeeDTO restaurantDTO List.
      */
     public List<RestaurantDTO> getRestaurantList() {
         return restaurantList;
     }
 
     /**
-     * Set employee restaurantDTO list.
+     * Set employeeDTO restaurantDTO list.
      * @param restaurantList employee restaurantDTO list.
      */
     public void setRestaurantList(final List<RestaurantDTO> restaurantList) {
         this.restaurantList = restaurantList;
     }
 
+    /**
+     * Builder EmployeeDTO for restaurantList.
+     * @param restaurantList restaurantList to build.
+     * @return employeeDTO with restaurantList.
+     */
+    public EmployeeDTO restaurantList(final List<RestaurantDTO> restaurantList){
+        this.restaurantList = restaurantList;
+        return this;
+    }
 
     /**
      * Get employeeDTO schedule.

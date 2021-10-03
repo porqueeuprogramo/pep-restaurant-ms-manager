@@ -53,6 +53,16 @@ public class Schedule {
     }
 
     /**
+     * Builder Schedule for id.
+     * @param id id to build.
+     * @return schedule with id.
+     */
+    public Schedule id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Get schedule type.
      * @return schedule typy enum.
      */
@@ -92,6 +102,16 @@ public class Schedule {
      */
     public void setEmployeeList(final List<Employee> employeeList){
         this.employeeList = employeeList;
+    }
+
+    /**
+     * Builder Schedule for employeeList.
+     * @param employeeList employeeList to build.
+     * @return schedule with employeeList.
+     */
+    public Schedule employeeList(final List<Employee> employeeList){
+        this.employeeList = employeeList;
+        return this;
     }
 
 }

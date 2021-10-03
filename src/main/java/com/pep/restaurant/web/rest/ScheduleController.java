@@ -1,7 +1,6 @@
 package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.service.ScheduleService;
-import com.pep.restaurant.service.mapper.ScheduleManualMapper;
 import com.pep.restaurant.service.mapper.ScheduleMapper;
 import com.pep.restaurant.service.model.ScheduleDTO;
 import io.swagger.annotations.ApiOperation;
@@ -28,19 +27,15 @@ public class ScheduleController {
     public static final String SCHEDULE = "/schedule";
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
-    private final ScheduleManualMapper scheduleManualMapper;
 
     /**
      * Constructor for Schedule Controller.
      *  @param scheduleService Schedule Service.
      * @param scheduleMapper  Schedule mapper.
-     * @param scheduleManualMapper Schedule manual mapper;
      */
-    public ScheduleController(final ScheduleService scheduleService, final ScheduleMapper scheduleMapper,
-                              final ScheduleManualMapper scheduleManualMapper) {
+    public ScheduleController(final ScheduleService scheduleService, final ScheduleMapper scheduleMapper) {
         this.scheduleService = scheduleService;
         this.scheduleMapper = scheduleMapper;
-        this.scheduleManualMapper = scheduleManualMapper;
     }
 
     /**
@@ -63,7 +58,7 @@ public class ScheduleController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<ScheduleDTO> getSchedule(@PathVariable final long scheduleId) {
-        return ResponseEntity.ok(scheduleManualMapper.mapScheduleToScheduleDTO(
+        return ResponseEntity.ok(scheduleMapper.mapScheduleToScheduleDTO(
                 scheduleService.getSchedule(scheduleId)));
     }
 
@@ -125,7 +120,7 @@ public class ScheduleController {
             produces = {"application/json"},
             consumes = {"application/json"})
     public ResponseEntity<List<ScheduleDTO>> getAllSchedules() {
-        return ResponseEntity.ok(scheduleManualMapper.mapScheduleListToScheduleDTOList(
+        return ResponseEntity.ok(scheduleMapper.mapScheduleListToScheduleDTOList(
                 scheduleService.getAllSchedules()));
     }
 

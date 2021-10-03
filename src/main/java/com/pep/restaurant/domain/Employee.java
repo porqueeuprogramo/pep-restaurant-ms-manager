@@ -48,6 +48,16 @@ public class Employee {
     }
 
     /**
+     * Builder Employee for id.
+     * @param id id to build.
+     * @return employee with id.
+     */
+    public Employee id(final long id){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Get employee role.
      * @return employee role.
      */
@@ -113,5 +123,15 @@ public class Employee {
      */
     public void setRestaurantList(final List<Restaurant> restaurantList) {
         this.restaurantList = restaurantList;
+    }
+
+    /**
+     * Builder Employee for restaurantList.
+     * @param restaurantList restaurantList to build.
+     * @return employee with restaurantList.
+     */
+    public Employee restaurantList(final List<Restaurant> restaurantList){
+        this.restaurantList = restaurantList;
+        return this;
     }
 }

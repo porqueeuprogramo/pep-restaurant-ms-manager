@@ -3,23 +3,11 @@ package com.pep.restaurant.web.rest;
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.RestaurantApplication;
 import com.pep.restaurant.domain.Menu;
-import com.pep.restaurant.domain.Restaurant;
-import com.pep.restaurant.repository.MenuRepository;
-import com.pep.restaurant.repository.RestaurantRepository;
-import com.pep.restaurant.service.mapper.RestaurantMapper;
-import com.pep.restaurant.service.model.MenuDTO;
-import com.pep.restaurant.service.model.RestaurantDTO;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestaurantApplication.class)
