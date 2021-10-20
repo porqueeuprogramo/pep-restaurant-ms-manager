@@ -16,4 +16,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, J
      */
     Optional<Restaurant> findRestaurantByName(String name);
 
+
+
 }

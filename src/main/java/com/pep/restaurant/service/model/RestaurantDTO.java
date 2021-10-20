@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Restaurant Dto class
@@ -29,7 +29,7 @@ public class RestaurantDTO implements Serializable {
 
     @JsonProperty("employeeList")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<EmployeeDTO> employeeList = new ArrayList<>();
+    private Set<EmployeeDTO> employeeList = new HashSet<>();
 
     /**
      * Method to get a RestauranDTO id.
@@ -165,7 +165,7 @@ public class RestaurantDTO implements Serializable {
      * Method to get Restaurant employeeDTO list.
      * @return employeeDTO list.
      */
-    public List<EmployeeDTO> getEmployeeList() {
+    public Set<EmployeeDTO> getEmployeeList() {
         return employeeList;
     }
 
@@ -173,7 +173,7 @@ public class RestaurantDTO implements Serializable {
      * Method to set Restaurant employeeDTO List
      * @param employeeList employeeDTO list.
      */
-    public void setEmployeeList(final List<EmployeeDTO> employeeList){
+    public void setEmployeeList(final Set<EmployeeDTO> employeeList){
         this.employeeList = employeeList;
     }
 
@@ -182,7 +182,7 @@ public class RestaurantDTO implements Serializable {
      * @param employeeList employeeList to build.
      * @return restaurantDTO with employeeList.
      */
-    public RestaurantDTO employeeList(final List<EmployeeDTO> employeeList){
+    public RestaurantDTO employeeList(final Set<EmployeeDTO> employeeList){
         this.employeeList = employeeList;
         return this;
     }

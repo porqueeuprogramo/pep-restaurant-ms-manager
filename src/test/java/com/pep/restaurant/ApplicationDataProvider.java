@@ -12,8 +12,36 @@ import com.pep.restaurant.service.model.RestaurantDTO;
 import com.pep.restaurant.service.model.ScheduleDTO;
 
 import java.util.Collections;
+import java.util.Set;
 
 public class ApplicationDataProvider {
+
+
+    public Restaurant getRestaurantWithEmployees(){
+        return new Restaurant()
+                .id(1L)
+                .name("Francesinhas")
+                .location("Porto")
+                .capacity(100)
+                .menu(getMenu())
+                .employeeList(Set.of(getEmployeeWithoutRestaurantListWithId()));
+    }
+
+    public Employee getEmployeeWithId(){
+        return new Employee()
+                .id(1L)
+                .role("CHEF");
+    }
+
+    public Employee getEmployeeWithRestaurant(){
+        Employee employee = new Employee()
+                .id(1L)
+                .role("CHEF");
+        employee.setRestaurantList(Set.of(getRestaurantWithEmployees()));
+        return employee;
+    }
+
+
 
     public Restaurant getRestaurant(){
         return new Restaurant()
@@ -32,7 +60,7 @@ public class ApplicationDataProvider {
         Employee employee = new Employee()
                 .role("CHEF")
                 .schedule(getSchedule());
-        employee.setRestaurantList(Collections.singletonList(getRestaurant()));
+        employee.setRestaurantList(Set.of(getRestaurant()));
         return employee;
     }
 
@@ -68,7 +96,7 @@ public class ApplicationDataProvider {
         EmployeeDTO employee = new EmployeeDTO()
                 .role("CHEF")
                 .schedule(getScheduleDTO());
-        employee.setRestaurantList(Collections.singletonList(getRestaurantDTO()));
+        employee.setRestaurantList(Set.of(getRestaurantDTO()));
         return employee;
     }
 
@@ -83,7 +111,21 @@ public class ApplicationDataProvider {
                 .location("Porto")
                 .capacity(100)
                 .menu(getMenu())
-                .employeeList(Collections.singletonList(getEmployeeWithoutRestaurantList()));
+                .employeeList(Set.of(getEmployeeWithoutRestaurantList()));
+    }
+
+    public Restaurant getRestaurantWithEmployeeListOnlyWithRole(){
+        return new Restaurant()
+                .name("Francesinhas")
+                .location("Porto")
+                .capacity(100)
+                .menu(getMenu())
+                .employeeList(Set.of(getEmployeeWithoutRestaurantListWithId()));
+    }
+
+    public Employee getEmployeeWithoutRestaurantListAndWithoutSchedule(){
+        return new Employee()
+                .role("CHEF");
     }
 
     public Employee getEmployeeWithoutRestaurantList(){
@@ -92,13 +134,19 @@ public class ApplicationDataProvider {
                 .schedule(getSchedule());
     }
 
+    public Employee getEmployeeWithoutRestaurantListWithId(){
+        return new Employee()
+                .id(1L)
+                .role("CHEF");
+    }
+
     public RestaurantDTO getRestaurantDTOWithEmployeeListDTO(){
         return new RestaurantDTO()
                 .name("Francesinhas")
                 .location("Porto")
                 .capacity(100)
                 .menu(getMenuDTO())
-                .employeeList(Collections.singletonList(getEmployeeDTOWithoutRestaurantListDTO()));
+                .employeeList(Set.of(getEmployeeDTOWithoutRestaurantListDTO()));
     }
 
     public EmployeeDTO getEmployeeDTOWithoutRestaurantListDTO(){
@@ -110,14 +158,14 @@ public class ApplicationDataProvider {
     public Employee getEmployeeWithoutSchedule(){
         Employee employee = new Employee()
                 .role("CHEF");
-        employee.setRestaurantList(Collections.singletonList(getRestaurant()));
+        employee.setRestaurantList(Set.of(getRestaurant()));
         return employee;
     }
 
     public EmployeeDTO getEmployeeDTOWithoutScheduleDTO(){
         EmployeeDTO employeeDTO = new EmployeeDTO()
                 .role("CHEF");
-        employeeDTO.setRestaurantList(Collections.singletonList(getRestaurantDTO()));
+        employeeDTO.setRestaurantList(Set.of(getRestaurantDTO()));
         return employeeDTO;
     }
 

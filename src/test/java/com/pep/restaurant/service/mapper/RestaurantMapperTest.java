@@ -1,7 +1,9 @@
 package com.pep.restaurant.service.mapper;
 
 import com.pep.restaurant.ApplicationDataProvider;
+import com.pep.restaurant.domain.Employee;
 import com.pep.restaurant.domain.Restaurant;
+import com.pep.restaurant.service.model.EmployeeDTO;
 import com.pep.restaurant.service.model.RestaurantDTO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,21 +27,33 @@ public class RestaurantMapperTest {
     @Test
     public void passingARestaurantList_checkThatRestaurantDTOListIsEquals() {
         //Given
-        List<Restaurant> restaurantGivenList = Collections.singletonList(applicationDataProvider.getRestaurantWithEmployeeList());
+        List<Restaurant> restaurantGivenList = Collections.singletonList(applicationDataProvider
+                .getRestaurantWithEmployeeList());
+        List<Employee> restaurantGivenEmployeeList =
+                new ArrayList<>(restaurantGivenList.get(0).getEmployeeList());
 
         //When
-        List<RestaurantDTO> restaurantDTOResultList = restaurantMapper.mapRestaurantListToRestaurantDTOList(restaurantGivenList);
+        List<RestaurantDTO> restaurantDTOResultList = restaurantMapper
+                .mapRestaurantListToRestaurantDTOList(restaurantGivenList);
+        List<EmployeeDTO> restaurantResultEmployeeList =
+                new ArrayList<>(restaurantDTOResultList.get(0).getEmployeeList());
 
         //Then
-        Assert.assertEquals(restaurantGivenList.get(0).getId(), restaurantDTOResultList.get(0).getId());
-        Assert.assertEquals(restaurantGivenList.get(0).getMenu().getId(), restaurantDTOResultList.get(0).getMenu().getId());
-        Assert.assertEquals(restaurantGivenList.get(0).getMenu().getLanguage(), restaurantDTOResultList.get(0).getMenu().getLanguage());
+        Assert.assertEquals(restaurantGivenList.get(0).getId(),
+                restaurantDTOResultList.get(0).getId());
+        Assert.assertEquals(restaurantGivenList.get(0).getMenu().getId(),
+                restaurantDTOResultList.get(0).getMenu().getId());
+        Assert.assertEquals(restaurantGivenList.get(0).getMenu().getLanguage(),
+                restaurantDTOResultList.get(0).getMenu().getLanguage());
         Assert.assertEquals(restaurantGivenList.get(0).getLocation(), restaurantDTOResultList.get(0).getLocation());
         Assert.assertEquals(restaurantGivenList.get(0).getCapacity(), restaurantDTOResultList.get(0).getCapacity());
-        Assert.assertEquals(restaurantGivenList.get(0).getEmployeeList().get(0).getId(), restaurantDTOResultList.get(0).getEmployeeList().get(0).getId());
-        Assert.assertEquals(restaurantGivenList.get(0).getEmployeeList().get(0).getRole(), restaurantDTOResultList.get(0).getEmployeeList().get(0).getRole());
-        Assert.assertEquals(restaurantGivenList.get(0).getEmployeeList().get(0).getSchedule().getId(), restaurantDTOResultList.get(0).getEmployeeList().get(0).getSchedule().getId());
-        Assert.assertEquals(restaurantGivenList.get(0).getEmployeeList().get(0).getSchedule().getType(), restaurantDTOResultList.get(0).getEmployeeList().get(0).getSchedule().getType());
+        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getId(), restaurantResultEmployeeList.get(0).getId());
+        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getRole(),
+                restaurantResultEmployeeList.get(0).getRole());
+        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getSchedule().getId(),
+                restaurantResultEmployeeList.get(0).getSchedule().getId());
+        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getSchedule().getType(),
+                restaurantResultEmployeeList.get(0).getSchedule().getType());
     }
 
     @Test
@@ -50,9 +65,11 @@ public class RestaurantMapperTest {
     public void passingARestaurant_checkThatRestaurantDTOIsEquals() {
         //Given
         Restaurant restaurantGiven = applicationDataProvider.getRestaurantWithEmployeeList();
+        List<Employee> restaurantGivenEmployee = new ArrayList<>(restaurantGiven.getEmployeeList());
 
         //When
         RestaurantDTO restaurantDTOResult = restaurantMapper.mapRestaurantToRestaurantDTO(restaurantGiven);
+        List<EmployeeDTO> restaurantResultEmployee = new ArrayList<>(restaurantDTOResult.getEmployeeList());
 
         //Then
         Assert.assertEquals(restaurantGiven.getId(), restaurantDTOResult.getId());
@@ -60,10 +77,12 @@ public class RestaurantMapperTest {
         Assert.assertEquals(restaurantGiven.getMenu().getLanguage(), restaurantDTOResult.getMenu().getLanguage());
         Assert.assertEquals(restaurantGiven.getLocation(), restaurantDTOResult.getLocation());
         Assert.assertEquals(restaurantGiven.getCapacity(), restaurantDTOResult.getCapacity());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getId(), restaurantDTOResult.getEmployeeList().get(0).getId());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getRole(), restaurantDTOResult.getEmployeeList().get(0).getRole());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getSchedule().getId(), restaurantDTOResult.getEmployeeList().get(0).getSchedule().getId());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getSchedule().getType(), restaurantDTOResult.getEmployeeList().get(0).getSchedule().getType());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getId(), restaurantResultEmployee.get(0).getId());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getRole(), restaurantResultEmployee.get(0).getRole());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getSchedule().getId(),
+                restaurantResultEmployee.get(0).getSchedule().getId());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getSchedule().getType(),
+                restaurantResultEmployee.get(0).getSchedule().getType());
     }
 
     @Test
@@ -75,9 +94,11 @@ public class RestaurantMapperTest {
     public void mapRestaurantDTOToRestaurant() {
         //Given
         RestaurantDTO restaurantGiven = applicationDataProvider.getRestaurantDTOWithEmployeeListDTO();
+        List<EmployeeDTO> restaurantGivenEmployee = new ArrayList<>(restaurantGiven.getEmployeeList());
 
         //When
         Restaurant restaurantDTOResult = restaurantMapper.mapRestaurantDTOToRestaurant(restaurantGiven);
+        List<Employee> restaurantResultEmployee = new ArrayList<>(restaurantDTOResult.getEmployeeList());
 
         //Then
         Assert.assertEquals(restaurantGiven.getId(), restaurantDTOResult.getId());
@@ -85,10 +106,12 @@ public class RestaurantMapperTest {
         Assert.assertEquals(restaurantGiven.getMenu().getLanguage(), restaurantDTOResult.getMenu().getLanguage());
         Assert.assertEquals(restaurantGiven.getLocation(), restaurantDTOResult.getLocation());
         Assert.assertEquals(restaurantGiven.getCapacity(), restaurantDTOResult.getCapacity());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getId(), restaurantDTOResult.getEmployeeList().get(0).getId());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getRole(), restaurantDTOResult.getEmployeeList().get(0).getRole());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getSchedule().getId(), restaurantDTOResult.getEmployeeList().get(0).getSchedule().getId());
-        Assert.assertEquals(restaurantGiven.getEmployeeList().get(0).getSchedule().getType(), restaurantDTOResult.getEmployeeList().get(0).getSchedule().getType());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getId(), restaurantResultEmployee.get(0).getId());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getRole(), restaurantResultEmployee.get(0).getRole());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getSchedule().getId(),
+                restaurantResultEmployee.get(0).getSchedule().getId());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getSchedule().getType(),
+                restaurantResultEmployee.get(0).getSchedule().getType());
     }
 
     @Test

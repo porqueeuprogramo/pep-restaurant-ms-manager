@@ -10,8 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee")
@@ -24,10 +24,10 @@ public class Employee {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(mappedBy = "employeeList", fetch = FetchType.EAGER)
-    private List<Restaurant> restaurantList = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "employeeList")
+    private Set<Restaurant> restaurantList = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private Schedule schedule;
 
@@ -113,7 +113,7 @@ public class Employee {
      * Get employee restaurant list.
      * @return employee restaurant List.
      */
-    public List<Restaurant> getRestaurantList() {
+    public Set<Restaurant> getRestaurantList() {
         return restaurantList;
     }
 
@@ -121,7 +121,7 @@ public class Employee {
      * Set employee restaurant list.
      * @param restaurantList employee restaurant list.
      */
-    public void setRestaurantList(final List<Restaurant> restaurantList) {
+    public void setRestaurantList(final Set<Restaurant> restaurantList) {
         this.restaurantList = restaurantList;
     }
 
@@ -130,8 +130,27 @@ public class Employee {
      * @param restaurantList restaurantList to build.
      * @return employee with restaurantList.
      */
-    public Employee restaurantList(final List<Restaurant> restaurantList){
+    public Employee restaurantList(final Set<Restaurant> restaurantList){
         this.restaurantList = restaurantList;
         return this;
     }
+
+    /**
+     * Method to add Restaurant to Employee.
+     * @param restaurant restaurant.
+     */
+    public void addRestaurant(final Restaurant restaurant) {
+        this.restaurantList.add(restaurant);
+        restaurant.getEmployeeList().add(this);
+    }
+
+    /**
+     * Method to remove Restaurant from Employee.
+     * @param restaurant restaurant.
+     */
+    public void removeRestaurant(final Restaurant restaurant) {
+        this.restaurantList.remove(restaurant);
+        restaurant.getEmployeeList().remove(this);
+    }
+
 }

@@ -114,6 +114,24 @@ public class Schedule {
         return this;
     }
 
+    /**
+     * Method to add Employee to Schedule.
+     * @param employee employee.
+     */
+    public void addEmployee(final Employee employee) {
+        employeeList.add(employee);
+        employee.setSchedule(this);
+    }
+
+    /**
+     * Method to remove employee from schedule.
+     * @param employee employee.
+     */
+    public void removeEmployee(final Employee employee) {
+        employeeList.remove(employee);
+        employee.setSchedule(null);
+    }
+
 }
 
 

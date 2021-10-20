@@ -2,18 +2,37 @@ package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.RestaurantApplication;
+import com.pep.restaurant.domain.Employee;
 import com.pep.restaurant.domain.Menu;
+import com.pep.restaurant.domain.Restaurant;
+import com.pep.restaurant.repository.EmployeeRepository;
+import com.pep.restaurant.repository.MenuRepository;
+import com.pep.restaurant.repository.RestaurantRepository;
+import com.pep.restaurant.service.mapper.RestaurantMapper;
+import com.pep.restaurant.service.model.MenuDTO;
+import com.pep.restaurant.service.model.RestaurantDTO;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
+
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RestaurantApplication.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class RestaurantControllerIntegrationTest {
 
-  /*  @Autowired
+    @Autowired
     private RestaurantController restaurantController;
 
     @Autowired
@@ -23,16 +42,19 @@ public class RestaurantControllerIntegrationTest {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private MenuRepository menuRepository;*/
+    private MenuRepository menuRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
- /*   @Before
-    public void clearDBRestaurant(){
+    @Before
+    public void clearDBRestaurant() {
         restaurantRepository.deleteAll();
         menuRepository.deleteAll();
-    }*/
-
+        employeeRepository.deleteAll();
+    }
 
     @WithMockUser(roles = "ADMIN")
     @Test
@@ -40,8 +62,8 @@ public class RestaurantControllerIntegrationTest {
 
         //Given
         Menu menu = applicationDataProvider.getMenu();
-       /*
-       //save menu
+
+        //save menu
         menuRepository.save(menu);
 
         Restaurant restaurant = applicationDataProvider.getRestaurant();
@@ -50,21 +72,27 @@ public class RestaurantControllerIntegrationTest {
         RestaurantDTO restaurantDTO = restaurantMapper.mapRestaurantToRestaurantDTO(restaurant);
 
         //Menu DTO created by menu
-        MenuDTO menuDTOSaved = new MenuDTO();
-        menuDTOSaved.setId(menu.getId());
-        menuDTOSaved.setLanguage(menu.getLanguage());
+        MenuDTO menuDTOSaved = new MenuDTO()
+            .id(menu.getId())
+            .language(menu.getLanguage());
         restaurantDTO.setMenu(menuDTOSaved);
 
         //When
-        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity = restaurantController.createRestaurant(restaurantDTO);
+        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
+                restaurantController.createRestaurant(restaurantDTO);
 
         //Then
-        Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
-        Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
+        Assert.assertEquals(restaurant.getName(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
+        Assert.assertEquals(restaurant.getLocation(),
+                restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
-        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());*/
+        Assert.assertEquals(restaurant.getMenu().getLanguage(),
+                restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getEmployeeList().size(),
+                restaurantDTOResponseEntity.getBody().getEmployeeList().size());
     }
-/*
+
     @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantId_getRestaurantById(){
@@ -74,20 +102,30 @@ public class RestaurantControllerIntegrationTest {
         //save menu
         menuRepository.save(menu);
 
+        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeRepository.save(employee);
+
         Restaurant restaurant = applicationDataProvider.getRestaurant();
         restaurant.setMenu(menu);
+
+        restaurant.addEmployee(employee);
 
         //save restaurant
         restaurantRepository.save(restaurant);
 
         //When
-        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity = restaurantController.getRestaurant(restaurant.getId());
+        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
+                restaurantController.getRestaurant(restaurant.getId());
 
         //Then
-        Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
+        Assert.assertEquals(restaurant.getName(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
         Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
-        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(),
+                restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getEmployeeList().size(),
+                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
     }
 
     @WithMockUser(roles = "ADMIN")
@@ -117,10 +155,14 @@ public class RestaurantControllerIntegrationTest {
                         restaurantMapper.mapRestaurantToRestaurantDTO(restaurantEdited));
 
         //Then
-        Assert.assertEquals(restaurantEdited.getName(), restaurantDTOResponseEntity.getBody().getName());
+        Assert.assertEquals(restaurantEdited.getName(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
         Assert.assertEquals(restaurantEdited.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurantEdited.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
-        Assert.assertEquals(restaurant.getMenu().getLanguage(), restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(),
+                restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getEmployeeList().size(),
+                restaurantDTOResponseEntity.getBody().getEmployeeList().size());
 
     }
 
@@ -144,9 +186,14 @@ public class RestaurantControllerIntegrationTest {
                 restaurantController.deleteRestaurant(restaurant.getId());
 
         //Then
-        Assert.assertEquals(restaurant.getName(), restaurantDTOResponseEntity.getBody().getName());
+        Assert.assertEquals(restaurant.getName(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
         Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getMenu().getLanguage(),
+                restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getEmployeeList().size(),
+                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
 
     }
 
@@ -177,7 +224,61 @@ public class RestaurantControllerIntegrationTest {
                 restaurantController.getAllRestaurants();
 
         //Then
-        Assert.assertEquals(2, restaurantDTOResponseEntity.getBody().size());
+        Assert.assertEquals(2, Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).size());
 
-    }*/
+    }
+
+    @WithMockUser(roles = "ADMIN")
+    @Test
+    public void requestingRestaurantIdAndEmployeeId_removeEmployeeFromRestaurantsList() {
+
+        //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
+        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeRepository.save(employee);
+
+        Restaurant restaurant = applicationDataProvider.getRestaurant();
+        restaurant.addEmployee(employee);
+        //save restaurant
+        restaurantRepository.save(restaurant);
+
+        //When
+        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
+                restaurantController.removeEmployee(1L, 1L);
+
+        //Then
+        Assert.assertEquals(0,
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getEmployeeList().size());
+
+    }
+
+    @WithMockUser(roles = "ADMIN")
+    @Test
+    public void requestingRestaurantIdAndEmployeeId_addEmployeeToRestaurantsList() {
+
+        //Given
+        Menu menu = applicationDataProvider.getMenu();
+        //save menu
+        menuRepository.save(menu);
+
+        Restaurant restaurant = applicationDataProvider.getRestaurant();
+        //save restaurant
+        restaurantRepository.save(restaurant);
+
+        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeRepository.save(employee);
+
+        //When
+        ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
+                restaurantController.addEmployee(1L, 1L);
+
+        //Then
+        Assert.assertEquals(1,
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getEmployeeList().size());
+
+    }
+
 }

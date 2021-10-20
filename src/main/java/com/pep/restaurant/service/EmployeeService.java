@@ -1,8 +1,10 @@
 package com.pep.restaurant.service;
 
 import com.pep.restaurant.domain.Employee;
+import com.pep.restaurant.domain.Restaurant;
 import com.pep.restaurant.logging.Logger;
 import com.pep.restaurant.repository.EmployeeRepository;
+import com.pep.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,13 @@ public class EmployeeService {
 
 private static final Logger LOGGER = new Logger(EmployeeService.class);
     private final EmployeeRepository employeeRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Autowired
-    public EmployeeService(final EmployeeRepository employeeRepository) {
+    public EmployeeService(final EmployeeRepository employeeRepository,
+                           final RestaurantRepository restaurantRepository) {
         this.employeeRepository = employeeRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     /**
@@ -42,10 +47,7 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
      * @return employee retrieved.
      */
     public Employee getEmployee(final long employeeId) {
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
-        if (employeeOptional.isEmpty()) {
-            throw new NullPointerException("Employee to get not exists!!!");
-        }
+        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to get not exists!!!");
         return employeeOptional.get();
     }
 
@@ -57,15 +59,11 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
      * @return employee edited.
      */
     public Employee editEmployee(final long employeeId, final Employee employeeNew) {
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
-        if (employeeOptional.isEmpty()) {
-            throw new NullPointerException("Employee to be edited not exists!!!");
-        }
+        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to be edited not exists!!!");
         //edit employee
         employeeOptional.get()
                 .role(employeeNew.getRole())
-                .schedule(employeeNew.getSchedule())
-        .setRestaurantList(employeeNew.getRestaurantList());
+                .schedule(employeeNew.getSchedule());
 
         return employeeRepository.save(employeeOptional.get());
     }
@@ -77,10 +75,7 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
      * @return employee deleted.
      */
     public Employee deleteEmployee(final long employeeId) {
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
-        if (employeeOptional.isEmpty()) {
-            throw new NullPointerException("Employee to be deleted not exists!!!");
-        }
+        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to be deleted not exists!!!");
         employeeRepository.deleteById(employeeId);
         return employeeOptional.get();
     }
@@ -97,4 +92,59 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
         }
         return employeeList;
     }
+
+    /**
+     * Add Restaurant from employee.
+     * @param employeeId employee id.
+     * @param restaurantId restaurant id.
+     * @return Employee.
+     */
+    public Employee addRestaurant(final long employeeId, final long restaurantId) {
+        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to add restaurant!!!");
+
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+        if(restaurantOptional.isEmpty()){
+            throw new NullPointerException("Restaurant to add employee!!!");
+        }
+
+        employeeOptional.get()
+                .addRestaurant(restaurantOptional.get());
+
+
+        return employeeRepository.save(employeeOptional.get());
+    }
+
+    /**
+     * Remove restaurant from employee.
+     * @param employeeId employee id.
+     * @param restaurantId restasurant id.
+     * @return Employee.
+     */
+    public Employee removeRestaurant(final long employeeId, final long restaurantId) {
+        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to remove restaurant!!!");
+
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+        if(restaurantOptional.isEmpty()){
+            throw new NullPointerException("Restaurant to remove employee!!!");
+        }
+        employeeOptional.get()
+                .removeRestaurant(restaurantOptional.get());
+
+        return employeeRepository.save(employeeOptional.get());
+    }
+
+    /**
+     * Find Employee on Repository.
+     * @param employeeId employee Id.
+     * @param exceptionMessage exception Message.
+     * @return Optional of employee.
+     */
+    private Optional<Employee> getEmployeeById(final long employeeId, final String exceptionMessage) {
+        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+        if (employeeOptional.isEmpty()) {
+            throw new NullPointerException(exceptionMessage);
+        }
+        return employeeOptional;
+    }
+
 }

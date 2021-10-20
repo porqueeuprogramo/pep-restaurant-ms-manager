@@ -1,7 +1,9 @@
 package com.pep.restaurant.service;
 
 import com.pep.restaurant.ApplicationDataProvider;
+import com.pep.restaurant.domain.Employee;
 import com.pep.restaurant.domain.Restaurant;
+import com.pep.restaurant.repository.EmployeeRepository;
 import com.pep.restaurant.repository.RestaurantRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +13,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RestaurantServiceTest {
@@ -21,6 +26,9 @@ public class RestaurantServiceTest {
 
     @Mock
     RestaurantRepository restaurantRepository;
+
+    @Mock
+    EmployeeRepository employeeRepository;
 
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
@@ -82,7 +90,7 @@ public class RestaurantServiceTest {
     }
 
     @Test
-    public void receivingARestaurantAndAnId_deleteRestaurant() {
+    public void receivingARestaurantId_deleteRestaurant() {
         //Given
         Restaurant restaurantToDelete = applicationDataProvider.getRestaurant();
 
@@ -128,7 +136,7 @@ public class RestaurantServiceTest {
     }
 
     @Test
-    public void getAllRestaurants_CheckIfRestaurantListHasTheResultExpected() {
+    public void requestAllRestaurants_CheckIfRestaurantListHasTheResultExpected() {
         //Given
         Restaurant restaurantToGet = applicationDataProvider.getRestaurant();
 
@@ -145,7 +153,7 @@ public class RestaurantServiceTest {
     }
 
     @Test
-    public void getAllRestaurants_throwAnException() {
+    public void requestAllRestaurants_throwAnException() {
 
         //When
         Mockito.when(restaurantRepository.findAll()).thenReturn(new ArrayList<>());
@@ -155,4 +163,48 @@ public class RestaurantServiceTest {
 
     }
 
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkRestaurantWithEmployeePersisted() {
+
+        //Given
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+        restaurantGiven.id(1L);
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeGiven.id(1L);
+
+        //When
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.save(Mockito.any())).thenReturn(restaurantGiven);
+        Restaurant restaurantResult = restaurantService.addEmployee(1L,1L);
+
+        //Then
+        Assert.assertEquals(restaurantGiven.getId(),restaurantResult.getId());
+        Assert.assertEquals(restaurantGiven.getName(),restaurantResult.getName());
+        Assert.assertEquals(restaurantGiven.getCapacity(),restaurantResult.getCapacity());
+        Assert.assertEquals(restaurantGiven.getLocation(),restaurantResult.getLocation());
+        Assert.assertEquals(1, restaurantResult.getEmployeeList().size());
+
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkRestaurantWithEmployeeRemoved() {
+        //Given
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithId();
+        restaurantGiven.addEmployee(employeeGiven);
+
+        //When
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.save(Mockito.any())).thenReturn(restaurantGiven);
+        Restaurant restaurantResult = restaurantService.removeEmployee(1L,1L);
+
+        //Then
+        Assert.assertEquals(restaurantGiven.getId(),restaurantResult.getId());
+        Assert.assertEquals(restaurantGiven.getName(),restaurantResult.getName());
+        Assert.assertEquals(restaurantGiven.getCapacity(),restaurantResult.getCapacity());
+        Assert.assertEquals(restaurantGiven.getLocation(),restaurantResult.getLocation());
+        Assert.assertEquals(0, restaurantResult.getEmployeeList().size());
+    }
 }

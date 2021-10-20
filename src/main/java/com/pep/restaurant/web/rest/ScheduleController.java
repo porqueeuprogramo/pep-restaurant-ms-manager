@@ -23,6 +23,10 @@ public class ScheduleController {
 
     public static final int OK = 200;
     public static final int INTERNAL_SERVER_ERROR = 500;
+    public static final String SCHEDULE_ADD_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID =
+            "/schedule/add/employee/{scheduleId}/{employeeId}";
+    public static final String SCHEDULE_REMOVE_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID =
+            "/schedule/remove/employee/{scheduleId}/{employeeId}";
     public static final String SCHEDULE_SCHEDULE_ID = "/schedule/{scheduleId}";
     public static final String SCHEDULE = "/schedule";
     private final ScheduleService scheduleService;
@@ -122,6 +126,39 @@ public class ScheduleController {
     public ResponseEntity<List<ScheduleDTO>> getAllSchedules() {
         return ResponseEntity.ok(scheduleMapper.mapScheduleListToScheduleDTOList(
                 scheduleService.getAllSchedules()));
+    }
+
+    /**
+     * Controller to add employee to schedule.
+     * @param scheduleId schedule id.
+     * @param employeeId employee id.
+     * @return Schedule with employee added.
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping(value = SCHEDULE_ADD_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID,
+            produces = {"application/json"},
+            consumes = {"application/json"})
+    public ResponseEntity<ScheduleDTO> addEmployee(@PathVariable final long scheduleId,
+                                                     @PathVariable final long employeeId) {
+        return ResponseEntity.ok(scheduleMapper.mapScheduleToScheduleDTO(
+                scheduleService.addEmployee(scheduleId, employeeId)));
+
+    }
+
+    /**
+     * Controller to remove employee from schedule.
+     * @param scheduleId schedule id.
+     * @param employeeId employee id.
+     * @return Schedule with employee removed.
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping(value = SCHEDULE_REMOVE_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID,
+            produces = {"application/json"},
+            consumes = {"application/json"})
+    public ResponseEntity<ScheduleDTO> removeEmployee(@PathVariable final long scheduleId,
+                                                        @PathVariable final long employeeId) {
+        return ResponseEntity.ok(scheduleMapper.mapScheduleToScheduleDTO(
+                scheduleService.removeEmployee(scheduleId, employeeId)));
     }
 
 }

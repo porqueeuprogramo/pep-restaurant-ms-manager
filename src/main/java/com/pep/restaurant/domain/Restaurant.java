@@ -7,14 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurant")
@@ -37,12 +37,12 @@ public class Restaurant {
     @JoinColumn(unique = true)
     private Menu menu;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "restaurant_employee",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id"))
-    private List<Employee> employeeList = new ArrayList<>();
+    private Set<Employee> employeeList = new HashSet<>();
 
     /**
      * Get Restaurant id.
@@ -178,7 +178,7 @@ public class Restaurant {
      * Method to get Restaurant employee list.
      * @return employee list.
      */
-    public List<Employee> getEmployeeList() {
+    public Set<Employee> getEmployeeList() {
         return employeeList;
     }
 
@@ -186,7 +186,7 @@ public class Restaurant {
      * Method to set Restaurant employee List
      * @param employeeList employee list.
      */
-    public void setEmployeeList(final List<Employee> employeeList){
+    public void setEmployeeList(final Set<Employee> employeeList){
         this.employeeList = employeeList;
     }
 
@@ -195,9 +195,27 @@ public class Restaurant {
      * @param employeeList employeeList to build.
      * @return restaurant with employeeList.
      */
-    public Restaurant employeeList(final List<Employee> employeeList){
+    public Restaurant employeeList(final Set<Employee> employeeList){
         this.employeeList = employeeList;
         return this;
+    }
+
+    /**
+     * Method to add Employee to Restaurant.
+     * @param employee employee.
+     */
+    public void addEmployee(final Employee employee) {
+        this.employeeList.add(employee);
+        employee.getRestaurantList().add(this);
+    }
+
+    /**
+     * Method to remove Employee from Restaurant.
+     * @param employee employee.
+     */
+    public void removeEmployee(final Employee employee) {
+        this.employeeList.remove(employee);
+        employee.getRestaurantList().remove(this);
     }
 
 }
