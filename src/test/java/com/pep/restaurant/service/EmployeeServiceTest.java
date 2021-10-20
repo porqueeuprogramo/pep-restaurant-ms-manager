@@ -2,7 +2,9 @@ package com.pep.restaurant.service;
 
 import com.pep.restaurant.ApplicationDataProvider;
 import com.pep.restaurant.domain.Employee;
+import com.pep.restaurant.domain.Restaurant;
 import com.pep.restaurant.repository.EmployeeRepository;
+import com.pep.restaurant.repository.RestaurantRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +26,9 @@ public class EmployeeServiceTest {
 
     @Mock
     EmployeeRepository employeeRepository;
+
+    @Mock
+    RestaurantRepository restaurantRepository;
 
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
@@ -155,4 +160,46 @@ public class EmployeeServiceTest {
 
     }
 
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkEmployeeWithRestaurantPersisted() {
+
+        //Given
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithId();
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+        restaurantGiven.setId(1L);
+
+        //When
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(employeeGiven);
+        Employee employeeResult = employeeService.addRestaurant(1L,1L);
+
+        //Then
+        Assert.assertEquals(employeeGiven.getId(), employeeResult.getId());
+        Assert.assertEquals(employeeGiven.getRole(), employeeResult.getRole());
+        Assert.assertEquals(1, employeeResult.getRestaurantList().size());
+
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkEmployeeWithRestaurantRemoved() {
+
+        //Given
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithId();
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+        restaurantGiven.setId(1L);
+        employeeGiven.addRestaurant(restaurantGiven);
+
+        //When
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.save(Mockito.any())).thenReturn(employeeGiven);
+        Employee employeeResult = employeeService.removeRestaurant(1L,1L);
+
+        //Then
+        Assert.assertEquals(employeeGiven.getId(), employeeResult.getId());
+        Assert.assertEquals(employeeGiven.getRole(), employeeResult.getRole());
+        Assert.assertEquals(0, employeeResult.getRestaurantList().size());
+
+    }
 }

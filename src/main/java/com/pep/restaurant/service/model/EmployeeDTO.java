@@ -3,8 +3,8 @@ package com.pep.restaurant.service.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Employee Dto class
@@ -19,7 +19,7 @@ public class EmployeeDTO {
 
     @JsonProperty("restaurantList")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<RestaurantDTO> restaurantList = new ArrayList<>();
+    private Set<RestaurantDTO> restaurantList = new HashSet<>();
 
     @JsonProperty("schedule")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -81,7 +81,7 @@ public class EmployeeDTO {
      * Get employeeDTO restaurantDTO list.
      * @return employeeDTO restaurantDTO List.
      */
-    public List<RestaurantDTO> getRestaurantList() {
+    public Set<RestaurantDTO> getRestaurantList() {
         return restaurantList;
     }
 
@@ -89,7 +89,7 @@ public class EmployeeDTO {
      * Set employeeDTO restaurantDTO list.
      * @param restaurantList employee restaurantDTO list.
      */
-    public void setRestaurantList(final List<RestaurantDTO> restaurantList) {
+    public void setRestaurantList(final Set<RestaurantDTO> restaurantList) {
         this.restaurantList = restaurantList;
     }
 
@@ -98,7 +98,7 @@ public class EmployeeDTO {
      * @param restaurantList restaurantList to build.
      * @return employeeDTO with restaurantList.
      */
-    public EmployeeDTO restaurantList(final List<RestaurantDTO> restaurantList){
+    public EmployeeDTO restaurantList(final Set<RestaurantDTO> restaurantList){
         this.restaurantList = restaurantList;
         return this;
     }

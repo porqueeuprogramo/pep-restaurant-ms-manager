@@ -11,6 +11,7 @@ import com.pep.restaurant.service.model.ScheduleDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -64,21 +65,21 @@ public class RestaurantMapper {
                 : null;
     }
 
-    private List<EmployeeDTO> mapEmployeeListToEmployeeDTOList(final List<Employee> employeeList) {
+    private Set<EmployeeDTO> mapEmployeeListToEmployeeDTOList(final Set<Employee> employeeList) {
         return employeeList != null
                 ? employeeList
                     .stream()
                     .map(this::mapEmployeeToEmployeeDTO)
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toSet())
                 : null;
     }
 
-    private List<Employee> mapEmployeeDTOListToEmployeeList(final List<EmployeeDTO> employeeDTOList) {
+    private Set<Employee> mapEmployeeDTOListToEmployeeList(final Set<EmployeeDTO> employeeDTOList) {
         return employeeDTOList != null
                 ? employeeDTOList
                     .stream()
                     .map(this::mapEmployeeDTOToEmployee)
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toSet())
                 : null;
     }
 

@@ -2,6 +2,7 @@ package com.pep.restaurant.web.rest;
 
 import com.pep.restaurant.service.EmployeeService;
 import com.pep.restaurant.service.mapper.EmployeeMapper;
+import com.pep.restaurant.service.mapper.RestaurantMapper;
 import com.pep.restaurant.service.model.EmployeeDTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,18 +24,26 @@ public class EmployeeController {
     public static final int OK = 200;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final String EMPLOYEE_EMPLOYEE_ID = "/employee/{employeeId}";
+    public static final String EMPLOYEE_ADD_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID =
+            "/employee/add/restaurant/{employeeId}/{restaurantId}";
+    public static final String EMPLOYEE_REMOVE_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID =
+            "/employee/remove/restaurant/{employeeId}/{restaurantId}";
     public static final String EMPLOYEE = "/employee";
     private final EmployeeService employeeService;
     private final EmployeeMapper employeeMapper;
+    private final RestaurantMapper restaurantMapper;
 
     /**
      * Constructor for Employee Controller.
      * @param employeeService Employee Service.
      * @param employeeMapper  Employee mapper.
+     * @param restaurantMapper
      */
-    public EmployeeController(final EmployeeService employeeService, final EmployeeMapper employeeMapper) {
+    public EmployeeController(final EmployeeService employeeService, final EmployeeMapper employeeMapper,
+                              final RestaurantMapper restaurantMapper) {
         this.employeeService = employeeService;
         this.employeeMapper = employeeMapper;
+        this.restaurantMapper = restaurantMapper;
     }
 
     /**
@@ -90,8 +99,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable final long employeeId,
                                                         @RequestBody final EmployeeDTO employeeToEdit) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
-                employeeService.editEmployee(employeeId,
-                        employeeMapper.mapEmployeeDTOToEmployee(employeeToEdit))));
+                employeeService.editEmployee(employeeId, employeeMapper.mapEmployeeDTOToEmployee(employeeToEdit))));
     }
 
     /**
@@ -121,6 +129,38 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeMapper.mapEmployeeListToEmployeeDTOList(
                 employeeService.getAllEmployees()));
+    }
+
+    /**
+     * Controller to add restaurant to employee.
+     * @param employeeId employee id.
+     * @param restaurantId restaurant id.
+     * @return Employee with restuarant added.
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping(value = EMPLOYEE_ADD_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
+            produces = {"application/json"},
+            consumes = {"application/json"})
+    public ResponseEntity<EmployeeDTO> addRestaurant(@PathVariable final long employeeId,
+                                                     @PathVariable final long restaurantId) {
+        return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
+                employeeService.addRestaurant(employeeId, restaurantId)));
+    }
+
+    /**
+     * Controller to remove restaurant from employee.
+     * @param employeeId employee id.
+     * @param restaurantId restaurant id.
+     * @return Employee with restaurant removed.
+     */
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PutMapping(value = EMPLOYEE_REMOVE_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
+            produces = {"application/json"},
+            consumes = {"application/json"})
+    public ResponseEntity<EmployeeDTO> removeRestaurant(@PathVariable final long employeeId,
+                                                        @PathVariable final long restaurantId) {
+        return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
+                employeeService.removeRestaurant(employeeId, restaurantId)));
     }
 
 }

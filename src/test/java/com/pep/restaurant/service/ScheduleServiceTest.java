@@ -1,8 +1,10 @@
 package com.pep.restaurant.service;
 
 import com.pep.restaurant.ApplicationDataProvider;
+import com.pep.restaurant.domain.Employee;
 import com.pep.restaurant.domain.Schedule;
 import com.pep.restaurant.domain.enumeration.ScheduleType;
+import com.pep.restaurant.repository.EmployeeRepository;
 import com.pep.restaurant.repository.ScheduleRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,8 +28,10 @@ public class ScheduleServiceTest {
     @Mock
     ScheduleRepository scheduleRepository;
 
-    ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
+    @Mock
+    EmployeeRepository employeeRepository;
 
+    ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
     @Test
     public void passingAScheduleThatAlreadyExists_throwAnException() {
@@ -155,5 +159,51 @@ public class ScheduleServiceTest {
         Assert.assertThrows(NullPointerException.class, () -> scheduleService.getAllSchedules());
 
     }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkScheduleWithEmployeePersisted() {
+
+        //Given
+        Schedule scheduleGiven = applicationDataProvider.getSchedule();
+        scheduleGiven.setId(1L);
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeGiven.id(1L);
+
+        //When
+        Mockito.when(scheduleRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(scheduleGiven));
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(scheduleRepository.save(Mockito.any())).thenReturn(scheduleGiven);
+        Schedule scheduleResult = scheduleService.addEmployee(1L,1L);
+
+        //Then
+        Assert.assertEquals(scheduleGiven.getId(), scheduleResult.getId());
+        Assert.assertEquals(scheduleGiven.getType(), scheduleGiven.getType());
+        Assert.assertEquals(1, scheduleResult.getEmployeeList().size());
+
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantId_checkScheduleWithEmployeeRemoved() {
+
+        //Given
+        Schedule scheduleGiven = applicationDataProvider.getSchedule();
+        scheduleGiven.setId(1L);
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
+        employeeGiven.id(1L);
+        scheduleGiven.addEmployee(employeeGiven);
+
+        //When
+        Mockito.when(scheduleRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(scheduleGiven));
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(scheduleRepository.save(Mockito.any())).thenReturn(scheduleGiven);
+        Schedule scheduleResult = scheduleService.removeEmployee(1L,1L);
+
+        //Then
+        Assert.assertEquals(scheduleGiven.getId(), scheduleResult.getId());
+        Assert.assertEquals(scheduleGiven.getType(), scheduleGiven.getType());
+        Assert.assertEquals(0, scheduleResult.getEmployeeList().size());
+
+    }
+
 
 }
