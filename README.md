@@ -1,12 +1,11 @@
 # README #
 
-This is a porqueeuprogramo learn tool (java spring maven) application.
+This is a manager microservice of porqueeuprogramo restaurant (java spring maven) application.
 
-### What is this repository for? ###
 
-* Quick summary
-* Version 0.0.1
-* [Repository](https://bitbucket.org/porqueeuprogramo/pep-restaurant/)
+### How do I get repository ###
+
+* [Repository](https://github.com/porqueeuprogramo/pep-restaurant-ms-manager)
 
 ### How do I get set up? ###
 
@@ -20,15 +19,18 @@ This is a porqueeuprogramo learn tool (java spring maven) application.
 * change localhost on application yml to your local ip
 * mvn clean install
 
-* docker build -t pep-restaurant-backend.jar .
-* docker run -p 8080:8080 --name pep-restaurant-backend pep-restaurant-backend.jar
-or
+* docker build -t pep-restaurant-ms-manager.jar .
+* docker run -p 8080:8080 --name pep-restaurant-ms-manager pep-restaurant-ms-manager.jar
+  or
 * docker-compose up (docker-compose.env has already the env variables values)
 
 ### How do I check code quality
 * Run the following cmd on sonar:
 * mvn sonar:sonar -Dsonar.projectKey=PROJECT_KEY -Dsonar.host.url=http://localhost:9000 -Dsonar.login=TOKEN
-  
+
+### How do I check swagger ui
+* Open the following web url: http://localhost:8082/swagger-ui
+
 ### Who do I talk to? ###
 
 * discord https://discord.gg/v2MgpUT4QC
