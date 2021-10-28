@@ -8,6 +8,8 @@ spring:
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:/db.changelog/changelog-master.xml
+server:
+  port: 8082
 keycloak:
   realm: ${KEYCLOAK_REALM:peprestaurant}
   auth-server-url: ${KEYCLOAK_SERVER_URL:http://localhost:8081/auth}
