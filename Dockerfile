@@ -1,4 +1,4 @@
 FROM openjdk:11
-ADD target/pep-restaurant-backend.jar pep-restaurant-backend.jar
-ENTRYPOINT ["java", "-jar", "pep-restaurant-backend.jar"]
-EXPOSE 8080
+ADD target/pep-restaurant-ms-manager.jar pep-restaurant-ms-manager.jar
+ENTRYPOINT ["java", "-jar", "pep-restaurant-ms-manager.jar"]
+EXPOSE 8082
