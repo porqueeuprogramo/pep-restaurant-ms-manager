@@ -5,11 +5,11 @@ import com.pep.restaurant.ms.manager.RestaurantMsManagerApplication;
 import com.pep.restaurant.ms.manager.domain.Employee;
 import com.pep.restaurant.ms.manager.domain.Menu;
 import com.pep.restaurant.ms.manager.domain.Restaurant;
+import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
+import com.pep.restaurant.ms.manager.repository.MenuRepository;
 import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import com.pep.restaurant.ms.manager.service.mapper.RestaurantMapper;
 import com.pep.restaurant.ms.manager.service.model.MenuDTO;
-import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
-import com.pep.restaurant.ms.manager.repository.MenuRepository;
 import com.pep.restaurant.ms.manager.service.model.RestaurantDTO;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -56,7 +55,6 @@ public class RestaurantControllerIntegrationTest {
         employeeRepository.deleteAll();
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantDTO_checkRestaurantSaved(){
 
@@ -93,7 +91,6 @@ public class RestaurantControllerIntegrationTest {
                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantId_getRestaurantById(){
 
@@ -128,7 +125,6 @@ public class RestaurantControllerIntegrationTest {
                  restaurantDTOResponseEntity.getBody().getEmployeeList().size());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantToEdit_getRestaurantEdited(){
         //Given
@@ -166,7 +162,6 @@ public class RestaurantControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantIdToDelete_checkRestaurantDeleted(){
 
@@ -197,7 +192,6 @@ public class RestaurantControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void callingGetAllRestaurants_checkRestaurantsList(){
 
@@ -228,7 +222,6 @@ public class RestaurantControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingRestaurantIdAndEmployeeId_removeEmployeeFromRestaurantsList() {
 
@@ -255,7 +248,6 @@ public class RestaurantControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingRestaurantIdAndEmployeeId_addEmployeeToRestaurantsList() {
 

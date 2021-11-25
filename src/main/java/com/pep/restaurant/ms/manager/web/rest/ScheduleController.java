@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 
 @RestController
-public class ScheduleController {
+public class ScheduleController implements ApiController {
 
     public static final int OK = 200;
     public static final int INTERNAL_SERVER_ERROR = 500;
@@ -57,7 +56,6 @@ public class ScheduleController {
             @ApiResponse(code = INTERNAL_SERVER_ERROR, message = "Schedule not exists",
                     response = ScheduleDTO.class, responseContainer = "Schedule")
     })
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = SCHEDULE_SCHEDULE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -72,7 +70,6 @@ public class ScheduleController {
      * @param scheduleDTO scheduleDTO to create.
      * @return ScheduleDTO created.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping(value = SCHEDULE,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -88,7 +85,6 @@ public class ScheduleController {
      * @param scheduleToEdit schedule update.
      * @return ScheduleDTO edited.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = SCHEDULE_SCHEDULE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -105,7 +101,6 @@ public class ScheduleController {
      * @param scheduleId schedule id to be deleted.
      * @return ScheduleDTO deleted.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping(value = SCHEDULE_SCHEDULE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -119,7 +114,6 @@ public class ScheduleController {
      *
      * @return SchedulesDTO list.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = SCHEDULE,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -134,7 +128,6 @@ public class ScheduleController {
      * @param employeeId employee id.
      * @return Schedule with employee added.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = SCHEDULE_ADD_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -151,7 +144,6 @@ public class ScheduleController {
      * @param employeeId employee id.
      * @return Schedule with employee removed.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = SCHEDULE_REMOVE_EMPLOYEE_SCHEDULE_ID_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})

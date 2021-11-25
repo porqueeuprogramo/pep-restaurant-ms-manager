@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @RestController
-public class EmployeeController {
+public class EmployeeController implements ApiController {
 
     public static final int OK = 200;
     public static final int INTERNAL_SERVER_ERROR = 500;
@@ -61,7 +63,6 @@ public class EmployeeController {
             @ApiResponse(code = INTERNAL_SERVER_ERROR, message = "Employee not exists",
                     response = EmployeeDTO.class, responseContainer = "Employee")
     })
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -76,7 +77,6 @@ public class EmployeeController {
      * @param employeeDTO employeeDTO to create.
      * @return EmployeeDTO created.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping(value = EMPLOYEE,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -92,7 +92,6 @@ public class EmployeeController {
      * @param employeeToEdit employee update.
      * @return EmployeeDTO edited.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -108,7 +107,6 @@ public class EmployeeController {
      * @param employeeId employee id to be deleted.
      * @return EmployeeDTO deleted.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -122,7 +120,6 @@ public class EmployeeController {
      *
      * @return EmployeesDTO list.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = EMPLOYEE,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -137,7 +134,6 @@ public class EmployeeController {
      * @param restaurantId restaurant id.
      * @return Employee with restuarant added.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = EMPLOYEE_ADD_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -153,7 +149,6 @@ public class EmployeeController {
      * @param restaurantId restaurant id.
      * @return Employee with restaurant removed.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = EMPLOYEE_REMOVE_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})

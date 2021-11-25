@@ -1,29 +1,17 @@
 spring:
   application:
-    name: restaurant
+    name: pep-restaurant-ms-manager
   datasource:
     url: ${RESTAURANT_DB_URL:jdbc:postgresql://localhost:5432}/${RESTAURANT_DB_NAME:postgres}
     username: ${RESTAURANT_DB_USER:postgres}
     password: ${RESTAURANT_DB_PASS:1234}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
   liquibase:
     change-log: classpath:/db.changelog/changelog-master.xml
 server:
   port: 8082
-keycloak:
-  realm: ${KEYCLOAK_REALM:peprestaurant}
-  auth-server-url: ${KEYCLOAK_SERVER_URL:http://localhost:8081/auth}
-  ssl-required: external
-  resource: ${KEYCLOAK_CLIENT_ID:peprestaurant}
-  credentials:
-    secret: ${KEYCLOAK_CLIENT_SECRET:afb48af0-a6b9-44b7-ba43-328f3e5a6555}
-  use-resource-role-mappings: true
+  servlet:
+      context-path: /pep/restaurant/manager
 
-application:
-  keycloak:
-    serverUrl: ${KEYCLOAK_SERVER_URL:http://localhost:8081/auth}
-    realm: ${KEYCLOAK_REALM:peprestaurant}
-    username: ${KEYCLOAK_USERNAME:pepuser}
-    password: ${KEYCLOAK_PASSWORD:1234}
-    clientId: ${KEYCLOAK_CLIENT_ID:peprestaurant}
-    clientSecret: ${KEYCLOAK_CLIENT_SECRET:afb48af0-a6b9-44b7-ba43-328f3e5a6555}

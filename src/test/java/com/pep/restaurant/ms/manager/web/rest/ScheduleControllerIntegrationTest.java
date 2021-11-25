@@ -6,11 +6,11 @@ import com.pep.restaurant.ms.manager.domain.Employee;
 import com.pep.restaurant.ms.manager.domain.Menu;
 import com.pep.restaurant.ms.manager.domain.Schedule;
 import com.pep.restaurant.ms.manager.domain.enumeration.ScheduleType;
-import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
-import com.pep.restaurant.ms.manager.service.mapper.ScheduleMapper;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
 import com.pep.restaurant.ms.manager.repository.MenuRepository;
+import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import com.pep.restaurant.ms.manager.repository.ScheduleRepository;
+import com.pep.restaurant.ms.manager.service.mapper.ScheduleMapper;
 import com.pep.restaurant.ms.manager.service.model.ScheduleDTO;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -61,7 +60,6 @@ public class ScheduleControllerIntegrationTest {
         scheduleRepository.deleteAll();
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAScheduleDTO_checkScheduleSaved(){
 
@@ -77,7 +75,6 @@ public class ScheduleControllerIntegrationTest {
         Assert.assertEquals(schedule.getType(), Objects.requireNonNull(scheduleDTOResponseEntity.getBody()).getType());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAScheduleId_getScheduleById(){
 
@@ -94,7 +91,6 @@ public class ScheduleControllerIntegrationTest {
         Assert.assertEquals(schedule.getType(), Objects.requireNonNull(scheduleDTOResponseEntity.getBody()).getType());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAScheduleToEdit_getScheduleEdited(){
         //Given
@@ -119,7 +115,6 @@ public class ScheduleControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAScheduleIdToDelete_checkScheduleDeleted(){
 
@@ -138,7 +133,6 @@ public class ScheduleControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void callingGetAllSchedule_checkScheduleList(){
 
@@ -162,7 +156,6 @@ public class ScheduleControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingScheduleIdAndEmployeeId_removeEmployeeFromScheduleList() {
 
@@ -185,7 +178,6 @@ public class ScheduleControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingScheduleIdAndEmployeeId_addEmployeeToScheduleList() {
 
