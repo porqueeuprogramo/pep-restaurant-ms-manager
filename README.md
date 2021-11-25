@@ -15,11 +15,11 @@ This is the manager microservice of porqueeuprogramo restaurant (java spring mav
 
 ### How do I set up docker? ###
 
-* change localhost on application yml to your local ip
+* change localhost on application yml to your local ip 
 * mvn clean install
 
 * docker build -t pep-restaurant-ms-manager.jar .
-* docker run -p 8082:8080 --name pep-restaurant-ms-manager pep-restaurant-ms-manager.jar
+* docker run -p 8082:8082 --name pep-restaurant-ms-manager pep-restaurant-ms-manager.jar
   or
 * docker-compose up (docker-compose.env has already the env variables values)
 
