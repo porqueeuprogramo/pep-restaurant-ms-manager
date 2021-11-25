@@ -1,7 +1,6 @@
 # README #
 
-This is a manager microservice of porqueeuprogramo restaurant (java spring maven) application.
-
+This is the manager microservice of porqueeuprogramo restaurant (java spring maven) application.
 
 ### How do I get repository ###
 
@@ -20,7 +19,7 @@ This is a manager microservice of porqueeuprogramo restaurant (java spring maven
 * mvn clean install
 
 * docker build -t pep-restaurant-ms-manager.jar .
-* docker run -p 8080:8080 --name pep-restaurant-ms-manager pep-restaurant-ms-manager.jar
+* docker run -p 8082:8080 --name pep-restaurant-ms-manager pep-restaurant-ms-manager.jar
   or
 * docker-compose up (docker-compose.env has already the env variables values)
 

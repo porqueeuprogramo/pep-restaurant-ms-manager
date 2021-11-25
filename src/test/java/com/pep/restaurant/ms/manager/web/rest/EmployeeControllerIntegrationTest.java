@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -55,7 +54,6 @@ public class EmployeeControllerIntegrationTest {
         employeeRepository.deleteAll();
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingARestaurantDTO_checkRestaurantSaved(){
 
@@ -75,7 +73,6 @@ public class EmployeeControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAEmployeeId_getEmployeeById(){
 
@@ -92,7 +89,6 @@ public class EmployeeControllerIntegrationTest {
         Assert.assertEquals(employee.getRole(), Objects.requireNonNull(employeeDTOResponseEntity.getBody()).getRole());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAEmployeeToEdit_getEmployeeEdited(){
         //Given
@@ -117,7 +113,6 @@ public class EmployeeControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAnEmployeeIdToDelete_checkEmployeeDeleted(){
 
@@ -136,7 +131,6 @@ public class EmployeeControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void callingGetAllEmployees_checkEmployeesList(){
 
@@ -161,7 +155,6 @@ public class EmployeeControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingEmployeeIdAndRestaurantId_removeRestaurantFromEmployeesList() {
 
@@ -189,7 +182,6 @@ public class EmployeeControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingEmployeeIdAndRestaurantId_addRestaurantToEmployeesList() {
 

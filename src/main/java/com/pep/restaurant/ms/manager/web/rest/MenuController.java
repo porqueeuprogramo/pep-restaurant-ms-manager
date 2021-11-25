@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 
 @RestController
-public class MenuController {
+public class MenuController implements ApiController {
 
     public static final int OK = 200;
     public static final int INTERNAL_SERVER_ERROR = 500;
@@ -54,7 +53,6 @@ public class MenuController {
             @ApiResponse(code = INTERNAL_SERVER_ERROR, message = "Menu not exists",
                     response = MenuDTO.class, responseContainer = "Menu")
     })
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -69,7 +67,6 @@ public class MenuController {
      * @param menuDTO menuDTO to create.
      * @return MenuDTO created.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PostMapping(value = MENU,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -85,7 +82,6 @@ public class MenuController {
      * @param menuToEdit menu update.
      * @return MenuDTO edited.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @PutMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -102,7 +98,6 @@ public class MenuController {
      * @param menuId menu id to be deleted.
      * @return MenuDTO deleted.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @DeleteMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
@@ -116,7 +111,6 @@ public class MenuController {
      *
      * @return MenusDTO list.
      */
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping(value = MENU,
             produces = {"application/json"},
             consumes = {"application/json"})

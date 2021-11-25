@@ -3,9 +3,9 @@ package com.pep.restaurant.ms.manager.web.rest;
 import com.pep.restaurant.ms.manager.ApplicationDataProvider;
 import com.pep.restaurant.ms.manager.RestaurantMsManagerApplication;
 import com.pep.restaurant.ms.manager.domain.Menu;
+import com.pep.restaurant.ms.manager.repository.MenuRepository;
 import com.pep.restaurant.ms.manager.service.mapper.MenuMapper;
 import com.pep.restaurant.ms.manager.service.model.MenuDTO;
-import com.pep.restaurant.ms.manager.repository.MenuRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -43,7 +42,6 @@ public class MenuControllerIntegrationTest {
         menuRepository.deleteAll();
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAMenuDTO_checkMenuSaved(){
 
@@ -61,7 +59,6 @@ public class MenuControllerIntegrationTest {
                 Objects.requireNonNull(menuDTOResponseEntity.getBody()).getLanguage());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAMenuId_getMenuById(){
 
@@ -80,7 +77,6 @@ public class MenuControllerIntegrationTest {
                 Objects.requireNonNull(menuDTOResponseEntity.getBody()).getLanguage());
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAMenuToEdit_getMenuEdited(){
         //Given
@@ -104,7 +100,6 @@ public class MenuControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void requestingAMenuIdToDelete_checkMenuDeleted(){
 
@@ -123,7 +118,6 @@ public class MenuControllerIntegrationTest {
 
     }
 
-    @WithMockUser(roles = "ADMIN")
     @Test
     public void callingGetAllMenu_checkMenuList(){
 
