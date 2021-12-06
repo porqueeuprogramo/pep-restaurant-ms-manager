@@ -153,4 +153,13 @@ public class Employee {
         restaurant.getEmployeeList().remove(this);
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                ", restaurantList=" + restaurantList +
+                ", schedule=" + schedule +
+                '}';
+    }
 }

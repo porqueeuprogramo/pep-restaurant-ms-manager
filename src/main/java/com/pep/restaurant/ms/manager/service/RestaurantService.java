@@ -6,6 +6,7 @@ import com.pep.restaurant.ms.manager.logging.enumeration.LogTag;
 import com.pep.restaurant.ms.manager.logging.Logger;
 import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class RestaurantService {
     public Restaurant createRestaurant(final Restaurant restaurant){
         final Optional<Restaurant> restaurantOptional = restaurantRepository.findRestaurantByName(restaurant.getName());
         if(restaurantOptional.isEmpty()){
+
+            LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.PERSISTED),
+                    "Create Restaurant: " + restaurant.toString());
+
             return restaurantRepository.save(restaurant);
         }
         throw new NullPointerException("Restaurant already exists!!!");
@@ -48,6 +53,10 @@ public class RestaurantService {
     public Restaurant getRestaurant(final long restaurantId){
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant does not exists!!!");
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED),
+                "Get Restaurant by id: " + restaurantId);
+
         return restaurantOptional.get();
     }
 
@@ -68,6 +77,9 @@ public class RestaurantService {
                 .menu(restaurantNew.getMenu())
                 .setEmployeeList(restaurantNew.getEmployeeList());
 
+        LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.RESTAURANTS, LogTag.EDITED),
+                "Edit Restaurant by id " + restaurantId);
+
         return restaurantRepository.save(restaurantOptional.get());
     }
 
@@ -80,6 +92,10 @@ public class RestaurantService {
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant to be deleted not exists!!!");
         restaurantRepository.deleteById(restaurantId);
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.DELETED),
+                "Delete Restaurant by id: " + restaurantId);
+
         return restaurantOptional.get();
     }
 
@@ -92,7 +108,8 @@ public class RestaurantService {
         if(restaurantList.isEmpty()){
             throw new NullPointerException("No Restaurants persisted!!!");
         }
-        LOGGER.info(Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED), "Get All Restaurants from db");
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.RETRIEVED),
+                "Get All Restaurants from db");
         return restaurantList;
     }
 
@@ -114,6 +131,9 @@ public class RestaurantService {
         restaurantOptional.get()
                 .addEmployee(employeeOptional.get());
 
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.EDITED),
+                "Add Employee with id: " + employeeId + " to Restaurant with id: " + restaurantId);
+
         return restaurantRepository.save(restaurantOptional.get());
     }
 
@@ -134,6 +154,9 @@ public class RestaurantService {
 
         restaurantOptional.get()
                 .removeEmployee(employeeOptional.get());
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.EDITED),
+                "Remove Employee with id: " + employeeId + " from Restaurant with id: " + restaurantId);
 
         return restaurantRepository.save(restaurantOptional.get());
     }

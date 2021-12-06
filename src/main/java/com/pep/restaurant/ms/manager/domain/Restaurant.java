@@ -218,4 +218,15 @@ public class Restaurant {
         employee.getRestaurantList().remove(this);
     }
 
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", capacity=" + capacity +
+                ", menu=" + menu +
+                ", employeeList=" + employeeList +
+                '}';
+    }
 }

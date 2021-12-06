@@ -17,6 +17,10 @@ public class Logger {
         logger.info(tags + " " + message);
     }
 
+    public void info(final String correlationId, final List<LogTag> tags, final String message){
+        logger.info(correlationId + " | " + tags + " | " + message);
+    }
+
     public void error(final List<LogTag> tags, final String message){
         logger.error(tags + " " + message);
     }
