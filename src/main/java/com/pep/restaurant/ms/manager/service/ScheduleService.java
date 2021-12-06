@@ -3,11 +3,14 @@ package com.pep.restaurant.ms.manager.service;
 import com.pep.restaurant.ms.manager.domain.Employee;
 import com.pep.restaurant.ms.manager.domain.Schedule;
 import com.pep.restaurant.ms.manager.logging.Logger;
+import com.pep.restaurant.ms.manager.logging.enumeration.LogTag;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
 import com.pep.restaurant.ms.manager.repository.ScheduleRepository;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +37,10 @@ public class ScheduleService {
     public Schedule createSchedule(final Schedule schedule){
         final Optional<Schedule> scheduleOptional = scheduleRepository.findById(schedule.getId());
         if(scheduleOptional.isEmpty()){
+
+            LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.PERSISTED),
+                    "Create Schedule: " + schedule.toString());
+
             return scheduleRepository.save(schedule);
         }
         throw new NullPointerException("Schedule already exists!!!");
@@ -47,6 +54,10 @@ public class ScheduleService {
     public Schedule getSchedule(final long scheduleId){
         final Optional<Schedule> scheduleOptional = getScheduleById(scheduleId,
                 "Schedule to get not exists!!!");
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.RETRIEVED),
+                "Get Schedule by id: " + scheduleId);
+
         return scheduleOptional.get();
     }
 
@@ -64,6 +75,9 @@ public class ScheduleService {
                 .type(scheduleNew.getType())
                 .setEmployeeList(scheduleNew.getEmployeeList());
 
+        LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.SCHEDULE, LogTag.EDITED),
+                "Edit Schedule by id " + scheduleId);
+
         return scheduleRepository.save(scheduleOptional.get());
     }
 
@@ -76,6 +90,10 @@ public class ScheduleService {
         final Optional<Schedule> scheduleOptional = getScheduleById(scheduleId,
                 "Schedule to be deleted not exists!!!");
         scheduleRepository.deleteById(scheduleId);
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.DELETED),
+                "Delete Schedule by id: " + scheduleId);
+
         return scheduleOptional.get();
     }
 
@@ -88,6 +106,10 @@ public class ScheduleService {
         if(scheduleList.isEmpty()){
             throw new NullPointerException("No Schedules persisted!!!");
         }
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.RETRIEVED),
+                "Get All Schedule from db");
+
         return scheduleList;
     }
 
@@ -109,6 +131,9 @@ public class ScheduleService {
         scheduleOptional.get()
                 .addEmployee(employeeOptional.get());
 
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.EDITED),
+                "Add Employee with id: " + employeeId + " to Schedule with id: " + scheduleId);
+
         return scheduleRepository.save(scheduleOptional.get());
     }
 
@@ -129,6 +154,9 @@ public class ScheduleService {
 
         scheduleOptional.get()
                 .removeEmployee(employeeOptional.get());
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.SCHEDULE, LogTag.EDITED),
+                "Remove Employee with id: " + employeeId + " from Schedule with id: " + scheduleId);
 
         return scheduleRepository.save(scheduleOptional.get());
     }

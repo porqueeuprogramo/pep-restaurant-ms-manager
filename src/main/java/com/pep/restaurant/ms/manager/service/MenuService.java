@@ -2,10 +2,13 @@ package com.pep.restaurant.ms.manager.service;
 
 import com.pep.restaurant.ms.manager.domain.Menu;
 import com.pep.restaurant.ms.manager.logging.Logger;
+import com.pep.restaurant.ms.manager.logging.enumeration.LogTag;
 import com.pep.restaurant.ms.manager.repository.MenuRepository;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,10 @@ public class MenuService {
     public Menu createMenu(final Menu menu){
         final Optional<Menu> menuOptional = menuRepository.findByLanguage(menu.getLanguage());
         if(menuOptional.isEmpty()){
+
+            LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.MENU, LogTag.PERSISTED),
+                    "Create Menu: " + menu.toString());
+
             return menuRepository.save(menu);
         }
         throw new NullPointerException("Menu already exists!!!");
@@ -43,6 +50,10 @@ public class MenuService {
         if(menuOptional.isEmpty()){
             throw new NullPointerException("Menu to get not exists!!!");
         }
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.MENU, LogTag.RETRIEVED),
+                "Get Menu by id: " + menuId);
+
         return menuOptional.get();
     }
 
@@ -61,6 +72,9 @@ public class MenuService {
         menuOptional.get()
                 .language(menuNew.getLanguage());
 
+        LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.MENU, LogTag.EDITED),
+                "Edit Menu by id " + menuId);
+
         return menuRepository.save(menuOptional.get());
     }
 
@@ -75,6 +89,10 @@ public class MenuService {
             throw new NullPointerException("Menu to be deleted not exists!!!");
         }
         menuRepository.deleteById(menuId);
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.MENU, LogTag.DELETED),
+                "Delete Menu by id: " + menuId);
+
         return menuOptional.get();
     }
 
@@ -87,6 +105,10 @@ public class MenuService {
         if(menuList.isEmpty()){
             throw new NullPointerException("No Menu persisted!!!");
         }
+
+        LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.MENU, LogTag.RETRIEVED),
+                "Get All Menu from db");
+
         return menuList;
     }
 
