@@ -30,7 +30,7 @@ public class CorrelationInterceptor implements HandlerInterceptor {
 
     private String getCorrelationIdFromHeader(final HttpServletRequest request) {
         String correlationId = request.getHeader(CORRELATION_ID_HEADER_NAME);
-        if (correlationId.isEmpty()) {
+        if (correlationId == null) {
             correlationId = generateUniqueCorrelationId();
         }
         return correlationId;
