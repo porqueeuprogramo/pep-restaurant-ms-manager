@@ -2,12 +2,8 @@ package com.pep.restaurant.ms.manager.web.rest;
 
 import com.pep.restaurant.ms.manager.ApplicationDataProvider;
 import com.pep.restaurant.ms.manager.RestaurantMsManagerApplication;
-import com.pep.restaurant.ms.manager.domain.Employee;
-import com.pep.restaurant.ms.manager.domain.Menu;
-import com.pep.restaurant.ms.manager.domain.Restaurant;
-import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
-import com.pep.restaurant.ms.manager.repository.MenuRepository;
-import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
+import com.pep.restaurant.ms.manager.domain.*;
+import com.pep.restaurant.ms.manager.repository.*;
 import com.pep.restaurant.ms.manager.service.mapper.RestaurantMapper;
 import com.pep.restaurant.ms.manager.service.model.MenuDTO;
 import com.pep.restaurant.ms.manager.service.model.RestaurantDTO;
@@ -44,12 +40,20 @@ public class RestaurantControllerIntegrationTest {
     private MenuRepository menuRepository;
 
     @Autowired
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     ApplicationDataProvider applicationDataProvider = new ApplicationDataProvider();
 
     @Before
     public void clearDBRestaurant() {
+        addressRepository.deleteAll();
+        locationRepository.deleteAll();
         restaurantRepository.deleteAll();
         menuRepository.deleteAll();
         employeeRepository.deleteAll();
@@ -82,11 +86,26 @@ public class RestaurantControllerIntegrationTest {
         //Then
         Assert.assertEquals(restaurant.getName(),
                 Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
-        Assert.assertEquals(restaurant.getLocation(),
-                restaurantDTOResponseEntity.getBody().getLocation());
+        Assert.assertEquals(restaurant.getHereId(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getHereId());
+        Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLatitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLatitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLongitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLongitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getAddress().getName(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getName());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getPostalCode(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getPostalCode());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCity(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCity());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCountry(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCountry());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
         Assert.assertEquals(restaurant.getMenu().getLanguage(),
                 restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getScheduleRoutine().getScheduleRoutine().size(),
+                restaurantDTOResponseEntity.getBody().getSchedule().getScheduleRoutine().size());
         Assert.assertEquals(restaurant.getEmployeeList().size(),
                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
     }
@@ -117,12 +136,29 @@ public class RestaurantControllerIntegrationTest {
         //Then
         Assert.assertEquals(restaurant.getName(),
                 Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
-        Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
+        Assert.assertEquals(restaurant.getHereId(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getHereId());
+        Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLatitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLatitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLongitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLongitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getAddress().getName(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getName());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getPostalCode(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getPostalCode());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCity(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCity());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCountry(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCountry());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
         Assert.assertEquals(restaurant.getMenu().getLanguage(),
                 restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getScheduleRoutine().getScheduleRoutine().size(),
+                restaurantDTOResponseEntity.getBody().getSchedule().getScheduleRoutine().size());
         Assert.assertEquals(restaurant.getEmployeeList().size(),
-                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
+                restaurantDTOResponseEntity.getBody().getEmployeeList().size());
+
     }
 
     @Test
@@ -141,7 +177,6 @@ public class RestaurantControllerIntegrationTest {
         //restaurant edited
         Restaurant restaurantEdited = applicationDataProvider
                 .getRestaurant()
-                .location("Bahamas")
                 .capacity(1000)
                 .name("livenatwitch");
 
@@ -153,10 +188,26 @@ public class RestaurantControllerIntegrationTest {
         //Then
         Assert.assertEquals(restaurantEdited.getName(),
                 Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
-        Assert.assertEquals(restaurantEdited.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
+        Assert.assertEquals(restaurant.getHereId(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getHereId());
         Assert.assertEquals(restaurantEdited.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLatitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLatitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLongitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLongitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getAddress().getName(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getName());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getPostalCode(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getPostalCode());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCity(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCity());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCountry(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCountry());
+        Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
         Assert.assertEquals(restaurant.getMenu().getLanguage(),
                 restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getScheduleRoutine().getScheduleRoutine().size(),
+                restaurantDTOResponseEntity.getBody().getSchedule().getScheduleRoutine().size());
         Assert.assertEquals(restaurant.getEmployeeList().size(),
                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
 
@@ -173,6 +224,13 @@ public class RestaurantControllerIntegrationTest {
         Restaurant restaurant = applicationDataProvider.getRestaurant();
         restaurant.setMenu(menu);
 
+        Address address = applicationDataProvider.getAddress();
+        addressRepository.save(address);
+        Location location = applicationDataProvider.getLocation();
+        locationRepository.save(location);
+        location.setAddress(address);
+        restaurant.setLocation(location);
+
         //save restaurant
         restaurantRepository.save(restaurant);
 
@@ -183,12 +241,28 @@ public class RestaurantControllerIntegrationTest {
         //Then
         Assert.assertEquals(restaurant.getName(),
                 Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getName());
-        Assert.assertEquals(restaurant.getLocation(), restaurantDTOResponseEntity.getBody().getLocation());
+        Assert.assertEquals(restaurant.getHereId(),
+                Objects.requireNonNull(restaurantDTOResponseEntity.getBody()).getHereId());
+        Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLatitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLatitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getCoordinate().getLongitude(),
+                restaurantDTOResponseEntity.getBody().getLocation().getLocationCoordinate().getLongitude(), 0);
+        Assert.assertEquals(restaurant.getLocation().getAddress().getName(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getName());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getPostalCode(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getPostalCode());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCity(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCity());
+        Assert.assertEquals(restaurant.getLocation().getAddress().getCountry(),
+                restaurantDTOResponseEntity.getBody().getLocation().getAddress().getCountry());
         Assert.assertEquals(restaurant.getCapacity(), restaurantDTOResponseEntity.getBody().getCapacity());
         Assert.assertEquals(restaurant.getMenu().getLanguage(),
                 restaurantDTOResponseEntity.getBody().getMenu().getLanguage());
+        Assert.assertEquals(restaurant.getScheduleRoutine().getScheduleRoutine().size(),
+                restaurantDTOResponseEntity.getBody().getSchedule().getScheduleRoutine().size());
         Assert.assertEquals(restaurant.getEmployeeList().size(),
-                 restaurantDTOResponseEntity.getBody().getEmployeeList().size());
+                restaurantDTOResponseEntity.getBody().getEmployeeList().size());
 
     }
 
@@ -196,16 +270,30 @@ public class RestaurantControllerIntegrationTest {
     public void callingGetAllRestaurants_checkRestaurantsList(){
 
         //Given
+        //Restaurant 1
         Menu menu = applicationDataProvider.getMenu();
-        //save menu
         menuRepository.save(menu);
-
         Restaurant restaurant = applicationDataProvider.getRestaurant();
         restaurant.setMenu(menu);
+        Address address = applicationDataProvider.getAddress();
+        addressRepository.save(address);
+        Location location = applicationDataProvider.getLocation();
+        locationRepository.save(location);
+        location.setAddress(address);
+        restaurant.setLocation(location);
 
+        //Restaurant 2
         Restaurant restaurant2 = applicationDataProvider
-                .getRestaurant().name("youtube restaurant");
-        restaurant2.setMenu(menu);
+                .getRestaurant2();
+        Menu menu2 = applicationDataProvider.getMenu2();
+        menuRepository.save(menu2);
+        restaurant2.setMenu(menu2);
+        Address address2 = applicationDataProvider.getAddress2();
+        addressRepository.save(address2);
+        Location location2 = applicationDataProvider.getLocation2();
+        locationRepository.save(location2);
+        location2.setAddress(address2);
+        restaurant2.setLocation(location2);
 
         //save restaurant
         restaurantRepository.save(restaurant);
@@ -226,10 +314,6 @@ public class RestaurantControllerIntegrationTest {
     public void requestingRestaurantIdAndEmployeeId_removeEmployeeFromRestaurantsList() {
 
         //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
-
         Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
         employeeRepository.save(employee);
 
@@ -252,10 +336,6 @@ public class RestaurantControllerIntegrationTest {
     public void requestingRestaurantIdAndEmployeeId_addEmployeeToRestaurantsList() {
 
         //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
-
         Restaurant restaurant = applicationDataProvider.getRestaurant();
         //save restaurant
         restaurantRepository.save(restaurant);

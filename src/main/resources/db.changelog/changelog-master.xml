@@ -10,4 +10,9 @@
     <include  file="/db.changelog/create-schedule-table.xml"/>
     <include  file="/db.changelog/create-employee-table.xml"/>
     <include  file="/db.changelog/create-restaurant-employee-table.xml"/>
+    <include  file="/db.changelog/delete-schedule-table.xml"/>
+    <include  file="/db.changelog/create-address-table.xml"/>
+    <include  file="/db.changelog/create-location-table.xml"/>
+    <include  file="/db.changelog/add-columns-here-id-location-id-schedule-to-restaurant-table.xml"/>
+    <include  file="/db.changelog/add-columns-schedule-to-employee-table.xml"/>
 </databaseChangeLog>

@@ -22,8 +22,7 @@ public class EmployeeDTO {
     private Set<RestaurantDTO> restaurantList = new HashSet<>();
 
     @JsonProperty("schedule")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ScheduleDTO schedule;
+    private ScheduleRoutineDTO schedule;
 
     /**
      * Get id employeeDTO.
@@ -107,7 +106,7 @@ public class EmployeeDTO {
      * Get employeeDTO schedule.
      * @return employeeDTO schedule.
      */
-    public ScheduleDTO getSchedule() {
+    public ScheduleRoutineDTO getSchedule() {
         return schedule;
     }
 
@@ -115,7 +114,7 @@ public class EmployeeDTO {
      * Set employeeDTO schedule.
      * @param schedule employeeDTO schedule.
      */
-    public void setSchedule(final ScheduleDTO schedule) {
+    public void setSchedule(final ScheduleRoutineDTO schedule) {
         this.schedule = schedule;
     }
 
@@ -124,8 +123,18 @@ public class EmployeeDTO {
      * @param schedule schedule to build.
      * @return employeeDTO with schedule.
      */
-    public EmployeeDTO schedule(final ScheduleDTO schedule){
+    public EmployeeDTO schedule(final ScheduleRoutineDTO schedule){
         this.schedule = schedule;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                ", restaurantList=" + restaurantList +
+                ", schedule=" + schedule +
+                '}';
     }
 }

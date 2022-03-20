@@ -18,14 +18,20 @@ public class RestaurantDTO implements Serializable {
     @JsonProperty("name")
     private String name;
 
+    @JsonProperty("here_id")
+    private String hereId;
+
     @JsonProperty("location")
-    private String location;
+    private LocationDTO location;
 
     @JsonProperty("capacity")
     private int capacity;
 
     @JsonProperty("menu")
     private MenuDTO menu;
+
+    @JsonProperty("schedule")
+    private ScheduleRoutineDTO schedule;
 
     @JsonProperty("employeeList")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -58,6 +64,32 @@ public class RestaurantDTO implements Serializable {
     }
 
     /**
+     * Get Restaurant here id.
+     * @return restaurant here id.
+     */
+    public String getHereId() {
+        return hereId;
+    }
+
+    /**
+     * Set Restaurant here id.
+     * @param hereId restaurant id.
+     */
+    public void setHereId(final String hereId) {
+        this.hereId = hereId;
+    }
+
+    /**
+     * Builder Restaurant for here id.
+     * @param hereId here id to build.
+     * @return restaurant with id.
+     */
+    public RestaurantDTO hereId(final String hereId){
+        this.hereId = hereId;
+        return this;
+    }
+
+    /**
      * Method to get a RestaurantDTO name.
      * @return name.
      */
@@ -84,28 +116,54 @@ public class RestaurantDTO implements Serializable {
     }
 
     /**
-     * Method to get a RestaurantDTO location.
+     * Method to get a RestaurantDTO Location.
      * @return location.
      */
-    public String getLocation() {
+    public LocationDTO getLocation() {
         return location;
     }
 
     /**
      * Method to set a RestaurantDTO location.
-     * @param location to set.
+     * @param location location to be set.
      */
-    public void setLocation(final String location) {
+    public void setLocation(final LocationDTO location) {
         this.location = location;
     }
 
     /**
-     * Builder RestaurantDTO for location.
+     * Builder RestaurantDTO for location
      * @param location location to build.
      * @return restaurantDTO with location.
      */
-    public RestaurantDTO location(final String location){
+    public RestaurantDTO location(final LocationDTO location){
         this.location = location;
+        return this;
+    }
+
+    /**
+     * Method to get a RestaurantDTO Schedule.
+     * @return schedule.
+     */
+    public ScheduleRoutineDTO getSchedule() {
+        return schedule;
+    }
+
+    /**
+     * Method to set a RestaurantDTO schedule.
+     * @param schedule schedule to be set.
+     */
+    public void setSchedule(final ScheduleRoutineDTO schedule) {
+        this.schedule = schedule;
+    }
+
+    /**
+     * Builder RestaurantDTO for schedule
+     * @param schedule schedule to build.
+     * @return restaurantDTO with schedule.
+     */
+    public RestaurantDTO schedule(final ScheduleRoutineDTO schedule){
+        this.schedule = schedule;
         return this;
     }
 
@@ -185,5 +243,19 @@ public class RestaurantDTO implements Serializable {
     public RestaurantDTO employeeList(final Set<EmployeeDTO> employeeList){
         this.employeeList = employeeList;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "RestaurantDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hereId='" + hereId + '\'' +
+                ", location=" + location +
+                ", capacity=" + capacity +
+                ", menu=" + menu +
+                ", schedule=" + schedule +
+                ", employeeList=" + employeeList +
+                '}';
     }
 }

@@ -2,9 +2,9 @@ spring:
   application:
     name: pep-restaurant-ms-manager
   datasource:
-    url: ${POSTGRES_DB_URL:jdbc:postgresql://localhost:5432}/${PEP_RESTAURANT_MANAGER_DB:postgres}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:1234}
+    url: ${POSTGRES_DB_URL}/${PEP_RESTAURANT_MANAGER_DB}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: false

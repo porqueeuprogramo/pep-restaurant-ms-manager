@@ -75,6 +75,8 @@ public class RestaurantService {
                 .location(restaurantNew.getLocation())
                 .capacity(restaurantNew.getCapacity())
                 .menu(restaurantNew.getMenu())
+                .hereId(restaurantNew.getHereId())
+                .schedule(restaurantNew.getScheduleRoutine())
                 .setEmployeeList(restaurantNew.getEmployeeList());
 
         LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.RESTAURANTS, LogTag.EDITED),

@@ -1,5 +1,6 @@
 package com.pep.restaurant.ms.manager.domain;
 
+import com.pep.restaurant.ms.manager.domain.util.ScheduleRoutineSerializer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,8 +30,12 @@ public class Restaurant {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "here_id")
+    private String hereId;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(unique = true)
+    private Location location;
 
     @Column(name = "capacity")
     private int capacity;
@@ -36,6 +43,9 @@ public class Restaurant {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(unique = true)
     private Menu menu;
+
+    @Column(name = "schedule")
+    private byte[] schedule;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -71,6 +81,32 @@ public class Restaurant {
     }
 
     /**
+     * Get Restaurant here id.
+     * @return restaurant here id.
+     */
+    public String getHereId() {
+        return hereId;
+    }
+
+    /**
+     * Set Restaurant here id.
+     * @param hereId restaurant id.
+     */
+    public void setHereId(final String hereId) {
+        this.hereId = hereId;
+    }
+
+    /**
+     * Builder Restaurant for here id.
+     * @param hereId here id to build.
+     * @return restaurant with id.
+     */
+    public Restaurant hereId(final String hereId){
+        this.hereId = hereId;
+        return this;
+    }
+
+    /**
      * Get Restaurant name.
      * @return restaurant name.
      */
@@ -100,7 +136,7 @@ public class Restaurant {
      * Get Restaurant Location.
      * @return restaurant location.
      */
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -108,7 +144,7 @@ public class Restaurant {
      * Set Restaurant Location.
      * @param location restaurant location.
      */
-    public void setLocation(final String location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 
@@ -117,8 +153,40 @@ public class Restaurant {
      * @param location location to build.
      * @return restaurant with location.
      */
-    public Restaurant location(final String location){
+    public Restaurant location(final Location location){
         this.location = location;
+        return this;
+    }
+
+    /**
+     * Get Restaurant Schedule byte array.
+     * @return schedule byte array.
+     */
+    public byte[] getSchedule() {
+        return schedule;
+    }
+
+    /**
+     * Set Restaurant schedule.
+     * @param schedule restaurant schedule.
+     */
+    public void setSchedule(final byte[] schedule) {
+        this.schedule = schedule;
+    }
+
+    /**
+     * Builder Restaurant for schedule routine.
+     * @param scheduleRoutine schedule routine dto to build.
+     * @return restaurant with schedule routine.
+     */
+    public Restaurant schedule(final ScheduleRoutine scheduleRoutine){
+        if(scheduleRoutine != null){{
+            try{
+                this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
+            }catch(IOException ioException){
+                this.schedule = null;
+            }
+        }}
         return this;
     }
 
@@ -218,14 +286,47 @@ public class Restaurant {
         employee.getRestaurantList().remove(this);
     }
 
+    /**
+     * Get ScheduleRoutine for Location.
+     * @return Location scheduleRoutine.
+     */
+    public ScheduleRoutine getScheduleRoutine() {
+        ScheduleRoutine scheduleRoutine = null;
+        if(schedule != null) {
+            try{
+                scheduleRoutine = ScheduleRoutineSerializer.fromByteArray(schedule);
+            }catch(IOException ioException){
+                scheduleRoutine = null;
+            }
+        }
+        return scheduleRoutine;
+    }
+
+    /**
+     * Set Location ScheduleRoutine.
+     * @param scheduleRoutine scheduleRoutine.
+     * @throws IOException exception.
+     */
+    public void setScheduleRoutine(final ScheduleRoutine scheduleRoutine) throws IOException {
+        if(scheduleRoutine != null){{
+            try{
+                this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
+            }catch(IOException ioException){
+                this.schedule = null;
+            }
+        }}
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
+                ", hereId='" + hereId + '\'' +
+                ", location=" + location +
                 ", capacity=" + capacity +
                 ", menu=" + menu +
+                ", schedule=" + Arrays.toString(schedule) +
                 ", employeeList=" + employeeList +
                 '}';
     }
