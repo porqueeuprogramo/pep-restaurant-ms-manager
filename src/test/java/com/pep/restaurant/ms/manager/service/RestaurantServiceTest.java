@@ -65,8 +65,7 @@ public class RestaurantServiceTest {
         Restaurant restaurantToEdit = applicationDataProvider.getRestaurant();
 
         Restaurant restaurantEdited = applicationDataProvider.getRestaurant()
-                .capacity(100)
-                .location("Lisboa");
+                .capacity(100);
 
         //When
         Mockito.when(restaurantRepository.findById(Mockito.any())).thenReturn(Optional.of(restaurantToEdit));
@@ -135,20 +134,24 @@ public class RestaurantServiceTest {
         Assert.assertEquals(restaurantToGet,restaurantResult);
     }
 
-    @Test
-    public void requestAllRestaurants_CheckIfRestaurantListHasTheResultExpected() {
-        //Given
-        Restaurant restaurantToGet = applicationDataProvider.getRestaurant();
+        @Test
+        public void requestAllRestaurants_CheckIfRestaurantListHasTheResultExpected() {
+            //Given
+            Restaurant restaurantToGet = applicationDataProvider.getRestaurant();
 
-        //When
-        Mockito.when(restaurantRepository.findAll()).thenReturn(Collections.singletonList(restaurantToGet));
-        List<Restaurant> restaurantListResult = restaurantService.getAllRestaurants();
+            //When
+            Mockito.when(restaurantRepository.findAll()).thenReturn(Collections.singletonList(restaurantToGet));
+            List<Restaurant> restaurantListResult = restaurantService.getAllRestaurants();
 
-        //Then
-        Assert.assertEquals(restaurantToGet.getId(),restaurantListResult.get(0).getId());
-        Assert.assertEquals(restaurantToGet.getName(),restaurantListResult.get(0).getName());
-        Assert.assertEquals(restaurantToGet.getCapacity(),restaurantListResult.get(0).getCapacity());
-        Assert.assertEquals(restaurantToGet.getLocation(),restaurantListResult.get(0).getLocation());
+            //Then
+            Assert.assertEquals(restaurantToGet.getId(),restaurantListResult.get(0).getId());
+            Assert.assertEquals(restaurantToGet.getName(),restaurantListResult.get(0).getName());
+            Assert.assertEquals(restaurantToGet.getCapacity(),restaurantListResult.get(0).getCapacity());
+            Assert.assertEquals(restaurantToGet.getLocation(),restaurantListResult.get(0).getLocation());
+            Assert.assertEquals(restaurantToGet.getEmployeeList(),restaurantListResult.get(0).getEmployeeList());
+            Assert.assertEquals(restaurantToGet.getHereId(),restaurantListResult.get(0).getHereId());
+            Assert.assertEquals(restaurantToGet.getSchedule(),restaurantListResult.get(0).getSchedule());
+            Assert.assertEquals(restaurantToGet.getMenu(),restaurantListResult.get(0).getMenu());
 
     }
 
@@ -183,7 +186,26 @@ public class RestaurantServiceTest {
         Assert.assertEquals(restaurantGiven.getName(),restaurantResult.getName());
         Assert.assertEquals(restaurantGiven.getCapacity(),restaurantResult.getCapacity());
         Assert.assertEquals(restaurantGiven.getLocation(),restaurantResult.getLocation());
+        Assert.assertEquals(restaurantGiven.getEmployeeList(),restaurantResult.getEmployeeList());
+        Assert.assertEquals(restaurantGiven.getHereId(),restaurantResult.getHereId());
+        Assert.assertEquals(restaurantGiven.getSchedule(),restaurantResult.getSchedule());
+        Assert.assertEquals(restaurantGiven.getMenu(),restaurantResult.getMenu());
         Assert.assertEquals(1, restaurantResult.getEmployeeList().size());
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantIdToAddEmployeeToRestaurant_throwAnException() {
+
+        //Given
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+
+        //When
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when( employeeRepository.findById(1L)).thenReturn(Optional.empty());
+
+        //Then
+        Assert.assertThrows(NullPointerException.class, () ->
+                restaurantService.addEmployee(1L,1L));
 
     }
 
@@ -205,6 +227,26 @@ public class RestaurantServiceTest {
         Assert.assertEquals(restaurantGiven.getName(),restaurantResult.getName());
         Assert.assertEquals(restaurantGiven.getCapacity(),restaurantResult.getCapacity());
         Assert.assertEquals(restaurantGiven.getLocation(),restaurantResult.getLocation());
+        Assert.assertEquals(restaurantGiven.getEmployeeList(),restaurantResult.getEmployeeList());
+        Assert.assertEquals(restaurantGiven.getHereId(),restaurantResult.getHereId());
+        Assert.assertEquals(restaurantGiven.getSchedule(),restaurantResult.getSchedule());
+        Assert.assertEquals(restaurantGiven.getMenu(),restaurantResult.getMenu());
         Assert.assertEquals(0, restaurantResult.getEmployeeList().size());
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantIdToRemoveEmployeeToRestaurant_throwAnException() {
+
+        //Given
+        Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
+
+        //When
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when( employeeRepository.findById(1L)).thenReturn(Optional.empty());
+
+        //Then
+        Assert.assertThrows(NullPointerException.class, () ->
+                restaurantService.removeEmployee(1L,1L));
+
     }
 }

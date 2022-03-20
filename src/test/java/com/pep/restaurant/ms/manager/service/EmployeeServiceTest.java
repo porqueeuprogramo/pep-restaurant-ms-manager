@@ -3,8 +3,8 @@ package com.pep.restaurant.ms.manager.service;
 import com.pep.restaurant.ms.manager.ApplicationDataProvider;
 import com.pep.restaurant.ms.manager.domain.Employee;
 import com.pep.restaurant.ms.manager.domain.Restaurant;
-import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
+import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -146,7 +146,7 @@ public class EmployeeServiceTest {
         //Then
         Assert.assertEquals(employeeToGet.getId(),employeeListResult.get(0).getId());
         Assert.assertEquals(employeeToGet.getRole(),employeeListResult.get(0).getRole());
-
+        Assert.assertEquals(employeeToGet.getSchedule(),employeeListResult.get(0).getSchedule());
     }
 
     @Test
@@ -177,7 +177,23 @@ public class EmployeeServiceTest {
         //Then
         Assert.assertEquals(employeeGiven.getId(), employeeResult.getId());
         Assert.assertEquals(employeeGiven.getRole(), employeeResult.getRole());
+        Assert.assertEquals(employeeGiven.getScheduleRoutine(),employeeResult.getScheduleRoutine());
         Assert.assertEquals(1, employeeResult.getRestaurantList().size());
+
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantIdToAddRestaurant_throwAnException() {
+        //Given
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithId();
+
+        //When
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        //Then
+        Assert.assertThrows(NullPointerException.class, () ->
+                employeeService.addRestaurant(1L,1L));
 
     }
 
@@ -199,7 +215,23 @@ public class EmployeeServiceTest {
         //Then
         Assert.assertEquals(employeeGiven.getId(), employeeResult.getId());
         Assert.assertEquals(employeeGiven.getRole(), employeeResult.getRole());
+        Assert.assertEquals(employeeGiven.getScheduleRoutine(),employeeResult.getScheduleRoutine());
         Assert.assertEquals(0, employeeResult.getRestaurantList().size());
+
+    }
+
+    @Test
+    public void requestingEmployeeIdAndRestaurantIdToRemoveRestaurant_throwAnException() {
+        //Given
+        Employee employeeGiven = applicationDataProvider.getEmployeeWithId();
+
+        //When
+        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        //Then
+        Assert.assertThrows(NullPointerException.class, () ->
+                employeeService.removeRestaurant(1L,1L));
 
     }
 }

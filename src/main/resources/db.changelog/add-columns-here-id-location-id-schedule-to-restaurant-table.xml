@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet  author="pep"  id="add-columns-here-id-location-id-schedule-to-restaurant-table">
+        <addColumn tableName="restaurant">
+            <column name="here_id"  type="TEXT"/>
+            <column name="location_id"  type="BIGINT"/>
+            <column name="schedule"  type="bytea"/>
+        </addColumn>
+        <dropColumn tableName="restaurant" columnName="location"/>
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="restaurant"
+                                 constraintName="fk_restaurant_location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+    </changeSet>
+</databaseChangeLog>

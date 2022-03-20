@@ -34,6 +34,7 @@
 		<maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
 		<maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
 		<springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
+		<spring-test.version>5.3.9</spring-test.version>
 
 	</properties>
 	<dependencies>
@@ -114,10 +115,11 @@
 			<artifactId>springfox-boot-starter</artifactId>
 			<version>${springfox-boot-starter.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>5.3.9</version>
+			<version>${spring-test.version}</version>
 			<scope>test</scope>
 		</dependency>
 

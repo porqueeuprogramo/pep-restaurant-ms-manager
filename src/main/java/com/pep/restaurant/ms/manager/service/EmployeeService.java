@@ -18,7 +18,7 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
 
-private static final Logger LOGGER = new Logger(EmployeeService.class);
+    private static final Logger LOGGER = new Logger(EmployeeService.class);
     private final EmployeeRepository employeeRepository;
     private final RestaurantRepository restaurantRepository;
 
@@ -74,7 +74,7 @@ private static final Logger LOGGER = new Logger(EmployeeService.class);
         //edit employee
         employeeOptional.get()
                 .role(employeeNew.getRole())
-                .schedule(employeeNew.getSchedule());
+                .schedule(employeeNew.getScheduleRoutine());
 
         LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.EMPLOYEES, LogTag.EDITED),
                 "Edit Employee by id " + employeeId);

@@ -1,15 +1,16 @@
 package com.pep.restaurant.ms.manager.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.pep.restaurant.ms.manager.domain.util.ScheduleRoutineSerializer;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,12 +25,11 @@ public class Employee {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "schedule")
+    private byte[] schedule;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "employeeList")
     private Set<Restaurant> restaurantList = new HashSet<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Schedule schedule;
 
     /**
      * Get id employee.
@@ -84,28 +84,65 @@ public class Employee {
     }
 
     /**
-     * Get employee restaurant.
-     * @return employee restaurant.
+     * Get Schedule byte array.
+     * @return schedule byte array.
      */
-    public Schedule getSchedule() {
+    public byte[] getSchedule() {
         return schedule;
     }
 
     /**
-     * Set employee schedule.
-     * @param schedule employee schedule.
+     * Set Schedule byte array.
+     * @param schedule byte array.
      */
-    public void setSchedule(final Schedule schedule) {
+    public void setSchedule(final byte[] schedule) {
         this.schedule = schedule;
     }
 
     /**
-     * Builder Employee for schedule.
-     * @param schedule schedule to build.
-     * @return employee with schedule.
+     * Get ScheduleRoutine for Location.
+     * @return Location scheduleRoutine.
      */
-    public Employee schedule(final Schedule schedule){
-        this.schedule = schedule;
+    public ScheduleRoutine getScheduleRoutine() {
+        ScheduleRoutine scheduleRoutine = null;
+        if(schedule != null) {
+            try{
+                scheduleRoutine = ScheduleRoutineSerializer.fromByteArray(schedule);
+            }catch(IOException ioException){
+                scheduleRoutine = null;
+            }
+        }
+        return scheduleRoutine;
+    }
+
+    /**
+     * Set Location ScheduleRoutine.
+     * @param scheduleRoutine scheduleRoutine.
+     * @throws IOException exception.
+     */
+    public void setScheduleRoutine(final ScheduleRoutine scheduleRoutine) throws IOException {
+        if(scheduleRoutine != null){{
+            try{
+                this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
+            }catch(IOException ioException){
+                this.schedule = null;
+            }
+        }}
+    }
+
+    /**
+     * Builder Employee for schedule routine.
+     * @param scheduleRoutine schedule routine dto to build.
+     * @return employee with schedule routine.
+     */
+    public Employee schedule(final ScheduleRoutine scheduleRoutine){
+        if(scheduleRoutine != null){{
+            try{
+                this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
+            }catch(IOException ioException){
+                this.schedule = null;
+            }
+        }}
         return this;
     }
 
@@ -158,8 +195,8 @@ public class Employee {
         return "Employee{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
+                ", schedule=" + Arrays.toString(schedule) +
                 ", restaurantList=" + restaurantList +
-                ", schedule=" + schedule +
                 '}';
     }
 }

@@ -67,4 +67,11 @@ public class MenuDTO implements Serializable {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "MenuDTO{" +
+                "id=" + id +
+                ", language='" + language + '\'' +
+                '}';
+    }
 }
