@@ -15,7 +15,7 @@ public class LocationDTO implements Serializable {
     @JsonProperty("address")
     private AddressDTO address;
 
-    @JsonProperty("coordinate")
+    @JsonProperty("locationCoordinate")
     private CoordinateDTO locationCoordinate;
 
     /**

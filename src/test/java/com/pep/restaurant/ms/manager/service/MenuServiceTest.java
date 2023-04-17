@@ -34,7 +34,7 @@ public class MenuServiceTest {
         Menu menuGiven = applicationDataProvider.getMenu();
 
         //When
-        Mockito.when(menuRepository.findByLanguage(menuGiven.getLanguage())).thenReturn(Optional.of(menuGiven));
+        Mockito.when(menuRepository.findByUid(menuGiven.getUid())).thenReturn(Optional.of(menuGiven));
         Assert.assertThrows(NullPointerException.class, () -> menuService.createMenu(menuGiven));
 
     }
@@ -62,9 +62,9 @@ public class MenuServiceTest {
                 .language("ENGLISH");
 
         //When
-        Mockito.when(menuRepository.findById(Mockito.any())).thenReturn(Optional.of(menuToEdit));
+        Mockito.when(menuRepository.findByUid(Mockito.any())).thenReturn(Optional.of(menuToEdit));
         Mockito.when(menuRepository.save(Mockito.any())).thenReturn(menuEdited);
-        Menu menuResult = menuService.editMenu(1L,menuToEdit);
+        Menu menuResult = menuService.editMenu("uid",menuToEdit);
 
         //Then
         Assert.assertEquals(menuEdited,menuResult);
@@ -77,8 +77,8 @@ public class MenuServiceTest {
         Menu menuToEdit = applicationDataProvider.getMenu();
 
         //When
-        Mockito.when(menuRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> menuService.editMenu(1L,menuToEdit));
+        Mockito.when(menuRepository.findByUid(Mockito.any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> menuService.editMenu("uid",menuToEdit));
 
     }
 
@@ -88,13 +88,13 @@ public class MenuServiceTest {
         Menu menuToDelete = applicationDataProvider.getMenu();
 
         //When
-        Mockito.when(menuRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(menuToDelete));
-        Mockito.doNothing().when(menuRepository).deleteById(Mockito.anyLong());
-        menuService.deleteMenu(1L);
+        Mockito.when(menuRepository.findByUid(Mockito.anyString())).thenReturn(Optional.of(menuToDelete));
+        Mockito.doNothing().when(menuRepository).deleteByUid(Mockito.anyString());
+        menuService.deleteMenu("uid");
 
         //Then
-        Mockito.verify(menuRepository, Mockito.times(1)).findById(Mockito.anyLong());
-        Mockito.verify(menuRepository,  Mockito.times(1)).deleteById(Mockito.anyLong());
+        Mockito.verify(menuRepository, Mockito.times(1)).findByUid(Mockito.anyString());
+        Mockito.verify(menuRepository,  Mockito.times(1)).deleteByUid(Mockito.anyString());
 
     }
 
@@ -102,8 +102,8 @@ public class MenuServiceTest {
     public void deleteMenuById_thrownAnException() {
         //Given
         //When
-        Mockito.when(menuRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> menuService.deleteMenu(1L));
+        Mockito.when(menuRepository.findByUid(Mockito.any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> menuService.deleteMenu("uid"));
     }
 
 
@@ -111,8 +111,8 @@ public class MenuServiceTest {
     public void passingAMenuId_thrownAnException() {
         //Given
         //When
-        Mockito.when(menuRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> menuService.getMenu(1L));
+        Mockito.when(menuRepository.findByUid(Mockito.any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> menuService.getMenu("uid"));
     }
 
     @Test
@@ -121,8 +121,8 @@ public class MenuServiceTest {
         Menu menuToGet = applicationDataProvider.getMenu();
 
         //When
-        Mockito.when(menuRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(menuToGet));
-        Menu menuResult = menuService.getMenu(1L);
+        Mockito.when(menuRepository.findByUid(Mockito.anyString())).thenReturn(Optional.of(menuToGet));
+        Menu menuResult = menuService.getMenu("uid");
 
         //Then
         Assert.assertEquals(menuToGet,menuResult);

@@ -18,7 +18,7 @@ public class RestaurantDTO implements Serializable {
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("here_id")
+    @JsonProperty("hereId")
     private String hereId;
 
     @JsonProperty("location")

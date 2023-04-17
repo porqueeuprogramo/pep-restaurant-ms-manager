@@ -75,7 +75,6 @@ public class RestaurantControllerIntegrationTest {
 
         //Menu DTO created by menu
         MenuDTO menuDTOSaved = new MenuDTO()
-            .id(menu.getId())
             .language(menu.getLanguage());
         restaurantDTO.setMenu(menuDTOSaved);
 

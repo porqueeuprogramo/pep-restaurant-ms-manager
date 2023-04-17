@@ -56,7 +56,7 @@ public class MenuController implements ApiController {
     @GetMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<MenuDTO> getMenu(@PathVariable final long menuId) {
+    public ResponseEntity<MenuDTO> getMenu(@PathVariable final String menuId) {
         return ResponseEntity.ok(menuMapper.mapMenuToMenuDTO(
                 menuService.getMenu(menuId)));
     }
@@ -85,7 +85,7 @@ public class MenuController implements ApiController {
     @PutMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<MenuDTO> editMenu(@PathVariable final long menuId,
+    public ResponseEntity<MenuDTO> editMenu(@PathVariable final String menuId,
                                                         @RequestBody final MenuDTO menuToEdit) {
         return ResponseEntity.ok(menuMapper.mapMenuToMenuDTO(
                 menuService.editMenu(menuId,
@@ -101,7 +101,7 @@ public class MenuController implements ApiController {
     @DeleteMapping(value = MENU_MENU_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<MenuDTO> deleteMenu(@PathVariable final long menuId) {
+    public ResponseEntity<MenuDTO> deleteMenu(@PathVariable final String menuId) {
         return ResponseEntity.ok(menuMapper.mapMenuToMenuDTO(
                 menuService.deleteMenu(menuId)));
     }

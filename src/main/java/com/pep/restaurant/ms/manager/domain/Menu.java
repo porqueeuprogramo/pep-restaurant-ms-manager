@@ -19,6 +19,9 @@ public class Menu {
     @Column(name = "language")
     private String language;
 
+    @Column(name = "uid")
+    private String uid;
+
     /**
      * Get Menu id.
      * @return menu id.
@@ -71,11 +74,38 @@ public class Menu {
         return this;
     }
 
+    /**
+     * Get Menu uid.
+     * @return menu uid.
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * Set menu uid.
+     * @param uid uid.
+     */
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    /**
+     * Builder Menu for uid.
+     * @param uid uid to build.
+     * @return menu with uid.
+     */
+    public Menu uid(final String uid){
+        this.uid = uid;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
                 "id=" + id +
                 ", language='" + language + '\'' +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

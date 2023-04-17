@@ -117,11 +117,13 @@ public class ApplicationDataProvider {
 
     public Menu getMenu(){
         return new Menu()
+                .uid("uid")
                 .language("PORTUGUESE");
     }
 
     public Menu getMenu2(){
         return new Menu()
+                .uid("uid2")
                 .language("ENGLISH");
     }
 
