@@ -70,7 +70,7 @@ public class MenuControllerIntegrationTest {
 
         //When
         ResponseEntity<MenuDTO> menuDTOResponseEntity =
-                menuController.getMenu(menu.getId());
+                menuController.getMenu(menu.getUid());
 
         //Then
         Assert.assertEquals(menu.getLanguage(),
@@ -91,7 +91,7 @@ public class MenuControllerIntegrationTest {
 
         //When
         ResponseEntity<MenuDTO> menuDTOResponseEntity =
-                menuController.editMenu(menu.getId(),
+                menuController.editMenu(menu.getUid(),
                         menuMapper.mapMenuToMenuDTO(menuEdited));
 
         //Then
@@ -110,7 +110,7 @@ public class MenuControllerIntegrationTest {
 
         //When
         ResponseEntity<MenuDTO> menuDTOResponseEntity =
-                menuController.deleteMenu(menu.getId());
+                menuController.deleteMenu(menu.getUid());
 
         //Then
         Assert.assertEquals(menu.getLanguage(),

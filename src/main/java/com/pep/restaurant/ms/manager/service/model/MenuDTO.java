@@ -1,6 +1,7 @@
 package com.pep.restaurant.ms.manager.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pep.restaurant.ms.manager.domain.Menu;
 
 import java.io.Serializable;
 
@@ -9,37 +10,11 @@ import java.io.Serializable;
  */
 public class MenuDTO implements Serializable {
 
-    @JsonProperty("id")
-    private long id;
-
     @JsonProperty("language")
     private String language;
 
-    /**
-     * Get Menu id.
-     * @return menu id.
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Set menu id.
-     * @param id id.
-     */
-    public void setId(final long id) {
-        this.id = id;
-    }
-
-    /**
-     * Builder MenuDTO for id.
-     * @param id id to build.
-     * @return menuDTO with id.
-     */
-    public MenuDTO id(final long id){
-        this.id = id;
-        return this;
-    }
+    @JsonProperty("uid")
+    private String uid;
 
     /**
      * Get Menu language.
@@ -67,11 +42,37 @@ public class MenuDTO implements Serializable {
         return this;
     }
 
+    /**
+     * Get MenuDTO uid.
+     * @return menuDto uid.
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * Set menu uid.
+     * @param uid uid.
+     */
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    /**
+     * Builder MenuDTO for uid.
+     * @param uid uid to build.
+     * @return menuDTO with uid.
+     */
+    public MenuDTO uid(final String uid){
+        this.uid = uid;
+        return this;
+    }
+
     @Override
     public String toString() {
-        return "MenuDTO{" +
-                "id=" + id +
-                ", language='" + language + '\'' +
+        return "Menu{" +
+                "language='" + language + '\'' +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }

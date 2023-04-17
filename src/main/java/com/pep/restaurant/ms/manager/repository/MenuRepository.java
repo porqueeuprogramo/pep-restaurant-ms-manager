@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificationExecutor<Menu> {
 
-    Optional<Menu> findByLanguage(final String language);
+    Optional<Menu> findByUid(final String uid);
+
+    void deleteByUid(final String uid);
 
 }
