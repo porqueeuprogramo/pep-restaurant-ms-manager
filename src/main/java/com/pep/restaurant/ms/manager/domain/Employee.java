@@ -22,6 +22,8 @@ public class Employee {
     @GeneratedValue(generator = "increment")
     private long id;
 
+    private String uid;
+
     @Column(name = "role")
     private String role;
 
@@ -54,6 +56,32 @@ public class Employee {
      */
     public Employee id(final long id){
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Get uid employee.
+     * @return employee uid.
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * Set id employee.
+     * @param uid employee uid.
+     */
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    /**
+     * Builder Employee for uid.
+     * @param uid uid to build.
+     * @return employee with uid.
+     */
+    public Employee uid(final String uid){
+        this.uid = uid;
         return this;
     }
 
@@ -136,13 +164,15 @@ public class Employee {
      * @return employee with schedule routine.
      */
     public Employee schedule(final ScheduleRoutine scheduleRoutine){
-        if(scheduleRoutine != null){{
+        if(scheduleRoutine != null){
             try{
                 this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
             }catch(IOException ioException){
                 this.schedule = null;
             }
-        }}
+        }else{
+            this.schedule = null;
+        }
         return this;
     }
 
@@ -194,6 +224,7 @@ public class Employee {
     public String toString() {
         return "Employee{" +
                 "id=" + id +
+                ", uid=" + uid +
                 ", role='" + role + '\'' +
                 ", schedule=" + Arrays.toString(schedule) +
                 ", restaurantList=" + restaurantList +

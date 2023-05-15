@@ -9,40 +9,11 @@ import java.io.Serializable;
  */
 public class LocationDTO implements Serializable {
 
-    @JsonProperty("id")
-    private long id;
-
     @JsonProperty("address")
     private AddressDTO address;
 
     @JsonProperty("locationCoordinate")
     private CoordinateDTO locationCoordinate;
-
-    /**
-     * Method to get a LocationDTO id.
-     * @return id.
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Method to set a LocationDTO id.
-     * @param id to be set.
-     */
-    public void setId(final long id) {
-        this.id = id;
-    }
-
-    /**
-     * Builder LocationDTO for id.
-     * @param id id to build.
-     * @return locationDTO with id.
-     */
-    public LocationDTO id(final long id){
-        this.id = id;
-        return this;
-    }
 
     /**
      * Method to get a LocationDTO address.
@@ -99,7 +70,6 @@ public class LocationDTO implements Serializable {
     @Override
     public String toString() {
         return "LocationDTO{" +
-                "id=" + id +
                 ", address=" + address +
                 ", locationCoordinate=" + locationCoordinate +
                 '}';

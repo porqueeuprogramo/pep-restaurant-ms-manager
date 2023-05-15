@@ -4,13 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddressDTO {
 
-    @JsonProperty("id")
-    private long id;
-
     @JsonProperty("name")
     private String name;
 
-    @JsonProperty("postal_code")
+    @JsonProperty("postalCode")
     private String postalCode;
 
     @JsonProperty("city")
@@ -18,32 +15,6 @@ public class AddressDTO {
 
     @JsonProperty("country")
     private String country;
-
-    /**
-     * Method to get addressDTO id.
-     * @return id.
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Method to set addressDTO id.
-     * @param id to be set.
-     */
-    public void setId(final long id) {
-        this.id = id;
-    }
-
-    /**
-     * Builder AddressDTO for id.
-     * @param id id to build.
-     * @return addressDTO with id.
-     */
-    public AddressDTO id(final long id){
-        this.id = id;
-        return this;
-    }
 
     /**
      * Method to get addressDTO name.
@@ -152,7 +123,6 @@ public class AddressDTO {
     @Override
     public String toString() {
         return "AddressDTO{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", city='" + city + '\'' +

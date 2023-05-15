@@ -1,7 +1,10 @@
 package com.pep.restaurant.ms.manager.service;
 
-import com.pep.restaurant.ms.manager.domain.Employee;
+import com.pep.restaurant.ms.manager.domain.Address;
+import com.pep.restaurant.ms.manager.domain.Location;
+import com.pep.restaurant.ms.manager.domain.Menu;
 import com.pep.restaurant.ms.manager.domain.Restaurant;
+import com.pep.restaurant.ms.manager.domain.Employee;
 import com.pep.restaurant.ms.manager.logging.enumeration.LogTag;
 import com.pep.restaurant.ms.manager.logging.Logger;
 import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
@@ -13,18 +16,32 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RestaurantService {
 
     private static final Logger LOGGER = new Logger(RestaurantService.class);
     private final RestaurantRepository restaurantRepository;
+
+    private final LocationService locationService;
+
+    private final AddressService addressService;
+
+    private final MenuService menuService;
+
     private final EmployeeRepository employeeRepository;
 
     @Autowired
     public RestaurantService(final RestaurantRepository restaurantRepository,
+                             final LocationService locationService,
+                             final AddressService addressService,
+                             final MenuService menuService,
                              final EmployeeRepository employeeRepository) {
         this.restaurantRepository = restaurantRepository;
+        this.locationService = locationService;
+        this.addressService = addressService;
+        this.menuService = menuService;
         this.employeeRepository = employeeRepository;
     }
 
@@ -34,15 +51,31 @@ public class RestaurantService {
      * @return restaurant created.
      */
     public Restaurant createRestaurant(final Restaurant restaurant){
-        final Optional<Restaurant> restaurantOptional = restaurantRepository.findRestaurantByName(restaurant.getName());
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findByUid(restaurant.getUid());
         if(restaurantOptional.isEmpty()){
 
             LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.PERSISTED),
                     "Create Restaurant: " + restaurant.toString());
 
+            restaurant.uid(UUID.randomUUID().toString());
+            final Restaurant restaurantBuildEnriched = buildRestaurantInfo(restaurant);
             return restaurantRepository.save(restaurant);
         }
         throw new NullPointerException("Restaurant already exists!!!");
+    }
+
+    private Restaurant buildRestaurantInfo(final Restaurant restaurant) {
+        final Menu menu = menuService.createMenu(restaurant.getMenu());
+        final Address addressPersisted = addressService.createAddress(restaurant.getLocation().getAddress());
+        final Location locationPersisted = locationService.createLocation(new Location()
+                .address(addressPersisted)
+                .locationCoordinate(
+                        restaurant
+                                .getLocation()
+                                .getCoordinate()));
+        return restaurant
+                .menu(menu)
+                .location(locationPersisted);
     }
 
     /**
@@ -50,7 +83,7 @@ public class RestaurantService {
      * @param restaurantId restaurant id.
      * @return restaurant retrieved.
      */
-    public Restaurant getRestaurant(final long restaurantId){
+    public Restaurant getRestaurant(final String restaurantId){
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant does not exists!!!");
 
@@ -66,21 +99,48 @@ public class RestaurantService {
      * @param restaurantNew restaurant new.
      * @return restaurant edited.
      */
-    public Restaurant editRestaurant(final long restaurantId,  final Restaurant restaurantNew){
+    public Restaurant editRestaurant(final String restaurantId,  final Restaurant restaurantNew){
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant to be edited not exists!!!");
-        //edit restaurant
-        restaurantOptional.get()
-                .name(restaurantNew.getName())
-                .location(restaurantNew.getLocation())
-                .capacity(restaurantNew.getCapacity())
-                .menu(restaurantNew.getMenu())
-                .hereId(restaurantNew.getHereId())
-                .schedule(restaurantNew.getScheduleRoutine())
-                .setEmployeeList(restaurantNew.getEmployeeList());
 
         LOGGER.info(MDC.get("correlationId"),  Arrays.asList(LogTag.RESTAURANTS, LogTag.EDITED),
                 "Edit Restaurant by id " + restaurantId);
+
+        final Address editedAddress = new Address()
+                .id(restaurantOptional.get().getLocation().getAddress().getId())
+                .name(restaurantNew.getLocation().getAddress().getName())
+                .postalCode(restaurantNew.getLocation().getAddress().getPostalCode())
+                .city(restaurantNew.getLocation().getAddress().getCity())
+                .country(restaurantNew.getLocation().getAddress().getCountry());
+
+        final Location editedLocation = new Location()
+                .id(restaurantOptional.get().getLocation().getId())
+                .locationCoordinate(restaurantOptional.get().getLocation().getCoordinate())
+                .address(editedAddress);
+
+        final Menu editedMenu = new Menu()
+                .id(restaurantOptional.get().getMenu().getId())
+                .language(restaurantNew.getMenu().getLanguage());
+
+        final Address addressEdited = addressService.editAddress(
+                restaurantOptional.get()
+                        .getLocation().getAddress().getId(), editedAddress);
+
+        final Location locationEdited = locationService.editLocation(
+                restaurantOptional.get().getLocation().getId(), editedLocation);
+
+        final Menu menuEdited = menuService.editMenu(
+                restaurantOptional.get().getMenu().getId(), editedMenu);
+
+        //edit restaurant
+        restaurantOptional.get()
+                .name(restaurantNew.getName())
+                .location(locationEdited.address(addressEdited))
+                .capacity(restaurantNew.getCapacity())
+                .menu(menuEdited)
+                .hereId(restaurantNew.getHereId())
+                .schedule(restaurantNew.getScheduleRoutine())
+                .employeeList(restaurantNew.getEmployeeList());
 
         return restaurantRepository.save(restaurantOptional.get());
     }
@@ -90,10 +150,11 @@ public class RestaurantService {
      * @param restaurantId restaurant id.
      * @return restaurant deleted.
      */
-    public Restaurant deleteRestaurant(final long restaurantId){
+    public Restaurant deleteRestaurant(final String restaurantId){
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant to be deleted not exists!!!");
-        restaurantRepository.deleteById(restaurantId);
+
+        restaurantRepository.delete(restaurantOptional.get());
 
         LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.RESTAURANTS, LogTag.DELETED),
                 "Delete Restaurant by id: " + restaurantId);
@@ -121,11 +182,11 @@ public class RestaurantService {
      * @param employeeId employee id.
      * @return Restaurant.
      */
-    public Restaurant addEmployee(final long restaurantId, final long employeeId) {
+    public Restaurant addEmployee(final String restaurantId, final String employeeId) {
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant to add employee does not exists!!!");
 
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+        final Optional<Employee> employeeOptional = employeeRepository.findByUid(employeeId);
         if(employeeOptional.isEmpty()){
             throw new NullPointerException("Employee does not exists!!!");
         }
@@ -145,11 +206,11 @@ public class RestaurantService {
      * @param employeeId employee id.
      * @return Restaurant.
      */
-    public Restaurant removeEmployee(final long restaurantId, final long employeeId) {
+    public Restaurant removeEmployee(final String restaurantId, final String employeeId) {
         final Optional<Restaurant> restaurantOptional = getRestaurantById(restaurantId,
                 "Restaurant to remove employee does not exists!!!");
 
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+        final Optional<Employee> employeeOptional = employeeRepository.findByUid(employeeId);
         if(employeeOptional.isEmpty()){
             throw new NullPointerException("Employee does not exists!!!");
         }
@@ -169,8 +230,8 @@ public class RestaurantService {
      * @param exceptionMessage exception Message.
      * @return Optional of Restaurant.
      */
-    private Optional<Restaurant> getRestaurantById(final long restaurantId, final String exceptionMessage) {
-        final Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+    private Optional<Restaurant> getRestaurantById(final String restaurantId, final String exceptionMessage) {
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findByUid(restaurantId);
         if (restaurantOptional.isEmpty()) {
             throw new NullPointerException(exceptionMessage);
         }

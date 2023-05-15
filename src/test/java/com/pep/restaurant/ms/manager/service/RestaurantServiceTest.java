@@ -1,8 +1,7 @@
 package com.pep.restaurant.ms.manager.service;
 
 import com.pep.restaurant.ms.manager.ApplicationDataProvider;
-import com.pep.restaurant.ms.manager.domain.Employee;
-import com.pep.restaurant.ms.manager.domain.Restaurant;
+import com.pep.restaurant.ms.manager.domain.*;
 import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
 import org.junit.Assert;
@@ -18,12 +17,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @RunWith(MockitoJUnitRunner.class)
 public class RestaurantServiceTest {
 
     @InjectMocks
     RestaurantService restaurantService;
 
+    @Mock
+    AddressService addressService;
+
+    @Mock
+    LocationService locationService;
+
+    @Mock
+    MenuService menuService;
     @Mock
     RestaurantRepository restaurantRepository;
 
@@ -39,7 +48,7 @@ public class RestaurantServiceTest {
         Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findRestaurantByName(restaurantGiven.getName())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(restaurantRepository.findByUid(restaurantGiven.getUid())).thenReturn(Optional.of(restaurantGiven));
         Assert.assertThrows(NullPointerException.class, () -> restaurantService.createRestaurant(restaurantGiven));
 
     }
@@ -50,7 +59,7 @@ public class RestaurantServiceTest {
         Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findRestaurantByName(restaurantGiven.getName())).thenReturn(Optional.empty());
+        Mockito.when(restaurantRepository.findByUid(restaurantGiven.getUid())).thenReturn(Optional.empty());
         Mockito.when(restaurantRepository.save(restaurantGiven)).thenReturn(restaurantGiven);
         Restaurant restaurantResult = restaurantService.createRestaurant(restaurantGiven);
 
@@ -67,10 +76,17 @@ public class RestaurantServiceTest {
         Restaurant restaurantEdited = applicationDataProvider.getRestaurant()
                 .capacity(100);
 
+        Address address = applicationDataProvider.getAddressWithId();
+        Location location = applicationDataProvider.getLocationWithId();
+        Menu menu = applicationDataProvider.getMenuWithId();
+
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.any())).thenReturn(Optional.of(restaurantToEdit));
-        Mockito.when(restaurantRepository.save(Mockito.any())).thenReturn(restaurantEdited);
-        Restaurant restaurantResult = restaurantService.editRestaurant(1L,restaurantToEdit);
+        Mockito.when(restaurantRepository.findByUid(any())).thenReturn(Optional.of(restaurantToEdit));
+        Mockito.when(addressService.editAddress(Mockito.anyLong(), Mockito.any())).thenReturn(address);
+        Mockito.when(locationService.editLocation(Mockito.anyLong(), Mockito.any())).thenReturn(location);
+        Mockito.when(menuService.editMenu(Mockito.anyLong(), Mockito.any())).thenReturn(menu);
+        Mockito.when(restaurantRepository.save(any())).thenReturn(restaurantEdited);
+        Restaurant restaurantResult = restaurantService.editRestaurant("1L",restaurantToEdit);
 
         //Then
         Assert.assertEquals(restaurantEdited,restaurantResult);
@@ -83,8 +99,8 @@ public class RestaurantServiceTest {
         Restaurant restaurantToEdit = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> restaurantService.editRestaurant(1L,restaurantToEdit));
+        Mockito.when(restaurantRepository.findByUid(any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> restaurantService.editRestaurant("1L",restaurantToEdit));
 
     }
 
@@ -94,13 +110,13 @@ public class RestaurantServiceTest {
         Restaurant restaurantToDelete = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantToDelete));
-        Mockito.doNothing().when(restaurantRepository).deleteById(Mockito.anyLong());
-        restaurantService.deleteRestaurant(1L);
+        Mockito.when(restaurantRepository.findByUid(Mockito.anyString())).thenReturn(Optional.of(restaurantToDelete));
+        Mockito.doNothing().when(restaurantRepository).delete(any());
+        restaurantService.deleteRestaurant("1L");
 
         //Then
-        Mockito.verify(restaurantRepository, Mockito.times(1)).findById(Mockito.anyLong());
-        Mockito.verify(restaurantRepository,  Mockito.times(1)).deleteById(Mockito.anyLong());
+        Mockito.verify(restaurantRepository, Mockito.times(1)).findByUid(Mockito.anyString());
+        Mockito.verify(restaurantRepository,  Mockito.times(1)).delete(any());
 
     }
 
@@ -108,8 +124,8 @@ public class RestaurantServiceTest {
     public void deleteRestaurantById_thrownAnException() {
         //Given
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> restaurantService.deleteRestaurant(1L));
+        Mockito.when(restaurantRepository.findByUid(any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> restaurantService.deleteRestaurant("1L"));
     }
 
 
@@ -117,8 +133,8 @@ public class RestaurantServiceTest {
     public void passingARestaurantId_thrownAnException() {
         //Given
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Assert.assertThrows(NullPointerException.class, () -> restaurantService.getRestaurant(1L));
+        Mockito.when(restaurantRepository.findByUid(any())).thenReturn(Optional.empty());
+        Assert.assertThrows(NullPointerException.class, () -> restaurantService.getRestaurant("1L"));
     }
 
     @Test
@@ -127,8 +143,8 @@ public class RestaurantServiceTest {
         Restaurant restaurantToGet = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantToGet));
-        Restaurant restaurantResult = restaurantService.getRestaurant(1L);
+        Mockito.when(restaurantRepository.findByUid(Mockito.any())).thenReturn(Optional.of(restaurantToGet));
+        Restaurant restaurantResult = restaurantService.getRestaurant("1L");
 
         //Then
         Assert.assertEquals(restaurantToGet,restaurantResult);
@@ -176,10 +192,10 @@ public class RestaurantServiceTest {
         employeeGiven.id(1L);
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
-        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
-        Mockito.when(restaurantRepository.save(Mockito.any())).thenReturn(restaurantGiven);
-        Restaurant restaurantResult = restaurantService.addEmployee(1L,1L);
+        Mockito.when(restaurantRepository.findByUid(Mockito.any())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.findByUid(Mockito.any())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.save(any())).thenReturn(restaurantGiven);
+        Restaurant restaurantResult = restaurantService.addEmployee("1L","1L");
 
         //Then
         Assert.assertEquals(restaurantGiven.getId(),restaurantResult.getId());
@@ -200,12 +216,11 @@ public class RestaurantServiceTest {
         Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
-        Mockito.when( employeeRepository.findById(1L)).thenReturn(Optional.empty());
+        Mockito.when(restaurantRepository.findByUid(Mockito.any())).thenReturn(Optional.of(restaurantGiven));
 
         //Then
         Assert.assertThrows(NullPointerException.class, () ->
-                restaurantService.addEmployee(1L,1L));
+                restaurantService.addEmployee("1L","1L"));
 
     }
 
@@ -217,10 +232,10 @@ public class RestaurantServiceTest {
         restaurantGiven.addEmployee(employeeGiven);
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
-        Mockito.when(employeeRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(employeeGiven));
-        Mockito.when(restaurantRepository.save(Mockito.any())).thenReturn(restaurantGiven);
-        Restaurant restaurantResult = restaurantService.removeEmployee(1L,1L);
+        Mockito.when(restaurantRepository.findByUid(Mockito.any())).thenReturn(Optional.of(restaurantGiven));
+        Mockito.when(employeeRepository.findByUid(Mockito.any())).thenReturn(Optional.of(employeeGiven));
+        Mockito.when(restaurantRepository.save(any())).thenReturn(restaurantGiven);
+        Restaurant restaurantResult = restaurantService.removeEmployee("1L","1L");
 
         //Then
         Assert.assertEquals(restaurantGiven.getId(),restaurantResult.getId());
@@ -241,12 +256,11 @@ public class RestaurantServiceTest {
         Restaurant restaurantGiven = applicationDataProvider.getRestaurant();
 
         //When
-        Mockito.when(restaurantRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(restaurantGiven));
-        Mockito.when( employeeRepository.findById(1L)).thenReturn(Optional.empty());
+        Mockito.when(restaurantRepository.findByUid(Mockito.any())).thenReturn(Optional.of(restaurantGiven));
 
         //Then
         Assert.assertThrows(NullPointerException.class, () ->
-                restaurantService.removeEmployee(1L,1L));
+                restaurantService.removeEmployee("1L","1L"));
 
     }
 }

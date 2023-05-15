@@ -32,7 +32,6 @@ public class MenuMapper {
     public MenuDTO mapMenuToMenuDTO(final Menu menu) {
         return menu != null ?
                 new MenuDTO()
-                        .uid(menu.getUid())
                         .language(menu.getLanguage())
                 : null;
     }
@@ -45,7 +44,6 @@ public class MenuMapper {
     public Menu mapMenuDTOToMenu(final MenuDTO menuDTO) {
         return menuDTO != null ?
                 new Menu()
-                        .uid(menuDTO.getUid())
                         .language(menuDTO.getLanguage())
                 : null;
     }

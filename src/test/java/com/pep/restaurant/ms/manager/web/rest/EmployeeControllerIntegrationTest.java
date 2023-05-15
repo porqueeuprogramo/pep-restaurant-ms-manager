@@ -3,10 +3,11 @@ package com.pep.restaurant.ms.manager.web.rest;
 import com.pep.restaurant.ms.manager.ApplicationDataProvider;
 import com.pep.restaurant.ms.manager.RestaurantMsManagerApplication;
 import com.pep.restaurant.ms.manager.domain.Employee;
-import com.pep.restaurant.ms.manager.domain.Menu;
 import com.pep.restaurant.ms.manager.domain.Restaurant;
 import com.pep.restaurant.ms.manager.repository.EmployeeRepository;
 import com.pep.restaurant.ms.manager.repository.RestaurantRepository;
+import com.pep.restaurant.ms.manager.service.EmployeeService;
+import com.pep.restaurant.ms.manager.service.RestaurantService;
 import com.pep.restaurant.ms.manager.service.mapper.EmployeeMapper;
 import com.pep.restaurant.ms.manager.service.model.EmployeeDTO;
 import com.pep.restaurant.ms.manager.repository.MenuRepository;
@@ -32,6 +33,12 @@ public class EmployeeControllerIntegrationTest {
 
     @Autowired
     private EmployeeController employeeController;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private RestaurantService restaurantService;
 
     @Autowired
     private EmployeeMapper employeeMapper;
@@ -83,7 +90,7 @@ public class EmployeeControllerIntegrationTest {
         employeeRepository.save(employee);
 
         //When
-        ResponseEntity<EmployeeDTO> employeeDTOResponseEntity = employeeController.getEmployee(employee.getId());
+        ResponseEntity<EmployeeDTO> employeeDTOResponseEntity = employeeController.getEmployee(employee.getUid());
 
         //Then
         Assert.assertEquals(employee.getRole(), Objects.requireNonNull(employeeDTOResponseEntity.getBody()).getRole());
@@ -104,7 +111,7 @@ public class EmployeeControllerIntegrationTest {
 
         //When
         ResponseEntity<EmployeeDTO> employeeDTOResponseEntity =
-                employeeController.editEmployee(employee.getId(),
+                employeeController.editEmployee(employee.getUid(),
                         employeeMapper.mapEmployeeToEmployeeDTO(employeeEdited));
 
         //Then
@@ -124,7 +131,7 @@ public class EmployeeControllerIntegrationTest {
 
         //When
         ResponseEntity<EmployeeDTO> employeeDTOResponseEntity =
-                employeeController.deleteEmployee(employee.getId());
+                employeeController.deleteEmployee(employee.getUid());
 
         //Then
         Assert.assertEquals(employee.getRole(), Objects.requireNonNull(employeeDTOResponseEntity.getBody()).getRole());
@@ -159,22 +166,19 @@ public class EmployeeControllerIntegrationTest {
     public void requestingEmployeeIdAndRestaurantId_removeRestaurantFromEmployeesList() {
 
         //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
-
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
         //save restaurant
-        restaurantRepository.save(restaurant);
+        Restaurant restaurantSaved = restaurantService.createRestaurant(restaurant);
 
-        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
-        employee.addRestaurant(restaurant);
         //save employee
-        employeeRepository.save(employee);
+        Employee employee = applicationDataProvider.getEmployeeToCreate();
+        Employee employeeSaved = employeeService.createEmployee(employee);
+
+        employeeService.addRestaurant(employeeSaved.getUid(), restaurantSaved.getUid());
 
         //When
         ResponseEntity<EmployeeDTO> employeeDTOResponseEntity =
-                employeeController.removeRestaurant(1L, 1L);
+                employeeController.removeRestaurant(employeeSaved.getUid(), restaurantSaved.getUid());
 
         //Then
         Assert.assertEquals(0,
@@ -186,21 +190,17 @@ public class EmployeeControllerIntegrationTest {
     public void requestingEmployeeIdAndRestaurantId_addRestaurantToEmployeesList() {
 
         //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
-
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
         //save restaurant
-        restaurantRepository.save(restaurant);
+        Restaurant restaurantSaved = restaurantService.createRestaurant(restaurant);
 
-        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
         //save employee
-        employeeRepository.save(employee);
+        Employee employee = applicationDataProvider.getEmployeeToCreate();
+        Employee employeeSaved = employeeService.createEmployee(employee);
 
         //When
         ResponseEntity<EmployeeDTO> employeeDTOResponseEntity =
-                employeeController.addRestaurant(1L, 1L);
+                employeeController.addRestaurant(employeeSaved.getUid(), restaurantSaved.getUid());
 
         //Then
         Assert.assertEquals(1,

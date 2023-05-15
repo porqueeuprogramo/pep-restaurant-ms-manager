@@ -4,6 +4,8 @@ import com.pep.restaurant.ms.manager.ApplicationDataProvider;
 import com.pep.restaurant.ms.manager.RestaurantMsManagerApplication;
 import com.pep.restaurant.ms.manager.domain.*;
 import com.pep.restaurant.ms.manager.repository.*;
+import com.pep.restaurant.ms.manager.service.EmployeeService;
+import com.pep.restaurant.ms.manager.service.RestaurantService;
 import com.pep.restaurant.ms.manager.service.mapper.RestaurantMapper;
 import com.pep.restaurant.ms.manager.service.model.MenuDTO;
 import com.pep.restaurant.ms.manager.service.model.RestaurantDTO;
@@ -29,6 +31,12 @@ public class RestaurantControllerIntegrationTest {
 
     @Autowired
     private RestaurantController restaurantController;
+
+    @Autowired
+    private RestaurantService restaurantService;
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @Autowired
     private RestaurantMapper restaurantMapper;
@@ -112,25 +120,17 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void requestingARestaurantId_getRestaurantById(){
 
-        //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
+        Employee employee = applicationDataProvider.getEmployeeToCreate();
+        employeeService.createEmployee(employee);
 
-        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
-        employeeRepository.save(employee);
-
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
-        restaurant.setMenu(menu);
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
+        restaurantService.createRestaurant(restaurant);
 
         restaurant.addEmployee(employee);
 
-        //save restaurant
-        restaurantRepository.save(restaurant);
-
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
-                restaurantController.getRestaurant(restaurant.getId());
+                restaurantController.getRestaurant(restaurant.getUid());
 
         //Then
         Assert.assertEquals(restaurant.getName(),
@@ -163,25 +163,15 @@ public class RestaurantControllerIntegrationTest {
     @Test
     public void requestingARestaurantToEdit_getRestaurantEdited(){
         //Given
-        Menu menu = applicationDataProvider.getMenu();
-        //save menu
-        menuRepository.save(menu);
-
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
-        restaurant.setMenu(menu);
-
-        //save restaurant
-        restaurantRepository.save(restaurant);
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
+        Restaurant restaurantSaved = restaurantService.createRestaurant(restaurant);
 
         //restaurant edited
-        Restaurant restaurantEdited = applicationDataProvider
-                .getRestaurant()
-                .capacity(1000)
-                .name("livenatwitch");
+        Restaurant restaurantEdited = applicationDataProvider.getRestaurantToCreate();
 
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
-                restaurantController.editRestaurant(restaurant.getId(),
+                restaurantController.editRestaurant(restaurantSaved.getUid(),
                         restaurantMapper.mapRestaurantToRestaurantDTO(restaurantEdited));
 
         //Then
@@ -235,7 +225,7 @@ public class RestaurantControllerIntegrationTest {
 
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
-                restaurantController.deleteRestaurant(restaurant.getId());
+                restaurantController.deleteRestaurant(restaurant.getUid());
 
         //Then
         Assert.assertEquals(restaurant.getName(),
@@ -313,17 +303,19 @@ public class RestaurantControllerIntegrationTest {
     public void requestingRestaurantIdAndEmployeeId_removeEmployeeFromRestaurantsList() {
 
         //Given
-        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
-        employeeRepository.save(employee);
-
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
-        restaurant.addEmployee(employee);
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
         //save restaurant
-        restaurantRepository.save(restaurant);
+        Restaurant restaurantSaved = restaurantService.createRestaurant(restaurant);
+
+        //save employee
+        Employee employee = applicationDataProvider.getEmployeeToCreate();
+        Employee employeeSaved = employeeService.createEmployee(employee);
+
+        restaurantService.addEmployee(restaurant.getUid(), employeeSaved.getUid());
 
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
-                restaurantController.removeEmployee(1L, 1L);
+                restaurantController.removeEmployee(restaurantSaved.getUid(), employeeSaved.getUid());
 
         //Then
         Assert.assertEquals(0,
@@ -335,16 +327,17 @@ public class RestaurantControllerIntegrationTest {
     public void requestingRestaurantIdAndEmployeeId_addEmployeeToRestaurantsList() {
 
         //Given
-        Restaurant restaurant = applicationDataProvider.getRestaurant();
+        Restaurant restaurant = applicationDataProvider.getRestaurantToCreate();
         //save restaurant
-        restaurantRepository.save(restaurant);
+        Restaurant restaurantSaved = restaurantService.createRestaurant(restaurant);
 
-        Employee employee = applicationDataProvider.getEmployeeWithoutRestaurantListAndWithoutSchedule();
-        employeeRepository.save(employee);
+        Employee employee = applicationDataProvider.getEmployeeToCreate();
+        Employee employeeSaved = employeeService.createEmployee(employee);
+
 
         //When
         ResponseEntity<RestaurantDTO> restaurantDTOResponseEntity =
-                restaurantController.addEmployee(1L, 1L);
+                restaurantController.addEmployee(restaurantSaved.getUid(), employeeSaved.getUid());
 
         //Then
         Assert.assertEquals(1,

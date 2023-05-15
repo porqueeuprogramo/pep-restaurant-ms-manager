@@ -39,8 +39,8 @@ public class RestaurantMapperTest {
                 new ArrayList<>(restaurantDTOResultList.get(0).getEmployeeList());
 
         //Then
-        Assert.assertEquals(restaurantGivenList.get(0).getId(),
-                restaurantDTOResultList.get(0).getId());
+        Assert.assertEquals(restaurantGivenList.get(0).getUid(),
+                restaurantDTOResultList.get(0).getUid());
         Assert.assertEquals(restaurantGivenList.get(0).getMenu().getLanguage(),
                 restaurantDTOResultList.get(0).getMenu().getLanguage());
         Assert.assertEquals(restaurantGivenList.get(0).getLocation().getAddress().getName()
@@ -60,7 +60,7 @@ public class RestaurantMapperTest {
         Assert.assertEquals(restaurantGivenList.get(0).getScheduleRoutine().getScheduleRoutine().size(),
                 restaurantDTOResultList.get(0).getSchedule().getScheduleRoutine().size());
         Assert.assertEquals(restaurantGivenList.get(0).getCapacity(), restaurantDTOResultList.get(0).getCapacity());
-        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getId(), restaurantResultEmployeeList.get(0).getId());
+        Assert.assertEquals(restaurantGivenEmployeeList.get(0).getUid(), restaurantResultEmployeeList.get(0).getUid());
         Assert.assertEquals(restaurantGivenEmployeeList.get(0).getRole(),
                 restaurantResultEmployeeList.get(0).getRole());
     }
@@ -81,7 +81,7 @@ public class RestaurantMapperTest {
         List<EmployeeDTO> restaurantResultEmployee = new ArrayList<>(restaurantDTOResult.getEmployeeList());
 
         //Then
-        Assert.assertEquals(restaurantGiven.getId(), restaurantDTOResult.getId());
+        Assert.assertEquals(restaurantGiven.getUid(), restaurantDTOResult.getUid());
         Assert.assertEquals(restaurantGiven.getMenu().getLanguage(), restaurantDTOResult.getMenu().getLanguage());
         Assert.assertEquals(restaurantGiven.getLocation().getAddress().getName()
                 , restaurantDTOResult.getLocation().getAddress().getName());
@@ -100,7 +100,7 @@ public class RestaurantMapperTest {
         Assert.assertEquals(restaurantGiven.getHereId(), restaurantDTOResult.getHereId());
         Assert.assertEquals(restaurantGiven.getScheduleRoutine().getScheduleRoutine().size(),
                 restaurantDTOResult.getSchedule().getScheduleRoutine().size());
-        Assert.assertEquals(restaurantGivenEmployee.get(0).getId(), restaurantResultEmployee.get(0).getId());
+        Assert.assertEquals(restaurantGivenEmployee.get(0).getUid(), restaurantResultEmployee.get(0).getUid());
         Assert.assertEquals(restaurantGivenEmployee.get(0).getRole(), restaurantResultEmployee.get(0).getRole());
     }
 
@@ -120,7 +120,7 @@ public class RestaurantMapperTest {
         List<Employee> restaurantResultEmployee = new ArrayList<>(restaurantResult.getEmployeeList());
 
         //Then
-        Assert.assertEquals(restaurantDTOGiven.getId(), restaurantResult.getId());
+        Assert.assertEquals(restaurantDTOGiven.getUid(), restaurantResult.getUid());
         Assert.assertEquals(restaurantDTOGiven.getMenu().getLanguage(), restaurantResult.getMenu().getLanguage());
         Assert.assertEquals(restaurantDTOGiven.getLocation().getAddress().getName()
                 , restaurantResult.getLocation().getAddress().getName());
@@ -139,7 +139,7 @@ public class RestaurantMapperTest {
         Assert.assertEquals(restaurantDTOGiven.getHereId(), restaurantResult.getHereId());
         Assert.assertEquals(restaurantDTOGiven.getSchedule().getScheduleRoutine().size(),
                 restaurantResult.getScheduleRoutine().getScheduleRoutine().size());
-        Assert.assertEquals(restaurantDTOGivenEmployee.get(0).getId(), restaurantResultEmployee.get(0).getId());
+        Assert.assertEquals(restaurantDTOGivenEmployee.get(0).getUid(), restaurantResultEmployee.get(0).getUid());
         Assert.assertEquals(restaurantDTOGivenEmployee.get(0).getRole(), restaurantResultEmployee.get(0).getRole());
     }
 

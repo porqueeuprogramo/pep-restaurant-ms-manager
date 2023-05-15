@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public class RestaurantDTO implements Serializable {
 
-    @JsonProperty("id")
-    private long id;
+    @JsonProperty("uid")
+    private String uid;
 
     @JsonProperty("name")
     private String name;
@@ -38,28 +38,28 @@ public class RestaurantDTO implements Serializable {
     private Set<EmployeeDTO> employeeList = new HashSet<>();
 
     /**
-     * Method to get a RestauranDTO id.
-     * @return id.
+     * Method to get a RestauranDTO uid.
+     * @return uid.
      */
-    public long getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
     /**
-     * Method to set a RestaurantDTO id.
-     * @param id to be set.
+     * Method to set a RestaurantDTO uid.
+     * @param uid to be set.
      */
-    public void setId(final long id) {
-        this.id = id;
+    public void setUid(final String uid) {
+        this.uid = uid;
     }
 
     /**
-     * Builder RestaurantDTO for id.
-     * @param id id to build.
-     * @return restaurantDTO with id.
+     * Builder RestaurantDTO for uid.
+     * @param uid uid to build.
+     * @return restaurantDTO with uid.
      */
-    public RestaurantDTO id(final long id){
-        this.id = id;
+    public RestaurantDTO uid(final String uid){
+        this.uid = uid;
         return this;
     }
 
@@ -248,7 +248,7 @@ public class RestaurantDTO implements Serializable {
     @Override
     public String toString() {
         return "RestaurantDTO{" +
-                "id=" + id +
+                "uid=" + uid +
                 ", name='" + name + '\'' +
                 ", hereId='" + hereId + '\'' +
                 ", location=" + location +
