@@ -10,9 +10,8 @@ import java.util.Set;
  * Employee Dto class
  */
 public class EmployeeDTO {
-
-    @JsonProperty("id")
-    private long id;
+    @JsonProperty("uid")
+    private String uid;
 
     @JsonProperty("role")
     private String role;
@@ -25,28 +24,28 @@ public class EmployeeDTO {
     private ScheduleRoutineDTO schedule;
 
     /**
-     * Get id employeeDTO.
-     * @return employeeDTO id.
+     * Get uid employeeDTO.
+     * @return employeeDTO uid.
      */
-    public long getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
     /**
      * Set id employeeDTO.
-     * @param id employeeDTO id.
+     * @param uid employeeDTO uid.
      */
-    public void setId(final long id) {
-        this.id = id;
+    public void setUid(final String uid) {
+        this.uid = uid;
     }
 
     /**
-     * Builder EmployeeDTO for id.
-     * @param id id to build.
-     * @return employeeDTO with id.
+     * Builder EmployeeDTO for uid.
+     * @param uid uid to build.
+     * @return employeeDTO with uid.
      */
-    public EmployeeDTO id(final long id){
-        this.id = id;
+    public EmployeeDTO uid(final String uid){
+        this.uid = uid;
         return this;
     }
 
@@ -131,7 +130,7 @@ public class EmployeeDTO {
     @Override
     public String toString() {
         return "EmployeeDTO{" +
-                "id=" + id +
+                "uid=" + uid +
                 ", role='" + role + '\'' +
                 ", restaurantList=" + restaurantList +
                 ", schedule=" + schedule +

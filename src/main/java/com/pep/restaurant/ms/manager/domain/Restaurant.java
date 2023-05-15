@@ -27,6 +27,9 @@ public class Restaurant {
     @GeneratedValue(generator = "increment")
     private long id;
 
+    @Column(name = "uid")
+    private String uid;
+
     @Column(name = "name")
     private String name;
 
@@ -77,6 +80,32 @@ public class Restaurant {
      */
     public Restaurant id(final long id){
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Get Restaurant uid.
+     * @return restaurant uid.
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * Set Restaurant Uid.
+     * @param uid restaurant uid.
+     */
+    public void setUid(final String uid) {
+        this.uid = uid;
+    }
+
+    /**
+     * Builder Restaurant for uid.
+     * @param uid uid to build.
+     * @return restaurant with uid.
+     */
+    public Restaurant uid(final String uid){
+        this.uid = uid;
         return this;
     }
 
@@ -180,13 +209,15 @@ public class Restaurant {
      * @return restaurant with schedule routine.
      */
     public Restaurant schedule(final ScheduleRoutine scheduleRoutine){
-        if(scheduleRoutine != null){{
+        if(scheduleRoutine != null){
             try{
                 this.schedule = ScheduleRoutineSerializer.toByteArray(scheduleRoutine);
             }catch(IOException ioException){
                 this.schedule = null;
             }
-        }}
+        }else{
+            this.schedule = null;
+        }
         return this;
     }
 
@@ -321,6 +352,7 @@ public class Restaurant {
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
+                ", uid='" + uid + '\'' +
                 ", name='" + name + '\'' +
                 ", hereId='" + hereId + '\'' +
                 ", location=" + location +

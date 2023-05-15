@@ -1,7 +1,6 @@
 package com.pep.restaurant.ms.manager.web.rest;
 
 import com.pep.restaurant.ms.manager.service.RestaurantService;
-import com.pep.restaurant.ms.manager.service.mapper.EmployeeMapper;
 import com.pep.restaurant.ms.manager.service.mapper.RestaurantMapper;
 import com.pep.restaurant.ms.manager.service.model.RestaurantDTO;
 import io.swagger.annotations.ApiOperation;
@@ -33,20 +32,16 @@ public class RestaurantController implements ApiController {
     public static final String RESTAURANT = "/restaurant";
     private final RestaurantService restaurantService;
     private final RestaurantMapper restaurantMapper;
-    private final EmployeeMapper employeeMapper;
 
     /**
      * Constructor for Restaurant Controller.
      * @param restaurantService Restaurant Service.
      * @param restaurantMapper  Restaurant mapper.
-     * @param employeeMapper Employee mapper.
      */
     public RestaurantController(final RestaurantService restaurantService,
-                                final RestaurantMapper restaurantMapper,
-                                final EmployeeMapper employeeMapper) {
+                                final RestaurantMapper restaurantMapper) {
         this.restaurantService = restaurantService;
         this.restaurantMapper = restaurantMapper;
-        this.employeeMapper = employeeMapper;
     }
 
     /**
@@ -67,7 +62,7 @@ public class RestaurantController implements ApiController {
     @GetMapping(value = RESTAURANT_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable final long restaurantId) {
+    public ResponseEntity<RestaurantDTO> getRestaurant(@PathVariable final String restaurantId) {
         return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.getRestaurant(restaurantId)));
     }
@@ -96,7 +91,7 @@ public class RestaurantController implements ApiController {
     @PutMapping(value = RESTAURANT_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<RestaurantDTO> editRestaurant(@PathVariable final long restaurantId,
+    public ResponseEntity<RestaurantDTO> editRestaurant(@PathVariable final String restaurantId,
                                                         @RequestBody final RestaurantDTO restaurantToEdit) {
         return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.editRestaurant(restaurantId,
@@ -112,8 +107,8 @@ public class RestaurantController implements ApiController {
     @PutMapping(value = RESTAURANT_ADD_EMPLOYEE_RESTAURANT_ID_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<RestaurantDTO> addEmployee(@PathVariable final long restaurantId,
-                                                     @PathVariable final long employeeId) {
+    public ResponseEntity<RestaurantDTO> addEmployee(@PathVariable final String restaurantId,
+                                                     @PathVariable final String employeeId) {
         return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.addEmployee(restaurantId, employeeId)));
     }
@@ -127,8 +122,8 @@ public class RestaurantController implements ApiController {
     @PutMapping(value = RESTAURANT_REMOVE_EMPLOYEE_RESTAURANT_ID_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<RestaurantDTO> removeEmployee(@PathVariable final long restaurantId,
-                                                     @PathVariable final long employeeId) {
+    public ResponseEntity<RestaurantDTO> removeEmployee(@PathVariable final String restaurantId,
+                                                     @PathVariable final String employeeId) {
         return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.removeEmployee(restaurantId, employeeId)));
     }
@@ -142,7 +137,7 @@ public class RestaurantController implements ApiController {
     @DeleteMapping(value = RESTAURANT_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<RestaurantDTO> deleteRestaurant(@PathVariable final long restaurantId) {
+    public ResponseEntity<RestaurantDTO> deleteRestaurant(@PathVariable final String restaurantId) {
         return ResponseEntity.ok(restaurantMapper.mapRestaurantToRestaurantDTO(
                 restaurantService.deleteRestaurant(restaurantId)));
     }

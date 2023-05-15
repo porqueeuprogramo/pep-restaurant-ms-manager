@@ -66,7 +66,7 @@ public class EmployeeController implements ApiController {
     @GetMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final long employeeId) {
+    public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final String employeeId) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
                 employeeService.getEmployee(employeeId)));
     }
@@ -95,7 +95,7 @@ public class EmployeeController implements ApiController {
     @PutMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable final long employeeId,
+    public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable final String employeeId,
                                                         @RequestBody final EmployeeDTO employeeToEdit) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
                 employeeService.editEmployee(employeeId, employeeMapper.mapEmployeeDTOToEmployee(employeeToEdit))));
@@ -110,7 +110,7 @@ public class EmployeeController implements ApiController {
     @DeleteMapping(value = EMPLOYEE_EMPLOYEE_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<EmployeeDTO> deleteEmployee(@PathVariable final long employeeId) {
+    public ResponseEntity<EmployeeDTO> deleteEmployee(@PathVariable final String employeeId) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
                 employeeService.deleteEmployee(employeeId)));
     }
@@ -137,8 +137,8 @@ public class EmployeeController implements ApiController {
     @PutMapping(value = EMPLOYEE_ADD_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<EmployeeDTO> addRestaurant(@PathVariable final long employeeId,
-                                                     @PathVariable final long restaurantId) {
+    public ResponseEntity<EmployeeDTO> addRestaurant(@PathVariable final String employeeId,
+                                                     @PathVariable final String restaurantId) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
                 employeeService.addRestaurant(employeeId, restaurantId)));
     }
@@ -152,8 +152,8 @@ public class EmployeeController implements ApiController {
     @PutMapping(value = EMPLOYEE_REMOVE_RESTAURANT_EMPLOYEE_ID_RESTAURANT_ID,
             produces = {"application/json"},
             consumes = {"application/json"})
-    public ResponseEntity<EmployeeDTO> removeRestaurant(@PathVariable final long employeeId,
-                                                        @PathVariable final long restaurantId) {
+    public ResponseEntity<EmployeeDTO> removeRestaurant(@PathVariable final String employeeId,
+                                                        @PathVariable final String restaurantId) {
         return ResponseEntity.ok(employeeMapper.mapEmployeeToEmployeeDTO(
                 employeeService.removeRestaurant(employeeId, restaurantId)));
     }

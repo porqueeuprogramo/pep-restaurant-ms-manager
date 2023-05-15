@@ -9,13 +9,30 @@ import java.util.*;
 
 public class ApplicationDataProvider {
 
+    public Employee getEmployeeToCreate(){
+        return new Employee()
+                .role("CHEF");
+    }
+
     public Employee getEmployeeWithId(){
         return new Employee()
                 .id(1L)
+                .uid("1L")
                 .role("CHEF");
     }
 
     public Restaurant getRestaurant(){
+        return new Restaurant()
+                .uid("1L")
+                .name("Francesinhas")
+                .capacity(100)
+                .menu(getMenu())
+                .hereId("hereId")
+                .location(getLocation())
+                .schedule(getScheduleRoutine());
+    }
+
+    public Restaurant getRestaurantToCreate(){
         return new Restaurant()
                 .name("Francesinhas")
                 .capacity(100)
@@ -33,6 +50,17 @@ public class ApplicationDataProvider {
                 .hereId("hereId")
                 .location(getLocation2())
                 .schedule(getScheduleRoutine2());
+    }
+
+    public Restaurant getRestaurantWithIds(){
+        return new Restaurant()
+                .uid("1L")
+                .name("Francesinhas")
+                .capacity(100)
+                .menu(getMenu())
+                .hereId("hereId")
+                .location(getLocation())
+                .schedule(getScheduleRoutine());
     }
 
     public ScheduleRoutine getScheduleRoutine2(){
@@ -87,6 +115,15 @@ public class ApplicationDataProvider {
                 .longitude(15.0000);
     }
 
+    public Address getAddressWithId(){
+        return new Address()
+                .id(1L)
+                .name("Rua Teste")
+                .city("Porto")
+                .country("Portugal")
+                .postalCode("9999-999");
+    }
+
     public Address getAddress(){
         return new Address()
                 .name("Rua Teste")
@@ -103,6 +140,13 @@ public class ApplicationDataProvider {
                 .postalCode("1111-999");
     }
 
+    public Location getLocationWithId(){
+        return new Location()
+                .id(1L)
+                .locationCoordinate(getCoordinate())
+                .address(getAddress());
+    }
+
     public Location getLocation(){
         return new Location()
                         .locationCoordinate(getCoordinate())
@@ -117,18 +161,24 @@ public class ApplicationDataProvider {
 
     public Menu getMenu(){
         return new Menu()
-                .uid("uid")
+                .language("PORTUGUESE");
+    }
+
+    public Menu getMenuWithId(){
+        return new Menu()
+                .id(1L)
                 .language("PORTUGUESE");
     }
 
     public Menu getMenu2(){
         return new Menu()
-                .uid("uid2")
+                .id(1L)
                 .language("ENGLISH");
     }
 
     public Employee getEmployee(){
         Employee employee = new Employee()
+                .uid("1L")
                 .role("CHEF")
                 .schedule(getScheduleRoutine());
         employee.setRestaurantList(Set.of(getRestaurant()));
@@ -190,6 +240,7 @@ public class ApplicationDataProvider {
 
     public Employee getEmployeeWithoutRestaurantListAndWithoutSchedule(){
         return new Employee()
+                .uid("1L")
                 .role("CHEF");
     }
 

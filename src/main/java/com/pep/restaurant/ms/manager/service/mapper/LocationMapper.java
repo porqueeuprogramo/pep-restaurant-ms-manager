@@ -36,7 +36,6 @@ public class LocationMapper {
     public LocationDTO mapLocationToLocationDTO(final Location location) {
         return location != null ?
                 new LocationDTO()
-                        .id(location.getId())
                         .address(mapAddressToAddressDTO(location.getAddress()))
                         .locationCoordinate(mapCoordinateToCoordinateDTO(location.getCoordinate()))
                 : null;
@@ -50,7 +49,6 @@ public class LocationMapper {
     public Location mapLocationDTOToLocation(final LocationDTO locationDTO) {
         return locationDTO != null ?
                 new Location()
-                        .id(locationDTO.getId())
                         .address(mapAddressDTOToAddress(locationDTO.getAddress()))
                         .locationCoordinate(mapCoordinateDTOToCoordinate(locationDTO.getLocationCoordinate()))
                 : null;
@@ -64,7 +62,6 @@ public class LocationMapper {
     public AddressDTO mapAddressToAddressDTO(final Address address) {
         return address != null ?
                 new AddressDTO()
-                        .id(address.getId())
                         .name(address.getName())
                         .postalCode(address.getPostalCode())
                         .city(address.getCity())
@@ -80,7 +77,6 @@ public class LocationMapper {
     public Address mapAddressDTOToAddress(final AddressDTO addressDTO) {
         return addressDTO != null ?
                 new Address()
-                        .id(addressDTO.getId())
                         .name(addressDTO.getName())
                         .postalCode(addressDTO.getPostalCode())
                         .city(addressDTO.getCity())

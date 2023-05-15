@@ -1,10 +1,13 @@
 package com.pep.restaurant.ms.manager.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
 public class ScheduleRoutineDTO {
 
+    @JsonProperty("daysScheduleMap")
     private Map<String, List<ScheduleTimeDTO>> daysScheduleMap;
 
     /**

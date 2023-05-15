@@ -16,4 +16,11 @@
     <include  file="/db.changelog/add-columns-here-id-location-id-schedule-to-restaurant-table.xml"/>
     <include  file="/db.changelog/add-columns-schedule-to-employee-table.xml"/>
     <include  file="/db.changelog/add-columns-uid-to-menu-table.xml"/>
+    <include  file="/db.changelog/add-columns-uid-to-restaurant-table.xml"/>
+    <include  file="/db.changelog/add-columns-uid-to-location-table.xml"/>
+    <include  file="/db.changelog/add-columns-uid-to-address-table.xml"/>
+    <include  file="/db.changelog/remove-columns-uid-to-menu-table.xml"/>
+    <include  file="/db.changelog/remove-columns-uid-to-location-table.xml"/>
+    <include  file="/db.changelog/remove-columns-uid-to-address-table.xml"/>
+    <include  file="/db.changelog/add-columns-uid-to-employee-table.xml"/>
 </databaseChangeLog>

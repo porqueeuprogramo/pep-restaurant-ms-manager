@@ -9,13 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant> {
-    /**
-     * Get Restaurant by name
-     * @param name restaurant name
-     * @return restaurant as optional
-     */
-    Optional<Restaurant> findRestaurantByName(String name);
-
-
+    Optional<Restaurant> findByUid(final String uid);
+    void deleteByUid(final String uid);
 
 }

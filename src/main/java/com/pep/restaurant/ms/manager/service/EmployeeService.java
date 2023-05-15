@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -42,6 +43,7 @@ public class EmployeeService {
             LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.EMPLOYEES, LogTag.PERSISTED),
                     "Create Employee: " + employee.toString());
 
+            employee.uid(UUID.randomUUID().toString());
             return employeeRepository.save(employee);
         }
         throw new NullPointerException("Employee already exists!!!");
@@ -53,8 +55,8 @@ public class EmployeeService {
      * @param employeeId employee id.
      * @return employee retrieved.
      */
-    public Employee getEmployee(final long employeeId) {
-        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to get not exists!!!");
+    public Employee getEmployee(final String employeeId) {
+        final Optional<Employee> employeeOptional = getEmployeeByUid(employeeId, "Employee to get not exists!!!");
 
         LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.EMPLOYEES, LogTag.RETRIEVED),
                 "Get Employee by id: " + employeeId);
@@ -69,8 +71,8 @@ public class EmployeeService {
      * @param employeeNew employee new.
      * @return employee edited.
      */
-    public Employee editEmployee(final long employeeId, final Employee employeeNew) {
-        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to be edited not exists!!!");
+    public Employee editEmployee(final String employeeId, final Employee employeeNew) {
+        final Optional<Employee> employeeOptional = getEmployeeByUid(employeeId, "Employee to be edited not exists!!!");
         //edit employee
         employeeOptional.get()
                 .role(employeeNew.getRole())
@@ -88,9 +90,11 @@ public class EmployeeService {
      * @param employeeId employee id.
      * @return employee deleted.
      */
-    public Employee deleteEmployee(final long employeeId) {
-        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to be deleted not exists!!!");
-        employeeRepository.deleteById(employeeId);
+    public Employee deleteEmployee(final String employeeId) {
+        final Optional<Employee> employeeOptional = getEmployeeByUid(employeeId,
+                "Employee to be deleted not exists!!!");
+
+        employeeRepository.delete(employeeOptional.get());
 
         LOGGER.info(MDC.get("correlationId"), Arrays.asList(LogTag.EMPLOYEES, LogTag.DELETED),
                 "Delete Employee by id: " + employeeId);
@@ -120,10 +124,10 @@ public class EmployeeService {
      * @param restaurantId restaurant id.
      * @return Employee.
      */
-    public Employee addRestaurant(final long employeeId, final long restaurantId) {
-        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to add restaurant!!!");
+    public Employee addRestaurant(final String employeeId, final String restaurantId) {
+        final Optional<Employee> employeeOptional = getEmployeeByUid(employeeId, "Employee to add restaurant!!!");
 
-        final Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findByUid(restaurantId);
         if(restaurantOptional.isEmpty()){
             throw new NullPointerException("Restaurant to add employee!!!");
         }
@@ -143,10 +147,10 @@ public class EmployeeService {
      * @param restaurantId restasurant id.
      * @return Employee.
      */
-    public Employee removeRestaurant(final long employeeId, final long restaurantId) {
-        final Optional<Employee> employeeOptional = getEmployeeById(employeeId, "Employee to remove restaurant!!!");
+    public Employee removeRestaurant(final String employeeId, final String restaurantId) {
+        final Optional<Employee> employeeOptional = getEmployeeByUid(employeeId, "Employee to remove restaurant!!!");
 
-        final Optional<Restaurant> restaurantOptional = restaurantRepository.findById(restaurantId);
+        final Optional<Restaurant> restaurantOptional = restaurantRepository.findByUid(restaurantId);
         if(restaurantOptional.isEmpty()){
             throw new NullPointerException("Restaurant to remove employee!!!");
         }
@@ -165,8 +169,8 @@ public class EmployeeService {
      * @param exceptionMessage exception Message.
      * @return Optional of employee.
      */
-    private Optional<Employee> getEmployeeById(final long employeeId, final String exceptionMessage) {
-        final Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+    private Optional<Employee> getEmployeeByUid(final String employeeId, final String exceptionMessage) {
+        final Optional<Employee> employeeOptional = employeeRepository.findByUid(employeeId);
         if (employeeOptional.isEmpty()) {
             throw new NullPointerException(exceptionMessage);
         }

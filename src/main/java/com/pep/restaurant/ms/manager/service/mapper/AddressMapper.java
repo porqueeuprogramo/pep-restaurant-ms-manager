@@ -32,7 +32,6 @@ public class AddressMapper {
     public AddressDTO mapAddressToAddressDTO(final Address address) {
         return address != null ?
                 new AddressDTO()
-                        .id(address.getId())
                         .name(address.getName())
                         .postalCode(address.getPostalCode())
                         .city(address.getCity())
@@ -48,7 +47,6 @@ public class AddressMapper {
     public Address mapAddressDTOToAddress(final AddressDTO addressDTO) {
         return addressDTO != null ?
                 new Address()
-                        .id(addressDTO.getId())
                         .name(addressDTO.getName())
                         .postalCode(addressDTO.getPostalCode())
                         .city(addressDTO.getCity())
