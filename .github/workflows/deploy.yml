@@ -1,0 +1,43 @@
+name: Manual Deployment Pipeline
+
+on:
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: 'Name of the environment.'
+                required: true
+                default: 'dev'
+                type: choice
+                options:
+                    - dev
+            release-version:
+                description: 'Tag to be applied to the version'
+                required: true
+        secrets:
+            AWS_ACCESS_KEY_ID_PEP:
+                required: true
+            AWS_SECRET_ACCESS_KEY_PEP:
+                required: true
+
+    push:
+        branches:
+            - master
+
+jobs:
+    
+    deploy:
+        runs-on: cawe-linux-x64-general-medium
+        steps:
+            -   name: Checkout Config
+                uses: actions/checkout@v4
+
+            -   name: Deploy to Environment
+                uses: ./.github/actions/deploy-eks
+                with:
+                    REGION: eu-west-2
+                    ENV: "dev"
+                    NAMESPACE: "pep"
+                    SERVICE: "pep-restaurant-ms-manager"
+                    IMAGE_TAG: "latest"
+                    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_PEP }}
+                    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PEP }}
