@@ -16,7 +16,7 @@ on:
 
 jobs:
     Build:
-        # Will push to ecr on manual trigger if "To Promote" box is checked, or on push if branch is main
+        # Will push to ecr on manual trigger if "To Promote" box is checked, or on push if branch is master
         name: Build
         uses: porqueeuprogramo/pep-workflows/.github/workflows/wf_maven_micro_service.yml@main
         secrets: inherit
