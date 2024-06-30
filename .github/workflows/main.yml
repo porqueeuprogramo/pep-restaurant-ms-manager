@@ -22,4 +22,4 @@ jobs:
         secrets: inherit
         with:
             ecr_repo: 'pep/pep-restaurant-ms-manager'
-            to_promote: ${{ github.event_name == 'workflow_dispatch' && inputs.to_promote || github.ref == 'refs/heads/master' }}
+            to_promote: ${{ github.event_name == 'workflow_dispatch' && inputs.to_promote || github.ref == 'refs/heads/main' }}
