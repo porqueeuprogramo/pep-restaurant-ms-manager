@@ -21,6 +21,5 @@ jobs:
         uses: porqueeuprogramo/pep-workflows/.github/workflows/wf_maven_micro_service.yml@main
         secrets: inherit
         with:
-            settings_xml: ${{vars.SETTINGS_XML}}
             ecr_repo: 'pep/pep-restaurant-ms-manager'
             to_promote: ${{ github.event_name == 'workflow_dispatch' && inputs.to_promote || github.ref == 'refs/heads/master' }}
