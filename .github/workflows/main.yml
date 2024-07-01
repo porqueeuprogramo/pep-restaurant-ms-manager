@@ -1,0 +1,19 @@
+name: Build
+
+on:
+    workflow_dispatch:
+
+    push:
+        branches:
+            - master
+            - feature/*
+            - bugfix/*
+
+jobs:
+    Build:
+        name: Build
+        uses: porqueeuprogramo/pep-workflows/.github/workflows/wf_maven_micro_service.yml@main
+        secrets: inherit
+        with:
+            ecr_repo: 'pep-restaurant-ms-manager'
+            aws_region: 'eu-west-2'

@@ -30,7 +30,6 @@ This is the manager microservice of porqueeuprogramo restaurant (java spring mav
 ### How do I check swagger ui
 * Open the following web url: http://localhost:8082/swagger-ui
 
-### Who do I talk to? ###
-
+### Who do I talk to ? ###
 * discord https://discord.gg/v2MgpUT4QC
 * email porqueeuprogramo@gmail.com
