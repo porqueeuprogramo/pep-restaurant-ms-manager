@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: {{ .Chart.Name }}-configmap
+
+data:
+    application.yaml: |
+        server:
+            port: 8082
+            compression:
+                enabled: true
+                mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+                min-response-size: 1024
+            servlet:
+                session:
+                    cookie:
+                        http-only: true
+                context-path: /
+        application:
+            datasource:
+                type: com.zaxxer.hikari.HikariDataSource
+                url: "url"
+                username: "postgres"
+                password: "1234"
+                driver-class-name: org.postgresql.Driver
+                hikari:
+                    poolName: Hikari
+                    maximumPoolSize: 10
+                    auto-commit: false
+            jpa:
+                database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+                database: POSTGRESQL
+                show-sql: false
+            liquibase:
+                contexts: prod
+                labels: DE
+                change-log: classpath:/db/changelog/changelog-master.xml

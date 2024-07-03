@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Chart.Name }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: {{ include "pep-restaurant-ms-manager.name" . }}
+    template:
+        metadata:
+            labels:
+                app: {{ include "pep-restaurant-ms-manager.name" . }}
+        spec:
+            serviceAccountName: {{ include "pep-restaurant-ms-manager.serviceAccountName" . }}
+            containers:
+                - name: app
+                  imagePullPolicy: Always
+                  image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+                  securityContext:
+                      allowPrivilegeEscalation: false
+                      runAsNonRoot: false
+                      capabilities:
+                          drop:
+                              - ALL
+                  ports:
+                      - containerPort: {{ .Values.service.port }} #http - internal port for Kubernetes and prometheus operator
+                        protocol: TCP
+                      - containerPort: {{ .Values.service.port }} #https - external port for communication with other services
+                        protocol: TCP
+                  env:
+                      - name: JAVA_OPTIONS
+                            # please take into consideration memory limits for pods in deployment_resources_patch
+                          # while adjusting Java memory options (MetaspaceSize,MaxMetaspaceSize,InitialRAMPercentage,MaxRAMPercentage)
+                        value: >-
+                            -Xmx4096m
+                            -Dhere.platform.data-client.stream.connector.producer=kafka-connector
+                            -Dhere.platform.data-client.stream.connector.consumer=kafka-connector
+                            -Dlog4j.configurationFile=./log4j2.xml
+                            -Dspring.config.location=./application.yaml
+                      - name: DT_CUSTOM_PROP # dynatrace config map to enable the agent and to provide additional annotations / metadata
+                        valueFrom:
+                            configMapKeyRef:
+                                name: dynatrace-orbit-config
+                                key: dynatrace-tags
+                      - name: DT_RELEASE_VERSION
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: "metadata.labels['app.kubernetes.io/version']"
+                      - name: DT_RELEASE_PRODUCT
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: "metadata.labels['app-id']"
+                      - name: DT_RELEASE_STAGE
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: "metadata.labels['stage']"
+                  resources:
+                      requests:
+                          memory: 3072Mi
+                          ephemeral-storage: 3072Mi
+                      limits:
+                          memory: 4096Mi
+                  volumeMounts:
+                      - name: jvm-logs
+                        mountPath: /home/logs/jvm
+                      - name: application-config
+                        mountPath: "application.yaml"
+                        subPath: "application.yaml"
+                        readOnly: true
+                      - name: log4j2-config
+                        mountPath: "log4j2.xml"
+                        subPath: "log4j2.xml"
+                        readOnly: true
+                  terminationMessagePath: /dev/termination-log # default value
+            annotations:
+                eks.amazonaws.com/role-arn: "arn:aws:iam::905418115951:role/eks-cluster-pep"
+            restartPolicy: Always # default Always
+            terminationGracePeriodSeconds: 30 # default value 30
+            volumes:
+                - name: jvm-logs
+                  emptyDir: {}
+                - name: application-config
+                  configMap:
+                      name: {{ .Chart.Name }}-configmap
+                      items:
+                          - key: application.yaml
+                            path: application.yaml
+                - name: log4j2-config
+                  configMap:
+                      name: {{ .Chart.Name }}-log4j2-configs
+                      items:
+                          - key: log4j2.xml
+                            path: log4j2.xml
