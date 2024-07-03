@@ -1,0 +1,78 @@
+# Default values for pep-restaurant-ms-manager.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+orbitProductName: pep
+
+image:
+  repository: 905418115951.dkr.ecr.eu-west-2.amazonaws.com/pep-restaurant-ms-manager
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+app:
+  properties:
+    accountId: "905418115951"
+    springActiveProfiles: "prod"
+    environment: "test"
+    region: "eu-west-2"
+    hub: "pep"
+    content: "pep"
+    subContent: "pep"
+    arn_prefix: "arn:aws"
+    multipart_max_size: "20MB"
+    http_ssl_validation: "true"
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::905418115951:role/eks-cluster-pep"
+    eks.amazonaws.com/audience: "sts.amazonaws.com"    
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "pep-restaurant-ms-manager-user"
+
+podAnnotations:
+  oneagent.dynatrace.com/inject: "true"
+  oneagent.dynatrace.com/flavor: "musl"
+
+podSecurityContext: { }
+# fsGroup: 2000
+
+securityContext: 
+    allowPrivilegeEscalation: false
+    capabilities:
+        drop: [ "ALL" ]
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+        type: RuntimeDefault
+
+service:
+  type: ClusterIP
+  port: 8082
+  actuatorPath: "/actuator/health"
+  prometheusPath: "/actuator/prometheus"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 85
+
+nodeSelector: { }
+
+tolerations: [ ]
+
+affinity: { }
