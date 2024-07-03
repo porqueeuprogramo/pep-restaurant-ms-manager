@@ -16,7 +16,7 @@ app:
   properties:
     accountId: "905418115951"
     springActiveProfiles: "prod"
-    environment: "test"
+    environment: "dev"
     region: "eu-west-2"
     hub: "pep"
     content: "pep"
