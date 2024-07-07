@@ -14,7 +14,6 @@
 	<name>pep-restaurant-ms-manager</name>
 	<description>Pep Restaurant Microservice Manager</description>
 	<properties>
-
 		<java.version>11</java.version>
 
 		<!--dependencies version-->
@@ -35,8 +34,45 @@
 		<maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
 		<springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
 		<spring-test.version>5.3.9</spring-test.version>
-
 	</properties>
+
+	<scm>
+		<connection>scm:git:git://github.com/porqueeuprogramo/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:ssh://github.com:porqueeuprogramo/${project.artifactId}.git</developerConnection>
+		<url>https://github.com/porqueeuprogramo/${project.artifactId}</url>
+	</scm>
+
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<!-- Any production-specific properties -->
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.google.cloud.tools</groupId>
+						<artifactId>jib-maven-plugin</artifactId>
+						<version>3.1.4</version>
+						<configuration>
+							<to>
+								<credHelper>ecr-login</credHelper>
+							</to>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<goals>
+									<goal>build</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
