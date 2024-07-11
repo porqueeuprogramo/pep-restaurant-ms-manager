@@ -87,9 +87,3 @@ spec:
                       items:
                           - key: application.yaml
                             path: application.yaml
-                - name: log4j2-config
-                  configMap:
-                      name: {{ .Chart.Name }}-log4j2-configs
-                      items:
-                          - key: log4j2.xml
-                            path: log4j2.xml
