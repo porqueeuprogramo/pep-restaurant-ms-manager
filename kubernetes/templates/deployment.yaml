@@ -69,10 +69,6 @@ spec:
                         mountPath: "application.yaml"
                         subPath: "application.yaml"
                         readOnly: true
-                      - name: log4j2-config
-                        mountPath: "log4j2.xml"
-                        subPath: "log4j2.xml"
-                        readOnly: true
                   terminationMessagePath: /dev/termination-log # default value
             annotations:
                 eks.amazonaws.com/role-arn: "arn:aws:iam::905418115951:role/eks-cluster-pep"
