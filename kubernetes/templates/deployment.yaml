@@ -13,7 +13,7 @@ spec:
                 app: {{ include "pep-restaurant-ms-manager.name" . }}
         spec:
             serviceAccountName: {{ include "pep-restaurant-ms-manager.serviceAccountName" . }}
-            nodeName: ip-10-123-4-30.eu-west-2.compute.internal
+            nodeName: ip-10-123-4-147.eu-west-2.compute.internal
             containers:
                 - name: app
                   imagePullPolicy: Always
@@ -37,7 +37,6 @@ spec:
                             -Xmx4096m
                             -Dhere.platform.data-client.stream.connector.producer=kafka-connector
                             -Dhere.platform.data-client.stream.connector.consumer=kafka-connector
-                            -Dlog4j.configurationFile=./log4j2.xml
                             -Dspring.config.location=./application.yaml
                       - name: DT_CUSTOM_PROP # dynatrace config map to enable the agent and to provide additional annotations / metadata
                         valueFrom:
@@ -69,10 +68,6 @@ spec:
                         mountPath: "application.yaml"
                         subPath: "application.yaml"
                         readOnly: true
-                      - name: log4j2-config
-                        mountPath: "log4j2.xml"
-                        subPath: "log4j2.xml"
-                        readOnly: true
                   terminationMessagePath: /dev/termination-log # default value
             annotations:
                 eks.amazonaws.com/role-arn: "arn:aws:iam::905418115951:role/eks-cluster-pep"
@@ -87,9 +82,3 @@ spec:
                       items:
                           - key: application.yaml
                             path: application.yaml
-                - name: log4j2-config
-                  configMap:
-                      name: {{ .Chart.Name }}-log4j2-configs
-                      items:
-                          - key: log4j2.xml
-                            path: log4j2.xml
