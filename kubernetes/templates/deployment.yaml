@@ -38,11 +38,6 @@ spec:
                             -Dhere.platform.data-client.stream.connector.producer=kafka-connector
                             -Dhere.platform.data-client.stream.connector.consumer=kafka-connector
                             -Dspring.config.location=./application.yaml
-                      - name: DT_CUSTOM_PROP # dynatrace config map to enable the agent and to provide additional annotations / metadata
-                        valueFrom:
-                            configMapKeyRef:
-                                name: dynatrace-orbit-config
-                                key: dynatrace-tags
                       - name: DT_RELEASE_VERSION
                         valueFrom:
                             fieldRef:
