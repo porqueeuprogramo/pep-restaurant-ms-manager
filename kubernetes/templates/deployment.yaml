@@ -37,7 +37,6 @@ spec:
                             -Xmx4096m
                             -Dhere.platform.data-client.stream.connector.producer=kafka-connector
                             -Dhere.platform.data-client.stream.connector.consumer=kafka-connector
-                            -Dlog4j.configurationFile=./log4j2.xml
                             -Dspring.config.location=./application.yaml
                       - name: DT_CUSTOM_PROP # dynatrace config map to enable the agent and to provide additional annotations / metadata
                         valueFrom:
@@ -68,10 +67,6 @@ spec:
                       - name: application-config
                         mountPath: "application.yaml"
                         subPath: "application.yaml"
-                        readOnly: true
-                      - name: log4j2-config
-                        mountPath: "log4j2.xml"
-                        subPath: "log4j2.xml"
                         readOnly: true
                   terminationMessagePath: /dev/termination-log # default value
             annotations:
