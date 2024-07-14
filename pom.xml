@@ -34,6 +34,7 @@
 		<maven-surefire-plugin.version>2.12.4</maven-surefire-plugin.version>
 		<springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
 		<spring-test.version>5.3.9</spring-test.version>
+		<aws-secretsmanager-jdbc.version>1.0.2</aws-secretsmanager-jdbc.version>
 	</properties>
 
 	<scm>
@@ -157,6 +158,12 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring-test.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.amazonaws.secretsmanager</groupId>
+			<artifactId>aws-secretsmanager-jdbc</artifactId>
+			<version>${aws-secretsmanager-jdbc.version}</version>
 		</dependency>
 
 	</dependencies>

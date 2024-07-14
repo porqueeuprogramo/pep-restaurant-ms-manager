@@ -19,10 +19,10 @@ data:
         application:
             datasource:
                 type: com.zaxxer.hikari.HikariDataSource
-                url: "url"
-                username: "postgres"
-                password: "1234"
-                driver-class-name: org.postgresql.Driver
+                url: "{{ .Values.app.properties.db_url}}"
+                username: "{{ .Values.app.properties.db_secret}}"
+                password: "{{ .Values.app.properties.db_secret}}"
+                driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
                 hikari:
                     poolName: Hikari
                     maximumPoolSize: 10
