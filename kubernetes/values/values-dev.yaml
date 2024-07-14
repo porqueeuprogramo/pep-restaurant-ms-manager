@@ -24,6 +24,8 @@ app:
     arn_prefix: "arn:aws"
     multipart_max_size: "20MB"
     http_ssl_validation: "true"
+    db_url: "jdbc-secretsmanager:postgresql://pep-restaurant-ms-manager-id.cjsscq0a418s.eu-west-2.rds.amazonaws.com:5432/PepRestaurantMsManagerDb"
+    db_secret: "/pep/ms/manager/database"
 
 
 imagePullSecrets: []
