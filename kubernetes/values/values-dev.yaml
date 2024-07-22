@@ -25,7 +25,7 @@ app:
     multipart_max_size: "20MB"
     http_ssl_validation: "true"
     db_url: "jdbc-secretsmanager:postgresql://pep-restaurant-ms-manager-id.cjsscq0a418s.eu-west-2.rds.amazonaws.com:5432/PepRestaurantMsManagerDb"
-    db_secret: "/secret/pep/restaurant/ms/manager/database3"
+    db_secret: "/secret/pep/restaurant/ms/manager/database7"
 
 
 imagePullSecrets: []
