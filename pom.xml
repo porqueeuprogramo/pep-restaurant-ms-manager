@@ -22,7 +22,7 @@
 		<liquibase-core.version>4.2.2</liquibase-core.version>
 		<postgresql.version.version>42.2.20</postgresql.version.version>
 		<javax.persistence-api.version>2.2</javax.persistence-api.version>
-		<hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
+		<hibernate-core.version>5.6.14.Final</hibernate-core.version>
 		<h2.version>1.4.200</h2.version>
 		<mapstruct.version>1.4.1.Final</mapstruct.version>
 		<checkstyle.version>8.40</checkstyle.version>
@@ -118,8 +118,8 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
-			<version>${hibernate-annotations.version}</version>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-core.version}</version>
 		</dependency>
 
 		<dependency>
