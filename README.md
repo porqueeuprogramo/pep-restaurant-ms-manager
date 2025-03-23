@@ -23,6 +23,11 @@ This is the manager microservice of porqueeuprogramo restaurant (java spring mav
   or
 * docker-compose up (docker-compose.env has already the env variables values)
 
+### How do I set up Kubernetes? ###
+* kubectl config set-context --current --namespace default
+* helm upgrade --install pep-restaurant-ms-manager kubernetes --set app.properties.content=default --set image.tag=latest -f kubernetes/values/values-local.yaml --namespace=default
+
+
 ### How do I check code quality
 * Run the following cmd on sonar:
 * mvn sonar:sonar -Dsonar.projectKey=PROJECT_KEY -Dsonar.host.url=http://localhost:9000 -Dsonar.login=TOKEN

@@ -16,22 +16,18 @@ data:
                     cookie:
                         http-only: true
                 context-path: /
-        application:
+        spring:
             datasource:
                 type: com.zaxxer.hikari.HikariDataSource
                 url: "{{ .Values.app.properties.db_url}}"
-                username: "{{ .Values.app.properties.db_secret}}"
-                password: "{{ .Values.app.properties.db_secret}}"
-                driver-class-name: com.amazonaws.secretsmanager.sql.AWSSecretsManagerPostgreSQLDriver
+                username: "{{ .Values.app.properties.db_username}}"
+                password: "{{ .Values.app.properties.db_password}}"
+                driver-class-name: "{{ .Values.app.properties.db_driver}}"
                 hikari:
                     poolName: Hikari
                     maximumPoolSize: 10
                     auto-commit: false
             jpa:
-                database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-                database: POSTGRESQL
                 show-sql: false
             liquibase:
-                contexts: prod
-                labels: DE
-                change-log: classpath:/db/changelog/changelog-master.xml
+                change-log: classpath:/db.changelog/changelog-master.xml

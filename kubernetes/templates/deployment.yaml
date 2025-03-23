@@ -13,10 +13,9 @@ spec:
                 app: {{ include "pep-restaurant-ms-manager.name" . }}
         spec:
             serviceAccountName: {{ include "pep-restaurant-ms-manager.serviceAccountName" . }}
-            nodeName: ip-10-123-4-76.eu-west-2.compute.internal
             containers:
                 - name: app
-                  imagePullPolicy: Always
+                  imagePullPolicy: Never
                   image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
                   securityContext:
                       allowPrivilegeEscalation: false
