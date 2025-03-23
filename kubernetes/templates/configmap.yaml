@@ -15,7 +15,7 @@ data:
                 session:
                     cookie:
                         http-only: true
-                context-path: /
+                context-path: /pep/restaurant/manager
         spring:
             datasource:
                 type: com.zaxxer.hikari.HikariDataSource
